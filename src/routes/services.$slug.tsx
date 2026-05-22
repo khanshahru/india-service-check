@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, BadgeCheck, Building2, Clock, ExternalLink, IndianRupee, ListChecks } from "lucide-react";
+import { ArrowLeft, BadgeCheck, Building2, Clock, ExternalLink, IndianRupee, ListChecks, Printer } from "lucide-react";
 import { services, type GovService } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
@@ -60,16 +60,24 @@ function ServiceDetail() {
             <Meta icon={<IndianRupee className="w-4 h-4" />} label={t("fee")} value={service.fee} />
           </div>
 
-          {service.applyUrl && (
-            <a
-              href={service.applyUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-7 inline-flex items-center gap-2 rounded-xl bg-saffron-gradient text-saffron-foreground font-semibold px-5 py-3 shadow-elevated hover:opacity-95 transition"
+          <div className="mt-7 flex flex-wrap gap-3 print:hidden">
+            {service.applyUrl && (
+              <a
+                href={service.applyUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl bg-saffron-gradient text-saffron-foreground font-semibold px-5 py-3 shadow-elevated hover:opacity-95 transition"
+              >
+                {t("applyOfficial")} <ExternalLink className="w-4 h-4" />
+              </a>
+            )}
+            <button
+              onClick={() => window.print()}
+              className="inline-flex items-center gap-2 rounded-xl border border-border bg-card font-semibold px-5 py-3 hover:border-primary/40 transition"
             >
-              {t("applyOfficial")} <ExternalLink className="w-4 h-4" />
-            </a>
-          )}
+              <Printer className="w-4 h-4" /> {t("print")}
+            </button>
+          </div>
         </div>
       </section>
 
