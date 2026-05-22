@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 
-export type Lang = "en" | "hi" | "ta" | "bn" | "te";
+export type Lang = "en" | "hi" | "ta" | "bn" | "te" | "mr" | "gu";
 
 export const langLabels: Record<Lang, string> = {
   en: "English",
@@ -8,22 +8,28 @@ export const langLabels: Record<Lang, string> = {
   ta: "தமிழ்",
   bn: "বাংলা",
   te: "తెలుగు",
+  mr: "मराठी",
+  gu: "ગુજરાતી",
 };
 
 type Dict = Record<string, Partial<Record<Lang, string>>>;
 
 const dict: Dict = {
-  brandName: { en: "DocSetu", hi: "डॉकसेतु", ta: "DocSetu", bn: "DocSetu", te: "DocSetu" },
+  brandName: { en: "DocSetu", hi: "डॉकसेतु", ta: "DocSetu", bn: "DocSetu", te: "DocSetu", mr: "डॉकसेतु", gu: "ડૉકસેતુ" },
   tagline: {
     en: "Every government document, demystified.",
     hi: "हर सरकारी दस्तावेज़, आसान भाषा में।",
     ta: "ஒவ்வொரு அரசு ஆவணமும், எளிமையாக்கப்பட்டது.",
     bn: "প্রতিটি সরকারি নথি, সহজভাবে।",
     te: "ప్రతి ప్రభుత్వ పత్రం, సరళంగా.",
+    mr: "प्रत्येक सरकारी दस्तऐवज, सोप्या भाषेत.",
+    gu: "દરેક સરકારી દસ્તાવેજ, સરળ ભાષામાં.",
   },
   heroTitle: {
     en: "Know exactly which documents you need.",
     hi: "जानें आपको कौन से दस्तावेज़ चाहिए।",
+    mr: "तुम्हाला नेमके कोणते कागदपत्र हवे आहेत ते जाणून घ्या.",
+    gu: "તમને કયા દસ્તાવેજો જોઈએ છે તે ચોક્કસ જાણો.",
   },
   heroSub: {
     en: "Apply for Aadhaar, PAN, Passport, Driving Licence, Ration Card and 100+ Indian government services — with the complete checklist, fees and timelines, in your language.",
@@ -32,7 +38,11 @@ const dict: Dict = {
   searchPlaceholder: { en: "Search a service (e.g. Aadhaar, PAN, Passport)", hi: "सेवा खोजें (जैसे आधार, पैन, पासपोर्ट)" },
   browseAll: { en: "Browse all services", hi: "सभी सेवाएं देखें" },
   popular: { en: "Popular services", hi: "लोकप्रिय सेवाएं" },
-  allServices: { en: "All Services", hi: "सभी सेवाएं" },
+  allServices: { en: "All Services", hi: "सभी सेवाएं", mr: "सर्व सेवा", gu: "બધી સેવાઓ" },
+  compare: { en: "Compare", hi: "तुलना करें", mr: "तुलना करा", gu: "સરખામણી કરો" },
+  compareTitle: { en: "Compare services side-by-side", hi: "सेवाओं की तुलना करें" },
+  compareHint: { en: "Pick up to 3 services to compare documents, fees and timelines.", hi: "3 तक सेवाएं चुनें।" },
+  print: { en: "Print checklist", hi: "सूची प्रिंट करें", mr: "यादी प्रिंट करा", gu: "ચેકલિસ્ટ પ્રિન્ટ કરો" },
   categories: { en: "Categories", hi: "श्रेणियाँ" },
   all: { en: "All", hi: "सभी" },
   required: { en: "Required", hi: "आवश्यक" },
@@ -64,7 +74,7 @@ const dict: Dict = {
   feat2Title: { en: "Fees & timelines upfront", hi: "शुल्क और समय पहले से" },
   feat2Desc: { en: "Know what to pay and how long it takes before you start.", hi: "शुरू करने से पहले शुल्क और समय जानें।" },
   feat3Title: { en: "Multi-language", hi: "बहुभाषी" },
-  feat3Desc: { en: "Available in English, Hindi, Tamil, Bengali and Telugu.", hi: "अंग्रेज़ी, हिंदी, तमिल, बंगाली और तेलुगु में।" },
+  feat3Desc: { en: "Available in English, Hindi, Tamil, Bengali, Telugu, Marathi and Gujarati.", hi: "अंग्रेज़ी, हिंदी, तमिल, बंगाली, तेलुगु, मराठी और गुजराती में।" },
 };
 
 interface I18nCtx {
