@@ -33,6 +33,9 @@ export function SiteHeader() {
             <Link to="/services" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
               {t("allServices")}
             </Link>
+            <Link to="/compare" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
+              {t("compare")}
+            </Link>
           </nav>
 
           <DropdownMenu>

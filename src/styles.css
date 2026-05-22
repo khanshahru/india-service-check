@@ -131,3 +131,11 @@
     background-size: 8px 8px;
   }
 }
+
+@media print {
+  header, footer, aside, nav, .print\:hidden { display: none !important; }
+  body { background: white !important; color: black !important; }
+  .shadow-card, .shadow-elevated { box-shadow: none !important; }
+  section { padding: 0 !important; }
+  .bg-hero, .bg-secondary\/40, .bg-card { background: white !important; }
+}
