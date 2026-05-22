@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, BadgeCheck, Building2, Clock, ExternalLink, IndianRupee, ListChecks } from "lucide-react";
-import { services } from "@/lib/services-data";
+import { services, type GovService } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 
@@ -31,7 +31,7 @@ export const Route = createFileRoute("/services/$slug")({
 });
 
 function ServiceDetail() {
-  const { service } = Route.useLoaderData();
+  const { service } = Route.useLoaderData() as { service: GovService };
   const { t, lang } = useI18n();
   const elig = service.eligibility[lang === "hi" ? "hi" : "en"] ?? service.eligibility.en;
 
