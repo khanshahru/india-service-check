@@ -101,7 +101,7 @@ function CatChip({
   return (
     <button
       onClick={onClick}
-      className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-all ${
+      className={`shrink-0 whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium border transition-all min-h-9 ${
         active
           ? "bg-primary text-primary-foreground border-primary shadow-card"
           : "bg-card text-foreground/80 border-border hover:border-primary/40 hover:text-foreground"
