@@ -144,6 +144,7 @@ function ComparePage() {
       </section>
 
       <SiteFooter />
+      <MobileTabBar />
     </div>
   );
 }
