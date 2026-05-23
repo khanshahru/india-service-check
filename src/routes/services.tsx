@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { services, categories, type ServiceCategory } from "@/lib/services-data";
 import { useI18n } from "@/lib/i18n";
 import { ServiceCard } from "@/components/ServiceCard";
-import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
+import { SiteHeader, SiteFooter, MobileTabBar } from "@/components/SiteHeader";
 
 export const Route = createFileRoute("/services")({
   component: ServicesPage,
