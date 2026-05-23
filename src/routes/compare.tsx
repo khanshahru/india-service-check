@@ -33,32 +33,32 @@ function ComparePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-background pb-20 md:pb-0">
       <SiteHeader />
 
       <section className="border-b border-border bg-secondary/40">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-12">
-          <div className="text-xs uppercase tracking-[0.2em] font-semibold text-saffron">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-6 sm:py-12">
+          <div className="text-[11px] sm:text-xs uppercase tracking-[0.2em] font-semibold text-saffron">
             <span className="text-india-green">/</span> {t("compare")}
           </div>
-          <h1 className="mt-2 font-display text-4xl md:text-5xl font-semibold">{t("compareTitle")}</h1>
-          <p className="mt-3 text-muted-foreground max-w-2xl">{t("compareHint")}</p>
+          <h1 className="mt-1.5 font-display text-2xl sm:text-4xl md:text-5xl font-semibold">{t("compareTitle")}</h1>
+          <p className="mt-2 sm:mt-3 text-sm sm:text-base text-muted-foreground max-w-2xl">{t("compareHint")}</p>
 
-          <div className="mt-6 flex flex-wrap gap-2">
+          <div className="mt-5 sm:mt-6 flex flex-wrap gap-2">
             {selected.map((s) => (
               <button
                 key={s.slug}
                 onClick={() => toggle(s.slug)}
-                className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground text-sm font-medium px-4 py-1.5 shadow-card"
+                className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground text-sm font-medium px-4 py-2 shadow-card"
               >
-                {localized(s.name, lang)} <X className="w-3.5 h-3.5" />
+                <span className="max-w-[160px] truncate">{localized(s.name, lang)}</span> <X className="w-3.5 h-3.5" />
               </button>
             ))}
             {picked.length < 3 && (
               <div className="relative">
                 <button
                   onClick={() => setAdding((a) => !a)}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-card border border-dashed border-primary/40 text-sm font-medium px-4 py-1.5 hover:border-primary transition"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-card border border-dashed border-primary/40 text-sm font-medium px-4 py-2 hover:border-primary transition"
                 >
                   <Plus className="w-3.5 h-3.5" /> Add service
                 </button>
@@ -68,10 +68,10 @@ function ComparePage() {
                       <button
                         key={s.slug}
                         onClick={() => toggle(s.slug)}
-                        className="w-full text-left px-3 py-2 text-sm rounded-lg hover:bg-secondary/60 flex items-center justify-between"
+                        className="w-full text-left px-3 py-2.5 text-sm rounded-lg hover:bg-secondary/60 flex items-center justify-between gap-2"
                       >
-                        <span>{localized(s.name, lang)}</span>
-                        <span className="text-[10px] uppercase text-muted-foreground">{s.category}</span>
+                        <span className="truncate">{localized(s.name, lang)}</span>
+                        <span className="text-[10px] uppercase text-muted-foreground shrink-0">{s.category}</span>
                       </button>
                     ))}
                   </div>
@@ -82,12 +82,13 @@ function ComparePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 py-12 flex-1 w-full">
+      <section className="mx-auto max-w-6xl px-0 sm:px-6 py-6 sm:py-12 flex-1 w-full">
         {selected.length === 0 ? (
-          <p className="text-muted-foreground">Pick a service to start comparing.</p>
+          <p className="text-muted-foreground px-4">Pick a service to start comparing.</p>
         ) : (
-          <div className="overflow-x-auto rounded-2xl border border-border bg-card shadow-card">
+          <div className="overflow-x-auto sm:rounded-2xl border-y sm:border border-border bg-card shadow-card">
             <table className="w-full text-sm">
+
               <thead>
                 <tr className="bg-secondary/60">
                   <th className="text-left p-4 font-semibold w-44 align-bottom">Service</th>
