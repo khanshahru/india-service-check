@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, BadgeCheck, Building2, Clock, ExternalLink, IndianRupee, ListChecks, Printer } from "lucide-react";
 import { services, type GovService } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
-import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
+import { SiteHeader, SiteFooter, MobileTabBar } from "@/components/SiteHeader";
 
 export const Route = createFileRoute("/services/$slug")({
   loader: ({ params }) => {
