@@ -149,8 +149,8 @@ function Home() {
 function Stat({ n, label }: { n: string; label: string }) {
   return (
     <div>
-      <div className="font-display text-3xl md:text-4xl font-semibold text-foreground">{n}</div>
-      <div className="mt-1 text-xs text-muted-foreground leading-snug">{label}</div>
+      <div className="font-display text-2xl sm:text-3xl md:text-4xl font-semibold text-foreground">{n}</div>
+      <div className="mt-1 text-[11px] sm:text-xs text-muted-foreground leading-snug">{label}</div>
     </div>
   );
 }
