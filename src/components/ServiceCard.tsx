@@ -17,7 +17,7 @@ export function ServiceCard({ service }: { service: GovService }) {
             <span className="w-1.5 h-1.5 rounded-full bg-india-green" />
             {service.category}
           </div>
-          <h3 className="mt-2 font-display text-xl font-semibold leading-tight text-foreground">
+          <h3 className="mt-2 font-display text-lg sm:text-xl font-semibold leading-tight text-foreground">
             {localized(service.name, lang)}
           </h3>
         </div>
