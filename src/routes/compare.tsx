@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { Check, Plus, X } from "lucide-react";
 import { services, type GovService } from "@/lib/services-data";
 import { useI18n, localized } from "@/lib/i18n";
-import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
+import { SiteHeader, SiteFooter, MobileTabBar } from "@/components/SiteHeader";
 
 export const Route = createFileRoute("/compare")({
   component: ComparePage,
