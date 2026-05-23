@@ -9,7 +9,7 @@ export function ServiceCard({ service }: { service: GovService }) {
     <Link
       to="/services/$slug"
       params={{ slug: service.slug }}
-      className="group relative flex flex-col rounded-2xl border border-border bg-card p-5 shadow-card hover:shadow-elevated hover:-translate-y-0.5 transition-all duration-300"
+      className="group relative flex flex-col rounded-2xl border border-border bg-card p-4 sm:p-5 shadow-card hover:shadow-elevated hover:-translate-y-0.5 active:scale-[0.99] transition-all duration-200"
     >
       <div className="flex items-start justify-between gap-3">
         <div>
@@ -17,7 +17,7 @@ export function ServiceCard({ service }: { service: GovService }) {
             <span className="w-1.5 h-1.5 rounded-full bg-india-green" />
             {service.category}
           </div>
-          <h3 className="mt-2 font-display text-xl font-semibold leading-tight text-foreground">
+          <h3 className="mt-2 font-display text-lg sm:text-xl font-semibold leading-tight text-foreground">
             {localized(service.name, lang)}
           </h3>
         </div>

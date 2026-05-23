@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, BadgeCheck, Building2, Clock, ExternalLink, IndianRupee, ListChecks, Printer } from "lucide-react";
 import { services, type GovService } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
-import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
+import { SiteHeader, SiteFooter, MobileTabBar } from "@/components/SiteHeader";
 
 export const Route = createFileRoute("/services/$slug")({
   loader: ({ params }) => {
@@ -36,31 +36,31 @@ function ServiceDetail() {
   const elig = service.eligibility[lang === "hi" ? "hi" : "en"] ?? service.eligibility.en;
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-background pb-24 md:pb-0">
       <SiteHeader />
 
       <section className="border-b border-border bg-hero">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 py-12">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 py-6 sm:py-12">
           <Link to="/services" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
             <ArrowLeft className="w-4 h-4" /> {t("back")}
           </Link>
-          <div className="mt-5 flex items-center gap-2 text-xs uppercase tracking-[0.16em] font-semibold">
+          <div className="mt-3 sm:mt-5 flex items-center gap-2 text-[11px] sm:text-xs uppercase tracking-[0.16em] font-semibold flex-wrap">
             <span className="w-1.5 h-1.5 rounded-full bg-saffron" />
             <span className="text-india-green">{service.category}</span>
             <span className="text-muted-foreground">· {service.authority}</span>
           </div>
-          <h1 className="mt-3 font-display text-4xl md:text-6xl font-semibold leading-[1.05]">
+          <h1 className="mt-2 sm:mt-3 font-display text-3xl sm:text-5xl md:text-6xl font-semibold leading-[1.08]">
             {localized(service.name, lang)}
           </h1>
-          <p className="mt-4 text-lg text-muted-foreground max-w-3xl">{localized(service.description, lang)}</p>
+          <p className="mt-3 sm:mt-4 text-base sm:text-lg text-muted-foreground max-w-3xl">{localized(service.description, lang)}</p>
 
-          <div className="mt-8 grid sm:grid-cols-3 gap-3">
+          <div className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
             <Meta icon={<Building2 className="w-4 h-4" />} label={t("authority")} value={service.authority} />
             <Meta icon={<Clock className="w-4 h-4" />} label={t("processingTime")} value={service.processingTime} />
             <Meta icon={<IndianRupee className="w-4 h-4" />} label={t("fee")} value={service.fee} />
           </div>
 
-          <div className="mt-7 flex flex-wrap gap-3 print:hidden">
+          <div className="mt-5 sm:mt-7 hidden sm:flex flex-wrap gap-3 print:hidden">
             {service.applyUrl && (
               <a
                 href={service.applyUrl}
@@ -81,23 +81,23 @@ function ServiceDetail() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-4 sm:px-6 py-14 grid lg:grid-cols-[1.6fr_1fr] gap-10 w-full flex-1">
+      <section className="mx-auto max-w-5xl px-4 sm:px-6 py-8 sm:py-14 grid lg:grid-cols-[1.6fr_1fr] gap-8 lg:gap-10 w-full flex-1">
         <div>
-          <h2 className="flex items-center gap-2 font-display text-2xl font-semibold">
+          <h2 className="flex items-center gap-2 font-display text-xl sm:text-2xl font-semibold">
             <ListChecks className="w-5 h-5 text-india-green" />
             {t("documentsNeeded")}
           </h2>
-          <ol className="mt-6 space-y-3">
+          <ol className="mt-4 sm:mt-6 space-y-3">
             {service.documents.map((d, i) => (
               <li
                 key={i}
-                className="flex gap-4 rounded-xl border border-border bg-card p-4 shadow-card"
+                className="flex gap-3 sm:gap-4 rounded-xl border border-border bg-card p-3.5 sm:p-4 shadow-card"
               >
                 <div className="shrink-0 w-9 h-9 rounded-lg bg-primary/5 border border-primary/15 flex items-center justify-center font-display font-semibold text-primary">
                   {i + 1}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-start gap-2 flex-wrap">
                     <span className="font-medium">{localized(d.title, lang)}</span>
                     <span
                       className={`text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full ${
@@ -119,11 +119,11 @@ function ServiceDetail() {
         </div>
 
         <aside>
-          <h2 className="flex items-center gap-2 font-display text-2xl font-semibold">
+          <h2 className="flex items-center gap-2 font-display text-xl sm:text-2xl font-semibold">
             <BadgeCheck className="w-5 h-5 text-saffron" />
             {t("eligibility")}
           </h2>
-          <ul className="mt-6 space-y-3">
+          <ul className="mt-4 sm:mt-6 space-y-3">
             {elig.map((e, i) => (
               <li key={i} className="flex gap-3 text-sm">
                 <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-saffron shrink-0" />
@@ -132,7 +132,7 @@ function ServiceDetail() {
             ))}
           </ul>
 
-          <div className="mt-8 p-5 rounded-2xl border border-border bg-secondary/60">
+          <div className="mt-6 sm:mt-8 p-4 sm:p-5 rounded-2xl border border-border bg-secondary/60">
             <p className="text-xs text-muted-foreground leading-relaxed">
               {t("footerNote")}
             </p>
@@ -140,7 +140,32 @@ function ServiceDetail() {
         </aside>
       </section>
 
+      {/* Mobile sticky action bar */}
+      <div
+        className="sm:hidden fixed bottom-14 inset-x-0 z-30 border-t border-border bg-background/95 backdrop-blur-xl px-3 py-2.5 flex gap-2 print:hidden"
+        style={{ paddingBottom: "calc(0.625rem + env(safe-area-inset-bottom))" }}
+      >
+        {service.applyUrl && (
+          <a
+            href={service.applyUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-saffron-gradient text-saffron-foreground font-semibold px-4 py-3 shadow-elevated text-sm"
+          >
+            {t("applyOfficial")} <ExternalLink className="w-4 h-4" />
+          </a>
+        )}
+        <button
+          onClick={() => window.print()}
+          aria-label={t("print")}
+          className="shrink-0 inline-flex items-center justify-center rounded-xl border border-border bg-card font-semibold w-12 h-12"
+        >
+          <Printer className="w-5 h-5" />
+        </button>
+      </div>
+
       <SiteFooter />
+      <MobileTabBar />
     </div>
   );
 }

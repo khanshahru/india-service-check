@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { services } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
 import { ServiceCard } from "@/components/ServiceCard";
-import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
+import { SiteHeader, SiteFooter, MobileTabBar } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
@@ -38,32 +38,35 @@ function Home() {
       {/* HERO */}
       <section className="relative bg-hero overflow-hidden">
         <div className="absolute inset-0 ashoka-chakra opacity-[0.04]" aria-hidden />
-        <div className="relative mx-auto max-w-6xl px-4 sm:px-6 pt-16 pb-20 md:pt-24 md:pb-28">
+        <div className="relative mx-auto max-w-6xl px-4 sm:px-6 pt-8 pb-10 sm:pt-16 sm:pb-20 md:pt-24 md:pb-28">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 backdrop-blur px-3 py-1 text-xs text-muted-foreground shadow-card">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 backdrop-blur px-3 py-1 text-[11px] sm:text-xs text-muted-foreground shadow-card">
               <span className="w-1.5 h-1.5 rounded-full bg-india-green animate-pulse" />
-              {t("tagline")}
+              <span className="truncate max-w-[260px] sm:max-w-none">{t("tagline")}</span>
             </div>
-            <h1 className="mt-6 font-display text-5xl sm:text-6xl md:text-7xl font-semibold leading-[1.02] text-foreground">
+            <h1 className="mt-4 sm:mt-6 font-display text-[2rem] leading-[1.08] sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-foreground">
               {t("heroTitle")}
             </h1>
-            <p className="mt-5 text-lg text-muted-foreground max-w-2xl leading-relaxed">{t("heroSub")}</p>
+            <p className="mt-3 sm:mt-5 text-base sm:text-lg text-muted-foreground max-w-2xl leading-relaxed">{t("heroSub")}</p>
 
             {/* Search */}
-            <div className="mt-8 relative max-w-2xl">
-              <div className="flex items-center gap-2 rounded-2xl border border-border bg-card shadow-elevated p-2 focus-within:ring-2 focus-within:ring-ring/40 transition">
-                <Search className="w-5 h-5 ml-3 text-muted-foreground shrink-0" />
+            <div className="mt-6 sm:mt-8 relative max-w-2xl">
+              <div className="flex items-center gap-1.5 sm:gap-2 rounded-2xl border border-border bg-card shadow-elevated p-1.5 sm:p-2 focus-within:ring-2 focus-within:ring-ring/40 transition">
+                <Search className="w-5 h-5 ml-2 sm:ml-3 text-muted-foreground shrink-0" />
                 <input
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
                   placeholder={t("searchPlaceholder")}
-                  className="flex-1 bg-transparent outline-none py-3 text-base placeholder:text-muted-foreground/70"
+                  className="flex-1 bg-transparent outline-none py-3 text-base placeholder:text-muted-foreground/70 min-w-0"
+                  inputMode="search"
+                  aria-label={t("searchPlaceholder")}
                 />
                 <Button
                   onClick={() => navigate({ to: "/services" })}
-                  className="rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5"
+                  className="rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 gap-1.5 h-11 px-3 sm:px-4"
+                  aria-label={t("browseAll")}
                 >
-                  {t("browseAll")}
+                  <span className="hidden sm:inline">{t("browseAll")}</span>
                   <ArrowRight className="w-4 h-4" />
                 </Button>
               </div>
@@ -74,13 +77,13 @@ function Home() {
                       key={s.slug}
                       to="/services/$slug"
                       params={{ slug: s.slug }}
-                      className="flex items-center justify-between px-4 py-3 hover:bg-accent transition-colors"
+                      className="flex items-center justify-between px-4 py-3 hover:bg-accent active:bg-accent transition-colors"
                     >
-                      <div>
-                        <div className="font-medium">{localized(s.name, lang)}</div>
-                        <div className="text-xs text-muted-foreground">{s.authority}</div>
+                      <div className="min-w-0">
+                        <div className="font-medium truncate">{localized(s.name, lang)}</div>
+                        <div className="text-xs text-muted-foreground truncate">{s.authority}</div>
                       </div>
-                      <ArrowRight className="w-4 h-4 text-muted-foreground" />
+                      <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0 ml-2" />
                     </Link>
                   ))}
                 </div>
@@ -88,9 +91,9 @@ function Home() {
             </div>
 
             {/* Stat row */}
-            <dl className="mt-12 grid grid-cols-3 gap-6 max-w-2xl">
+            <dl className="mt-8 sm:mt-12 grid grid-cols-3 gap-3 sm:gap-6 max-w-2xl">
               <Stat n="100+" label={t("stat1")} />
-              <Stat n="5" label={t("stat2")} />
+              <Stat n="7" label={t("stat2")} />
               <Stat n="₹0" label={t("stat3")} />
             </dl>
           </div>
@@ -98,22 +101,24 @@ function Home() {
       </section>
 
       {/* POPULAR */}
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 py-16">
-        <div className="flex items-end justify-between gap-4 mb-8">
+      <section className="mx-auto max-w-6xl px-4 sm:px-6 py-10 sm:py-16">
+        <div className="flex items-end justify-between gap-4 mb-5 sm:mb-8">
           <div>
-            <div className="text-xs uppercase tracking-[0.2em] font-semibold text-saffron">
+            <div className="text-[11px] sm:text-xs uppercase tracking-[0.2em] font-semibold text-saffron">
               <span className="text-india-green">/</span> {t("popular")}
             </div>
-            <h2 className="mt-2 font-display text-3xl md:text-4xl font-semibold">{t("popular")}</h2>
+            <h2 className="mt-2 font-display text-2xl sm:text-3xl md:text-4xl font-semibold">{t("popular")}</h2>
           </div>
           <Link
             to="/services"
-            className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline shrink-0"
           >
-            {t("browseAll")} <ArrowRight className="w-4 h-4" />
+            <span className="hidden sm:inline">{t("browseAll")}</span>
+            <span className="sm:hidden">All</span>
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {popular.map((s) => (
             <ServiceCard key={s.slug} service={s} />
           ))}
@@ -122,12 +127,12 @@ function Home() {
 
       {/* WHY */}
       <section className="bg-secondary/60 border-y border-border">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-12 sm:py-20 grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           <div>
-            <h2 className="font-display text-4xl md:text-5xl font-semibold leading-tight">{t("whyTitle")}</h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-lg">{t("whyDesc")}</p>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight">{t("whyTitle")}</h2>
+            <p className="mt-3 sm:mt-4 text-base sm:text-lg text-muted-foreground max-w-lg">{t("whyDesc")}</p>
           </div>
-          <div className="grid sm:grid-cols-1 gap-4">
+          <div className="grid gap-3 sm:gap-4">
             <Feature icon={<ShieldCheck className="w-5 h-5" />} title={t("feat1Title")} desc={t("feat1Desc")} accent="saffron" />
             <Feature icon={<Clock3 className="w-5 h-5" />} title={t("feat2Title")} desc={t("feat2Desc")} accent="green" />
             <Feature icon={<Languages className="w-5 h-5" />} title={t("feat3Title")} desc={t("feat3Desc")} accent="navy" />
@@ -136,6 +141,7 @@ function Home() {
       </section>
 
       <SiteFooter />
+      <MobileTabBar />
     </div>
   );
 }
@@ -143,8 +149,8 @@ function Home() {
 function Stat({ n, label }: { n: string; label: string }) {
   return (
     <div>
-      <div className="font-display text-3xl md:text-4xl font-semibold text-foreground">{n}</div>
-      <div className="mt-1 text-xs text-muted-foreground leading-snug">{label}</div>
+      <div className="font-display text-2xl sm:text-3xl md:text-4xl font-semibold text-foreground">{n}</div>
+      <div className="mt-1 text-[11px] sm:text-xs text-muted-foreground leading-snug">{label}</div>
     </div>
   );
 }
