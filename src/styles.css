@@ -120,19 +120,21 @@
   h1, h2, h3, .font-display { font-family: var(--font-display); letter-spacing: -0.02em; }
 }
 
-@layer utilities {
-  .bg-tricolor { background: var(--gradient-tricolor); }
-  .bg-hero { background: var(--gradient-hero); }
-  .bg-saffron-gradient { background: var(--gradient-saffron); }
-  .shadow-card { box-shadow: var(--shadow-card); }
-  .shadow-elevated { box-shadow: var(--shadow-elevated); }
-  .ashoka-chakra {
-    background-image: radial-gradient(circle, var(--ashoka) 1px, transparent 1.5px);
-    background-size: 8px 8px;
-  }
-  .scrollbar-none { scrollbar-width: none; -ms-overflow-style: none; }
-  .scrollbar-none::-webkit-scrollbar { display: none; }
+@utility bg-tricolor { background: var(--gradient-tricolor); }
+@utility bg-hero { background: var(--gradient-hero); }
+@utility bg-saffron-gradient { background: var(--gradient-saffron); }
+@utility shadow-card { box-shadow: var(--shadow-card); }
+@utility shadow-elevated { box-shadow: var(--shadow-elevated); }
+@utility ashoka-chakra {
+  background-image: radial-gradient(circle, var(--ashoka) 1px, transparent 1.5px);
+  background-size: 8px 8px;
 }
+@utility scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
 
 @media print {
   header, footer, aside, nav, .print\:hidden { display: none !important; }
