@@ -17,6 +17,13 @@ function Home() {
   const { t, lang } = useI18n();
   const [q, setQ] = useState("");
   const navigate = useNavigate();
+  const { recent } = useRecent();
+  const { favorites } = useFavorites();
+
+  const bySlug = useMemo(() => new Map(services.map((s) => [s.slug, s])), []);
+  const recentServices = recent.map((s) => bySlug.get(s)).filter(Boolean) as typeof services;
+  const favServices = favorites.map((s) => bySlug.get(s)).filter(Boolean) as typeof services;
+
 
   const suggestions = useMemo(() => {
     if (!q.trim()) return [];
