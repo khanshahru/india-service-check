@@ -204,13 +204,23 @@ function ServiceDetail() {
           </a>
         )}
         <button
+          onClick={downloadChecklist}
+          aria-label="Download checklist"
+          className="shrink-0 inline-flex items-center justify-center rounded-xl border border-border bg-card font-semibold w-12 h-12"
+        >
+          <Download className="w-5 h-5" />
+        </button>
+        <button
           onClick={() => window.print()}
           aria-label={t("print")}
           className="shrink-0 inline-flex items-center justify-center rounded-xl border border-border bg-card font-semibold w-12 h-12"
         >
           <Printer className="w-5 h-5" />
         </button>
+        <FavoriteButton slug={service.slug} compact />
+        <ShareButton title={service.name.en} text={service.description.en} compact />
       </div>
+
 
       <SiteFooter />
       <MobileTabBar />
