@@ -204,3 +204,44 @@ function Feature({
     </div>
   );
 }
+
+function Shelf({
+  icon,
+  title,
+  items,
+  accent,
+  lang,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  accent: string;
+  items: typeof services;
+  lang: "en" | "hi";
+}) {
+  return (
+    <div>
+      <div className={`flex items-center gap-2 text-[11px] sm:text-xs uppercase tracking-[0.2em] font-semibold ${accent}`}>
+        {icon}
+        <span>{title}</span>
+      </div>
+      <ul className="mt-3 divide-y divide-border rounded-2xl border border-border bg-card shadow-card overflow-hidden">
+        {items.slice(0, 5).map((s) => (
+          <li key={s.slug}>
+            <Link
+              to="/services/$slug"
+              params={{ slug: s.slug }}
+              className="flex items-center justify-between px-4 py-3 hover:bg-accent/60 transition-colors"
+            >
+              <div className="min-w-0">
+                <div className="font-medium truncate">{localized(s.name, lang)}</div>
+                <div className="text-xs text-muted-foreground truncate">{s.authority}</div>
+              </div>
+              <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0 ml-2" />
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
