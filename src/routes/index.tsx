@@ -1,4 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import type { Lang } from "@/lib/i18n";
+
 import { Search, ArrowRight, ShieldCheck, Languages, Clock3, Heart, History } from "lucide-react";
 import { useMemo, useState } from "react";
 import { services } from "@/lib/services-data";
