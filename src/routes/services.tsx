@@ -17,9 +17,27 @@ export const Route = createFileRoute("/services")({
 });
 
 function ServicesPage() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<ServiceCategory | "All">("All");
+  const [open, setOpen] = useState(false);
+  const [highlighted, setHighlighted] = useState(0);
+  const listRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const suggestions = useMemo(() => {
+    if (!q.trim()) return [];
+    const needle = q.toLowerCase();
+    return services
+      .filter(
+        (s) =>
+          s.name.en.toLowerCase().includes(needle) ||
+          s.name.hi.includes(q) ||
+          s.authority.toLowerCase().includes(needle) ||
+          s.slug.includes(needle),
+      )
+      .slice(0, 6);
+  }, [q]);
 
   const filtered = useMemo(() => {
     const needle = q.toLowerCase().trim();
@@ -36,6 +54,35 @@ function ServicesPage() {
     });
   }, [q, cat]);
 
+  const showDropdown = open && suggestions.length > 0;
+
+  const onKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setHighlighted((i) => (i + 1) % suggestions.length);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setHighlighted((i) => (i - 1 + suggestions.length) % suggestions.length);
+      } else if (e.key === "Enter") {
+        if (showDropdown && suggestions[highlighted]) {
+          e.preventDefault();
+          setOpen(false);
+          setQ("");
+          // Navigation happens via Link click simulation in the dropdown
+          const link = listRef.current?.querySelectorAll("a")[highlighted] as HTMLAnchorElement | undefined;
+          link?.click();
+        } else {
+          setOpen(false);
+        }
+      } else if (e.key === "Escape") {
+        setOpen(false);
+        inputRef.current?.blur();
+      }
+    },
+    [showDropdown, suggestions, highlighted],
+  );
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SiteHeader />
@@ -47,16 +94,61 @@ function ServicesPage() {
           </div>
           <h1 className="mt-1.5 font-display text-2xl sm:text-4xl md:text-5xl font-semibold">{t("allServices")}</h1>
 
-          <div className="mt-4 sm:mt-6 flex items-center gap-1.5 rounded-2xl border border-border bg-card shadow-card p-1.5 sm:p-2 max-w-2xl">
-            <Search className="w-5 h-5 ml-2 sm:ml-3 text-muted-foreground shrink-0" />
-            <input
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder={t("searchPlaceholder")}
-              className="flex-1 bg-transparent outline-none py-3 text-base min-w-0"
-              inputMode="search"
-              aria-label={t("searchPlaceholder")}
-            />
+          {/* Search with autocomplete */}
+          <div className="mt-4 sm:mt-6 relative max-w-2xl">
+            <div className="flex items-center gap-1.5 rounded-2xl border border-border bg-card shadow-card p-1.5 sm:p-2 focus-within:ring-2 focus-within:ring-ring/40 transition">
+              <Search className="w-5 h-5 ml-2 sm:ml-3 text-muted-foreground shrink-0" />
+              <input
+                ref={inputRef}
+                value={q}
+                onChange={(e) => {
+                  setQ(e.target.value);
+                  setHighlighted(0);
+                  setOpen(true);
+                }}
+                onFocus={() => setOpen(true)}
+                onBlur={() => setTimeout(() => setOpen(false), 150)}
+                onKeyDown={onKeyDown}
+                placeholder={t("searchPlaceholder")}
+                className="flex-1 bg-transparent outline-none py-3 text-base min-w-0"
+                inputMode="search"
+                autoComplete="off"
+                aria-label={t("searchPlaceholder")}
+                aria-autocomplete="list"
+                aria-controls={showDropdown ? "search-suggestions" : undefined}
+                aria-activedescendant={showDropdown ? `sug-${highlighted}` : undefined}
+              />
+            </div>
+
+            {showDropdown && (
+              <div
+                id="search-suggestions"
+                ref={listRef}
+                className="absolute top-full left-0 right-0 mt-2 rounded-xl border border-border bg-popover shadow-elevated overflow-hidden z-40"
+                role="listbox"
+              >
+                {suggestions.map((s, i) => (
+                  <Link
+                    key={s.slug}
+                    id={`sug-${i}`}
+                    to="/services/$slug"
+                    params={{ slug: s.slug }}
+                    role="option"
+                    aria-selected={i === highlighted}
+                    onMouseEnter={() => setHighlighted(i)}
+                    className={`flex items-center justify-between px-4 py-3 transition-colors ${
+                      i === highlighted ? "bg-accent" : "hover:bg-accent/60"
+                    }`}
+                  >
+                    <div className="min-w-0">
+                      <div className="font-medium truncate">{localized(s.name, lang)}</div>
+                      <div className="text-xs text-muted-foreground truncate">{s.authority}</div>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0 ml-2" />
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="mt-3 sm:mt-5 -mx-4 px-4 sm:mx-0 sm:px-0 flex sm:flex-wrap gap-2 overflow-x-auto scrollbar-none pb-1">
