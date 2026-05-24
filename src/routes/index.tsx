@@ -109,7 +109,20 @@ function Home() {
         </div>
       </section>
 
+      {/* RECENT & FAVORITES */}
+      {(recentServices.length > 0 || favServices.length > 0) && (
+        <section className="mx-auto max-w-6xl px-4 sm:px-6 pt-10 sm:pt-16 grid gap-10 md:gap-12 md:grid-cols-2">
+          {recentServices.length > 0 && (
+            <Shelf icon={<History className="w-4 h-4" />} accent="text-primary" title="Recently viewed" items={recentServices} lang={lang} />
+          )}
+          {favServices.length > 0 && (
+            <Shelf icon={<Heart className="w-4 h-4 fill-current" />} accent="text-saffron" title="Your favorites" items={favServices} lang={lang} />
+          )}
+        </section>
+      )}
+
       {/* POPULAR */}
+
       <section className="mx-auto max-w-6xl px-4 sm:px-6 py-10 sm:py-16">
         <div className="flex items-end justify-between gap-4 mb-5 sm:mb-8">
           <div>
