@@ -111,11 +111,20 @@ function ServiceDetail() {
               </a>
             )}
             <button
+              onClick={downloadChecklist}
+              className="inline-flex items-center gap-2 rounded-xl border border-border bg-card font-semibold px-5 py-3 hover:border-primary/40 transition"
+            >
+              <Download className="w-4 h-4" /> Checklist
+            </button>
+            <button
               onClick={() => window.print()}
               className="inline-flex items-center gap-2 rounded-xl border border-border bg-card font-semibold px-5 py-3 hover:border-primary/40 transition"
             >
               <Printer className="w-4 h-4" /> {t("print")}
             </button>
+            <FavoriteButton slug={service.slug} />
+            <ShareButton title={service.name.en} text={service.description.en} />
+
           </div>
         </div>
       </section>
