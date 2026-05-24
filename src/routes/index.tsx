@@ -218,7 +218,7 @@ function Shelf({
   title: string;
   accent: string;
   items: typeof services;
-  lang: "en" | "hi";
+  lang: Lang;
 }) {
   return (
     <div>
