@@ -1,11 +1,15 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Search, ArrowRight, ShieldCheck, Languages, Clock3 } from "lucide-react";
+import type { Lang } from "@/lib/i18n";
+
+import { Search, ArrowRight, ShieldCheck, Languages, Clock3, Heart, History } from "lucide-react";
 import { useMemo, useState } from "react";
 import { services } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
 import { ServiceCard } from "@/components/ServiceCard";
 import { SiteHeader, SiteFooter, MobileTabBar } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
+import { useFavorites, useRecent } from "@/lib/user-prefs";
+
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -15,6 +19,13 @@ function Home() {
   const { t, lang } = useI18n();
   const [q, setQ] = useState("");
   const navigate = useNavigate();
+  const { recent } = useRecent();
+  const { favorites } = useFavorites();
+
+  const bySlug = useMemo(() => new Map(services.map((s) => [s.slug, s])), []);
+  const recentServices = recent.map((s) => bySlug.get(s)).filter(Boolean) as typeof services;
+  const favServices = favorites.map((s) => bySlug.get(s)).filter(Boolean) as typeof services;
+
 
   const suggestions = useMemo(() => {
     if (!q.trim()) return [];
@@ -100,7 +111,20 @@ function Home() {
         </div>
       </section>
 
+      {/* RECENT & FAVORITES */}
+      {(recentServices.length > 0 || favServices.length > 0) && (
+        <section className="mx-auto max-w-6xl px-4 sm:px-6 pt-10 sm:pt-16 grid gap-10 md:gap-12 md:grid-cols-2">
+          {recentServices.length > 0 && (
+            <Shelf icon={<History className="w-4 h-4" />} accent="text-primary" title="Recently viewed" items={recentServices} lang={lang} />
+          )}
+          {favServices.length > 0 && (
+            <Shelf icon={<Heart className="w-4 h-4 fill-current" />} accent="text-saffron" title="Your favorites" items={favServices} lang={lang} />
+          )}
+        </section>
+      )}
+
       {/* POPULAR */}
+
       <section className="mx-auto max-w-6xl px-4 sm:px-6 py-10 sm:py-16">
         <div className="flex items-end justify-between gap-4 mb-5 sm:mb-8">
           <div>
@@ -182,3 +206,44 @@ function Feature({
     </div>
   );
 }
+
+function Shelf({
+  icon,
+  title,
+  items,
+  accent,
+  lang,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  accent: string;
+  items: typeof services;
+  lang: Lang;
+}) {
+  return (
+    <div>
+      <div className={`flex items-center gap-2 text-[11px] sm:text-xs uppercase tracking-[0.2em] font-semibold ${accent}`}>
+        {icon}
+        <span>{title}</span>
+      </div>
+      <ul className="mt-3 divide-y divide-border rounded-2xl border border-border bg-card shadow-card overflow-hidden">
+        {items.slice(0, 5).map((s) => (
+          <li key={s.slug}>
+            <Link
+              to="/services/$slug"
+              params={{ slug: s.slug }}
+              className="flex items-center justify-between px-4 py-3 hover:bg-accent/60 transition-colors"
+            >
+              <div className="min-w-0">
+                <div className="font-medium truncate">{localized(s.name, lang)}</div>
+                <div className="text-xs text-muted-foreground truncate">{s.authority}</div>
+              </div>
+              <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0 ml-2" />
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
