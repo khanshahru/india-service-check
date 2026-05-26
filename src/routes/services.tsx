@@ -163,6 +163,24 @@ function ServicesPage() {
               <CatChip key={c} active={cat === c} onClick={() => setCat(c)}>{c}</CatChip>
             ))}
           </div>
+
+          <div className="mt-2 flex items-center gap-2">
+            <label htmlFor="state-filter" className="text-xs uppercase tracking-[0.16em] font-semibold text-muted-foreground shrink-0">
+              State
+            </label>
+            <select
+              id="state-filter"
+              value={stateFilter}
+              onChange={(e) => setStateFilter(e.target.value)}
+              className="flex-1 sm:flex-none min-w-0 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring/40"
+            >
+              <option value="All">All India</option>
+              <option value="Central">Central / Pan-India</option>
+              {INDIAN_STATES.map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+          </div>
         </div>
       </section>
 
