@@ -763,6 +763,13 @@ export const services: GovService[] = [
   },
 ];
 
+import { stateServices, INDIAN_STATES } from "./state-services";
+
+// Merge central + state-level services into a single list consumed across the app
+services.push(...stateServices);
+
+export { INDIAN_STATES };
+
 export const categories: ServiceCategory[] = [
   "Identity",
   "Travel",
