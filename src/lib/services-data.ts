@@ -13,6 +13,7 @@ export interface GovService {
   name: { en: string; hi: string };
   category: ServiceCategory;
   authority: string;
+  state?: string; // undefined = Central / pan-India
   processingTime: string;
   fee: string;
   description: { en: string; hi: string };
@@ -761,6 +762,13 @@ export const services: GovService[] = [
     applyUrl: "https://parivahan.gov.in",
   },
 ];
+
+import { stateServices, INDIAN_STATES } from "./state-services";
+
+// Merge central + state-level services into a single list consumed across the app
+services.push(...stateServices);
+
+export { INDIAN_STATES };
 
 export const categories: ServiceCategory[] = [
   "Identity",

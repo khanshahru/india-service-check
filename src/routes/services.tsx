@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Search, ArrowRight } from "lucide-react";
 import { useMemo, useRef, useState, useCallback } from "react";
-import { services, categories, type ServiceCategory } from "@/lib/services-data";
+import { services, categories, INDIAN_STATES, type ServiceCategory } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
 import { ServiceCard } from "@/components/ServiceCard";
 import { SiteHeader, SiteFooter, MobileTabBar } from "@/components/SiteHeader";
@@ -20,6 +20,7 @@ function ServicesPage() {
   const { t, lang } = useI18n();
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<ServiceCategory | "All">("All");
+  const [stateFilter, setStateFilter] = useState<string>("All");
   const [open, setOpen] = useState(false);
   const [highlighted, setHighlighted] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
@@ -44,15 +45,20 @@ function ServicesPage() {
     return services.filter((s) => {
       const matchesCat = cat === "All" || s.category === cat;
       if (!matchesCat) return false;
+      const matchesState =
+        stateFilter === "All" ||
+        (stateFilter === "Central" ? !s.state : s.state === stateFilter);
+      if (!matchesState) return false;
       if (!needle) return true;
       return (
         s.name.en.toLowerCase().includes(needle) ||
         s.name.hi.includes(q) ||
         s.authority.toLowerCase().includes(needle) ||
+        (s.state?.toLowerCase().includes(needle) ?? false) ||
         s.slug.includes(needle)
       );
     });
-  }, [q, cat]);
+  }, [q, cat, stateFilter]);
 
   const showDropdown = open && suggestions.length > 0;
 
@@ -156,6 +162,24 @@ function ServicesPage() {
             {categories.map((c) => (
               <CatChip key={c} active={cat === c} onClick={() => setCat(c)}>{c}</CatChip>
             ))}
+          </div>
+
+          <div className="mt-2 flex items-center gap-2">
+            <label htmlFor="state-filter" className="text-xs uppercase tracking-[0.16em] font-semibold text-muted-foreground shrink-0">
+              State
+            </label>
+            <select
+              id="state-filter"
+              value={stateFilter}
+              onChange={(e) => setStateFilter(e.target.value)}
+              className="flex-1 sm:flex-none min-w-0 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring/40"
+            >
+              <option value="All">All India</option>
+              <option value="Central">Central / Pan-India</option>
+              {INDIAN_STATES.map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
           </div>
         </div>
       </section>
