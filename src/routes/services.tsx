@@ -45,15 +45,20 @@ function ServicesPage() {
     return services.filter((s) => {
       const matchesCat = cat === "All" || s.category === cat;
       if (!matchesCat) return false;
+      const matchesState =
+        stateFilter === "All" ||
+        (stateFilter === "Central" ? !s.state : s.state === stateFilter);
+      if (!matchesState) return false;
       if (!needle) return true;
       return (
         s.name.en.toLowerCase().includes(needle) ||
         s.name.hi.includes(q) ||
         s.authority.toLowerCase().includes(needle) ||
+        (s.state?.toLowerCase().includes(needle) ?? false) ||
         s.slug.includes(needle)
       );
     });
-  }, [q, cat]);
+  }, [q, cat, stateFilter]);
 
   const showDropdown = open && suggestions.length > 0;
 
