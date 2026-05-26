@@ -20,6 +20,7 @@ function ServicesPage() {
   const { t, lang } = useI18n();
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<ServiceCategory | "All">("All");
+  const [stateFilter, setStateFilter] = useState<string>("All");
   const [open, setOpen] = useState(false);
   const [highlighted, setHighlighted] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
