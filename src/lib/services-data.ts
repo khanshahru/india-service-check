@@ -13,6 +13,7 @@ export interface GovService {
   name: { en: string; hi: string };
   category: ServiceCategory;
   authority: string;
+  state?: string; // undefined = Central / pan-India
   processingTime: string;
   fee: string;
   description: { en: string; hi: string };
