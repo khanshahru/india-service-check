@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Search, ArrowRight } from "lucide-react";
 import { useMemo, useRef, useState, useCallback } from "react";
-import { services, categories, type ServiceCategory } from "@/lib/services-data";
+import { services, categories, INDIAN_STATES, type ServiceCategory } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
 import { ServiceCard } from "@/components/ServiceCard";
 import { SiteHeader, SiteFooter, MobileTabBar } from "@/components/SiteHeader";
