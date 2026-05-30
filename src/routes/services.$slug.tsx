@@ -44,6 +44,35 @@ function ServiceDetail() {
     push(service.slug);
   }, [service.slug, push]);
 
+  const related = services
+    .filter(
+      (s) =>
+        s.slug !== service.slug &&
+        (s.category === service.category || (service.state && s.state === service.state)),
+    )
+    .slice(0, 3);
+
+  const steps = [
+    {
+      title: "Gather your documents",
+      desc: `Collect all ${service.documents.filter((d) => d.required).length} required documents listed below. Keep originals and self-attested photocopies ready.`,
+    },
+    {
+      title: "Check your eligibility",
+      desc: "Confirm you meet the eligibility criteria before applying to avoid rejection.",
+    },
+    {
+      title: service.applyUrl ? "Apply online or visit office" : "Visit the issuing authority",
+      desc: service.applyUrl
+        ? `Submit your application on the official portal of ${service.authority}. Save the acknowledgement number.`
+        : `Visit your nearest ${service.authority} office with documents during working hours.`,
+    },
+    {
+      title: "Track and collect",
+      desc: `Processing typically takes ${service.processingTime}. Use the acknowledgement number to track status online.`,
+    },
+  ];
+
   const downloadChecklist = () => {
     const lines = [
       `${service.name.en} — Document Checklist`,
