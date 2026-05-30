@@ -1,9 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import type { Lang } from "@/lib/i18n";
 
-import { Search, ArrowRight, ShieldCheck, Languages, Clock3, Heart, History } from "lucide-react";
+import { Search, ArrowRight, ShieldCheck, Languages, Clock3, Heart, History, IdCard, Plane, Car, HandHeart, IndianRupee, Landmark, GraduationCap, Home as HomeIcon } from "lucide-react";
 import { useMemo, useState } from "react";
-import { services } from "@/lib/services-data";
+import { services, categories, type ServiceCategory } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
 import { ServiceCard } from "@/components/ServiceCard";
 import { SiteHeader, SiteFooter, MobileTabBar } from "@/components/SiteHeader";
@@ -123,9 +123,40 @@ function Home() {
         </section>
       )}
 
+      {/* CATEGORIES */}
+      <section className="mx-auto max-w-6xl px-4 sm:px-6 pt-10 sm:pt-16">
+        <div className="flex items-end justify-between gap-4 mb-5 sm:mb-8">
+          <div>
+            <div className="text-[11px] sm:text-xs uppercase tracking-[0.2em] font-semibold text-saffron">
+              <span className="text-india-green">/</span> Browse by category
+            </div>
+            <h2 className="mt-2 font-display text-2xl sm:text-3xl md:text-4xl font-semibold">What do you need today?</h2>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+          {categories.map((c) => {
+            const count = services.filter((s) => s.category === c).length;
+            return (
+              <Link
+                key={c}
+                to="/services"
+                className="group rounded-2xl border border-border bg-card p-4 sm:p-5 shadow-card hover:shadow-elevated hover:-translate-y-0.5 transition-all"
+              >
+                <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center text-primary">
+                  {categoryIcon(c)}
+                </div>
+                <div className="mt-3 font-display text-base sm:text-lg font-semibold">{c}</div>
+                <div className="mt-0.5 text-xs text-muted-foreground">{count} services</div>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
       {/* POPULAR */}
 
       <section className="mx-auto max-w-6xl px-4 sm:px-6 py-10 sm:py-16">
+
         <div className="flex items-end justify-between gap-4 mb-5 sm:mb-8">
           <div>
             <div className="text-[11px] sm:text-xs uppercase tracking-[0.2em] font-semibold text-saffron">
@@ -245,5 +276,19 @@ function Shelf({
       </ul>
     </div>
   );
+}
+
+function categoryIcon(c: ServiceCategory) {
+  const cls = "w-5 h-5";
+  switch (c) {
+    case "Identity": return <IdCard className={cls} />;
+    case "Travel": return <Plane className={cls} />;
+    case "Driving": return <Car className={cls} />;
+    case "Welfare": return <HandHeart className={cls} />;
+    case "Finance": return <IndianRupee className={cls} />;
+    case "Civic": return <Landmark className={cls} />;
+    case "Education": return <GraduationCap className={cls} />;
+    case "Property": return <HomeIcon className={cls} />;
+  }
 }
 

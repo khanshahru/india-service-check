@@ -2,7 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 
 const FAV_KEY = "docsetu:favorites";
 const RECENT_KEY = "docsetu:recent";
+const SEARCH_KEY = "docsetu:recent-searches";
 const MAX_RECENT = 6;
+const MAX_SEARCHES = 5;
 
 function read(key: string): string[] {
   if (typeof window === "undefined") return [];
@@ -66,4 +68,19 @@ export function useRecent() {
   }, []);
 
   return { recent, push };
+}
+
+export function useRecentSearches() {
+  const [searches] = useStored(SEARCH_KEY);
+
+  const push = useCallback((term: string) => {
+    const t = term.trim();
+    if (!t || t.length < 2) return;
+    const cur = read(SEARCH_KEY).filter((s) => s.toLowerCase() !== t.toLowerCase());
+    write(SEARCH_KEY, [t, ...cur].slice(0, MAX_SEARCHES));
+  }, []);
+
+  const clear = useCallback(() => write(SEARCH_KEY, []), []);
+
+  return { searches, push, clear };
 }

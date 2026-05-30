@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, BadgeCheck, Building2, Clock, Download, ExternalLink, IndianRupee, ListChecks, Printer } from "lucide-react";
+import { ArrowLeft, ArrowRight, BadgeCheck, Building2, Clock, Download, ExternalLink, IndianRupee, ListChecks, Printer, Sparkles } from "lucide-react";
 import { useEffect } from "react";
 import { services, type GovService } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
@@ -43,6 +43,35 @@ function ServiceDetail() {
   useEffect(() => {
     push(service.slug);
   }, [service.slug, push]);
+
+  const related = services
+    .filter(
+      (s) =>
+        s.slug !== service.slug &&
+        (s.category === service.category || (service.state && s.state === service.state)),
+    )
+    .slice(0, 3);
+
+  const steps = [
+    {
+      title: "Gather your documents",
+      desc: `Collect all ${service.documents.filter((d) => d.required).length} required documents listed below. Keep originals and self-attested photocopies ready.`,
+    },
+    {
+      title: "Check your eligibility",
+      desc: "Confirm you meet the eligibility criteria before applying to avoid rejection.",
+    },
+    {
+      title: service.applyUrl ? "Apply online or visit office" : "Visit the issuing authority",
+      desc: service.applyUrl
+        ? `Submit your application on the official portal of ${service.authority}. Save the acknowledgement number.`
+        : `Visit your nearest ${service.authority} office with documents during working hours.`,
+    },
+    {
+      title: "Track and collect",
+      desc: `Processing typically takes ${service.processingTime}. Use the acknowledgement number to track status online.`,
+    },
+  ];
 
   const downloadChecklist = () => {
     const lines = [
@@ -187,6 +216,64 @@ function ServiceDetail() {
           </div>
         </aside>
       </section>
+
+      {/* How to apply */}
+      <section className="border-t border-border bg-secondary/40 print:hidden">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 py-10 sm:py-14">
+          <h2 className="font-display text-xl sm:text-2xl font-semibold flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-saffron" /> How to apply
+          </h2>
+          <ol className="mt-6 grid gap-3 sm:gap-4 sm:grid-cols-2">
+            {steps.map((s, i) => (
+              <li key={i} className="rounded-2xl border border-border bg-card p-4 sm:p-5 shadow-card">
+                <div className="flex items-center gap-3">
+                  <div className="shrink-0 w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center font-display font-semibold text-primary text-sm">
+                    {i + 1}
+                  </div>
+                  <div className="font-semibold">{s.title}</div>
+                </div>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* Related */}
+      {related.length > 0 && (
+        <section className="border-t border-border print:hidden">
+          <div className="mx-auto max-w-5xl px-4 sm:px-6 py-10 sm:py-14">
+            <div className="flex items-end justify-between gap-4 mb-5">
+              <h2 className="font-display text-xl sm:text-2xl font-semibold">Related services</h2>
+              <Link to="/services" className="text-sm text-primary hover:underline inline-flex items-center gap-1.5">
+                See all <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {related.map((r) => (
+                <Link
+                  key={r.slug}
+                  to="/services/$slug"
+                  params={{ slug: r.slug }}
+                  className="group rounded-2xl border border-border bg-card p-4 shadow-card hover:shadow-elevated hover:-translate-y-0.5 transition-all"
+                >
+                  <div className="text-[10px] uppercase tracking-[0.14em] font-semibold text-india-green">
+                    {r.category}
+                  </div>
+                  <div className="mt-1.5 font-display text-base font-semibold leading-tight">
+                    {localized(r.name, lang)}
+                  </div>
+                  <div className="mt-1 text-xs text-muted-foreground truncate">{r.authority}</div>
+                  <div className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-primary">
+                    View <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
 
       {/* Mobile sticky action bar */}
       <div
