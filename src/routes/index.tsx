@@ -1,9 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import type { Lang } from "@/lib/i18n";
 
-import { Search, ArrowRight, ShieldCheck, Languages, Clock3, Heart, History } from "lucide-react";
+import { Search, ArrowRight, ShieldCheck, Languages, Clock3, Heart, History, IdCard, Plane, Car, HandHeart, IndianRupee, Landmark, GraduationCap, Home as HomeIcon } from "lucide-react";
 import { useMemo, useState } from "react";
-import { services } from "@/lib/services-data";
+import { services, categories, type ServiceCategory } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
 import { ServiceCard } from "@/components/ServiceCard";
 import { SiteHeader, SiteFooter, MobileTabBar } from "@/components/SiteHeader";
