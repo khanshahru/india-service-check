@@ -2,7 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 
 const FAV_KEY = "docsetu:favorites";
 const RECENT_KEY = "docsetu:recent";
+const SEARCH_KEY = "docsetu:recent-searches";
 const MAX_RECENT = 6;
+const MAX_SEARCHES = 5;
 
 function read(key: string): string[] {
   if (typeof window === "undefined") return [];
