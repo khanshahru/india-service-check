@@ -69,3 +69,18 @@ export function useRecent() {
 
   return { recent, push };
 }
+
+export function useRecentSearches() {
+  const [searches] = useStored(SEARCH_KEY);
+
+  const push = useCallback((term: string) => {
+    const t = term.trim();
+    if (!t || t.length < 2) return;
+    const cur = read(SEARCH_KEY).filter((s) => s.toLowerCase() !== t.toLowerCase());
+    write(SEARCH_KEY, [t, ...cur].slice(0, MAX_SEARCHES));
+  }, []);
+
+  const clear = useCallback(() => write(SEARCH_KEY, []), []);
+
+  return { searches, push, clear };
+}
