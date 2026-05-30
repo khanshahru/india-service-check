@@ -217,6 +217,64 @@ function ServiceDetail() {
         </aside>
       </section>
 
+      {/* How to apply */}
+      <section className="border-t border-border bg-secondary/40 print:hidden">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 py-10 sm:py-14">
+          <h2 className="font-display text-xl sm:text-2xl font-semibold flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-saffron" /> How to apply
+          </h2>
+          <ol className="mt-6 grid gap-3 sm:gap-4 sm:grid-cols-2">
+            {steps.map((s, i) => (
+              <li key={i} className="rounded-2xl border border-border bg-card p-4 sm:p-5 shadow-card">
+                <div className="flex items-center gap-3">
+                  <div className="shrink-0 w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center font-display font-semibold text-primary text-sm">
+                    {i + 1}
+                  </div>
+                  <div className="font-semibold">{s.title}</div>
+                </div>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* Related */}
+      {related.length > 0 && (
+        <section className="border-t border-border print:hidden">
+          <div className="mx-auto max-w-5xl px-4 sm:px-6 py-10 sm:py-14">
+            <div className="flex items-end justify-between gap-4 mb-5">
+              <h2 className="font-display text-xl sm:text-2xl font-semibold">Related services</h2>
+              <Link to="/services" className="text-sm text-primary hover:underline inline-flex items-center gap-1.5">
+                See all <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {related.map((r) => (
+                <Link
+                  key={r.slug}
+                  to="/services/$slug"
+                  params={{ slug: r.slug }}
+                  className="group rounded-2xl border border-border bg-card p-4 shadow-card hover:shadow-elevated hover:-translate-y-0.5 transition-all"
+                >
+                  <div className="text-[10px] uppercase tracking-[0.14em] font-semibold text-india-green">
+                    {r.category}
+                  </div>
+                  <div className="mt-1.5 font-display text-base font-semibold leading-tight">
+                    {localized(r.name, lang)}
+                  </div>
+                  <div className="mt-1 text-xs text-muted-foreground truncate">{r.authority}</div>
+                  <div className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-primary">
+                    View <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+
       {/* Mobile sticky action bar */}
       <div
         className="sm:hidden fixed bottom-14 inset-x-0 z-30 border-t border-border bg-background/95 backdrop-blur-xl px-3 py-2.5 flex gap-2 print:hidden"
