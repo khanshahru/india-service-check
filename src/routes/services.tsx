@@ -80,25 +80,32 @@ function ServicesPage() {
     return list;
   }, [q, cat, stateFilter, sort]);
 
-  const showDropdown = open && suggestions.length > 0;
+  const showSuggestions = open && suggestions.length > 0;
+  const showRecent = open && !q.trim() && searches.length > 0;
+  const showDropdown = showSuggestions || showRecent;
+  const hasFilters = q.trim() !== "" || cat !== "All" || stateFilter !== "All";
+
+  const commitSearch = useCallback(() => {
+    if (q.trim()) pushSearch(q);
+  }, [q, pushSearch]);
 
   const onKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "ArrowDown") {
         e.preventDefault();
-        setHighlighted((i) => (i + 1) % suggestions.length);
+        setHighlighted((i) => (suggestions.length ? (i + 1) % suggestions.length : 0));
       } else if (e.key === "ArrowUp") {
         e.preventDefault();
-        setHighlighted((i) => (i - 1 + suggestions.length) % suggestions.length);
+        setHighlighted((i) => (suggestions.length ? (i - 1 + suggestions.length) % suggestions.length : 0));
       } else if (e.key === "Enter") {
-        if (showDropdown && suggestions[highlighted]) {
+        if (showSuggestions && suggestions[highlighted]) {
           e.preventDefault();
+          commitSearch();
           setOpen(false);
-          setQ("");
-          // Navigation happens via Link click simulation in the dropdown
           const link = listRef.current?.querySelectorAll("a")[highlighted] as HTMLAnchorElement | undefined;
           link?.click();
         } else {
+          commitSearch();
           setOpen(false);
         }
       } else if (e.key === "Escape") {
@@ -106,8 +113,15 @@ function ServicesPage() {
         inputRef.current?.blur();
       }
     },
-    [showDropdown, suggestions, highlighted],
+    [showSuggestions, suggestions, highlighted, commitSearch],
   );
+
+  const clearAll = () => {
+    setQ("");
+    setCat("All");
+    setStateFilter("All");
+    setSort("relevance");
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -141,9 +155,23 @@ function ServicesPage() {
                 autoComplete="off"
                 aria-label={t("searchPlaceholder")}
                 aria-autocomplete="list"
-                aria-controls={showDropdown ? "search-suggestions" : undefined}
-                aria-activedescendant={showDropdown ? `sug-${highlighted}` : undefined}
+                aria-controls={showSuggestions ? "search-suggestions" : undefined}
+                aria-activedescendant={showSuggestions ? `sug-${highlighted}` : undefined}
               />
+              {q && (
+                <button
+                  type="button"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => {
+                    setQ("");
+                    inputRef.current?.focus();
+                  }}
+                  aria-label="Clear search"
+                  className="mr-1 inline-flex items-center justify-center w-9 h-9 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
             </div>
 
             {showDropdown && (
@@ -153,26 +181,63 @@ function ServicesPage() {
                 className="absolute top-full left-0 right-0 mt-2 rounded-xl border border-border bg-popover shadow-elevated overflow-hidden z-40"
                 role="listbox"
               >
-                {suggestions.map((s, i) => (
-                  <Link
-                    key={s.slug}
-                    id={`sug-${i}`}
-                    to="/services/$slug"
-                    params={{ slug: s.slug }}
-                    role="option"
-                    aria-selected={i === highlighted}
-                    onMouseEnter={() => setHighlighted(i)}
-                    className={`flex items-center justify-between px-4 py-3 transition-colors ${
-                      i === highlighted ? "bg-accent" : "hover:bg-accent/60"
-                    }`}
-                  >
-                    <div className="min-w-0">
-                      <div className="font-medium truncate">{localized(s.name, lang)}</div>
-                      <div className="text-xs text-muted-foreground truncate">{s.authority}</div>
+                {showSuggestions &&
+                  suggestions.map((s, i) => (
+                    <Link
+                      key={s.slug}
+                      id={`sug-${i}`}
+                      to="/services/$slug"
+                      params={{ slug: s.slug }}
+                      role="option"
+                      aria-selected={i === highlighted}
+                      onMouseEnter={() => setHighlighted(i)}
+                      onClick={commitSearch}
+                      className={`flex items-center justify-between px-4 py-3 transition-colors ${
+                        i === highlighted ? "bg-accent" : "hover:bg-accent/60"
+                      }`}
+                    >
+                      <div className="min-w-0">
+                        <div className="font-medium truncate">{localized(s.name, lang)}</div>
+                        <div className="text-xs text-muted-foreground truncate">
+                          {s.authority}
+                          {s.state ? ` · ${s.state}` : ""}
+                        </div>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0 ml-2" />
+                    </Link>
+                  ))}
+                {showRecent && (
+                  <div className="py-1">
+                    <div className="px-4 py-2 flex items-center justify-between text-[10px] uppercase tracking-[0.16em] font-semibold text-muted-foreground">
+                      <span className="inline-flex items-center gap-1.5">
+                        <History className="w-3 h-3" /> Recent searches
+                      </span>
+                      <button
+                        type="button"
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={clearSearches}
+                        className="text-muted-foreground hover:text-foreground"
+                      >
+                        Clear
+                      </button>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0 ml-2" />
-                  </Link>
-                ))}
+                    {searches.map((term) => (
+                      <button
+                        key={term}
+                        type="button"
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={() => {
+                          setQ(term);
+                          inputRef.current?.focus();
+                        }}
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-accent/60 transition-colors"
+                      >
+                        <History className="w-3.5 h-3.5 text-muted-foreground" />
+                        <span className="text-sm">{term}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -184,7 +249,7 @@ function ServicesPage() {
             ))}
           </div>
 
-          <div className="mt-2 flex items-center gap-2">
+          <div className="mt-2 flex flex-wrap items-center gap-2">
             <label htmlFor="state-filter" className="text-xs uppercase tracking-[0.16em] font-semibold text-muted-foreground shrink-0">
               State
             </label>
@@ -192,7 +257,7 @@ function ServicesPage() {
               id="state-filter"
               value={stateFilter}
               onChange={(e) => setStateFilter(e.target.value)}
-              className="flex-1 sm:flex-none min-w-0 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring/40"
+              className="min-w-0 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring/40"
             >
               <option value="All">All India</option>
               <option value="Central">Central / Pan-India</option>
@@ -200,16 +265,52 @@ function ServicesPage() {
                 <option key={s} value={s}>{s}</option>
               ))}
             </select>
+
+            <label htmlFor="sort" className="ml-2 text-xs uppercase tracking-[0.16em] font-semibold text-muted-foreground shrink-0 inline-flex items-center gap-1">
+              <SlidersHorizontal className="w-3 h-3" /> Sort
+            </label>
+            <select
+              id="sort"
+              value={sort}
+              onChange={(e) => setSort(e.target.value as typeof sort)}
+              className="min-w-0 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring/40"
+            >
+              <option value="relevance">Relevance</option>
+              <option value="name">Name (A→Z)</option>
+              <option value="fastest">Fastest processing</option>
+            </select>
+
+            {hasFilters && (
+              <button
+                type="button"
+                onClick={clearAll}
+                className="ml-auto inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground hover:border-primary/40 transition"
+              >
+                <X className="w-3 h-3" /> Clear filters
+              </button>
+            )}
           </div>
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-12 flex-1 w-full">
         {filtered.length === 0 ? (
-          <p className="text-muted-foreground">{t("noResults")}</p>
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">{t("noResults")}</p>
+            {hasFilters && (
+              <button
+                onClick={clearAll}
+                className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold"
+              >
+                Reset filters
+              </button>
+            )}
+          </div>
         ) : (
           <>
-            <p className="text-xs text-muted-foreground mb-4">{filtered.length} services</p>
+            <p className="text-xs text-muted-foreground mb-4">
+              {filtered.length} {filtered.length === 1 ? "service" : "services"}
+            </p>
             <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {filtered.map((s) => (
                 <ServiceCard key={s.slug} service={s} />
