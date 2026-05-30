@@ -22,28 +22,40 @@ function ServicesPage() {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<ServiceCategory | "All">("All");
   const [stateFilter, setStateFilter] = useState<string>("All");
+  const [sort, setSort] = useState<"relevance" | "name" | "fastest">("relevance");
   const [open, setOpen] = useState(false);
   const [highlighted, setHighlighted] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { searches, push: pushSearch, clear: clearSearches } = useRecentSearches();
+
+  // Lightweight fuzzy-ish scorer: prioritise prefix and word-boundary matches.
+  const score = (s: typeof services[number], needle: string) => {
+    const hay = `${s.name.en} ${s.name.hi} ${s.authority} ${s.state ?? ""} ${s.slug}`.toLowerCase();
+    if (!needle) return 0;
+    if (hay.startsWith(needle)) return 100;
+    if (s.name.en.toLowerCase().startsWith(needle)) return 90;
+    const idx = hay.indexOf(needle);
+    if (idx === -1) return -1;
+    // Boost word-boundary hits
+    const boundary = hay[idx - 1] === " " || idx === 0 ? 30 : 0;
+    return 50 - Math.min(idx, 40) + boundary;
+  };
 
   const suggestions = useMemo(() => {
-    if (!q.trim()) return [];
-    const needle = q.toLowerCase();
+    const needle = q.trim().toLowerCase();
+    if (!needle) return [];
     return services
-      .filter(
-        (s) =>
-          s.name.en.toLowerCase().includes(needle) ||
-          s.name.hi.includes(q) ||
-          s.authority.toLowerCase().includes(needle) ||
-          s.slug.includes(needle),
-      )
-      .slice(0, 6);
+      .map((s) => ({ s, sc: score(s, needle) }))
+      .filter((x) => x.sc >= 0)
+      .sort((a, b) => b.sc - a.sc)
+      .slice(0, 6)
+      .map((x) => x.s);
   }, [q]);
 
   const filtered = useMemo(() => {
     const needle = q.toLowerCase().trim();
-    return services.filter((s) => {
+    const list = services.filter((s) => {
       const matchesCat = cat === "All" || s.category === cat;
       if (!matchesCat) return false;
       const matchesState =
@@ -51,15 +63,22 @@ function ServicesPage() {
         (stateFilter === "Central" ? !s.state : s.state === stateFilter);
       if (!matchesState) return false;
       if (!needle) return true;
-      return (
-        s.name.en.toLowerCase().includes(needle) ||
-        s.name.hi.includes(q) ||
-        s.authority.toLowerCase().includes(needle) ||
-        (s.state?.toLowerCase().includes(needle) ?? false) ||
-        s.slug.includes(needle)
-      );
+      return score(s, needle) >= 0;
     });
-  }, [q, cat, stateFilter]);
+
+    if (sort === "name") {
+      list.sort((a, b) => a.name.en.localeCompare(b.name.en));
+    } else if (sort === "fastest") {
+      const days = (p: string) => {
+        const m = p.match(/(\d+)/);
+        return m ? parseInt(m[1], 10) : 999;
+      };
+      list.sort((a, b) => days(a.processingTime) - days(b.processingTime));
+    } else if (needle) {
+      list.sort((a, b) => score(b, needle) - score(a, needle));
+    }
+    return list;
+  }, [q, cat, stateFilter, sort]);
 
   const showDropdown = open && suggestions.length > 0;
 
