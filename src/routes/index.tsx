@@ -279,3 +279,17 @@ function Shelf({
   );
 }
 
+function categoryIcon(c: ServiceCategory) {
+  const cls = "w-5 h-5";
+  switch (c) {
+    case "Identity": return <IdCard className={cls} />;
+    case "Travel": return <Plane className={cls} />;
+    case "Driving": return <Car className={cls} />;
+    case "Welfare": return <HandHeart className={cls} />;
+    case "Finance": return <IndianRupee className={cls} />;
+    case "Civic": return <Landmark className={cls} />;
+    case "Education": return <GraduationCap className={cls} />;
+    case "Property": return <HomeIcon className={cls} />;
+  }
+}
+
