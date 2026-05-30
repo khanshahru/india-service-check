@@ -140,7 +140,6 @@ function Home() {
               <Link
                 key={c}
                 to="/services"
-                search={{ }}
                 className="group rounded-2xl border border-border bg-card p-4 sm:p-5 shadow-card hover:shadow-elevated hover:-translate-y-0.5 transition-all"
               >
                 <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center text-primary">
