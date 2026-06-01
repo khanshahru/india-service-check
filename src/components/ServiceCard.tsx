@@ -9,7 +9,8 @@ export function ServiceCard({ service }: { service: GovService }) {
     <Link
       to="/services/$slug"
       params={{ slug: service.slug }}
-      className="group relative flex flex-col rounded-2xl border border-border bg-card p-4 sm:p-5 shadow-card hover:shadow-elevated hover:-translate-y-0.5 active:scale-[0.99] transition-all duration-200"
+      aria-label={`View details for ${localized(service.name, lang)}`}
+      className="group relative flex flex-col rounded-2xl border border-border bg-card p-4 sm:p-5 shadow-card hover:shadow-elevated hover:-translate-y-0.5 active:scale-[0.99] transition-all duration-200 cursor-pointer"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
