@@ -255,7 +255,8 @@ function ServiceDetail() {
                   key={r.slug}
                   to="/services/$slug"
                   params={{ slug: r.slug }}
-                  className="group rounded-2xl border border-border bg-card p-4 shadow-card hover:shadow-elevated hover:-translate-y-0.5 transition-all"
+                  aria-label={`View details for ${localized(r.name, lang)}`}
+                  className="group rounded-2xl border border-border bg-card p-4 shadow-card hover:shadow-elevated hover:-translate-y-0.5 transition-all cursor-pointer"
                 >
                   <div className="text-[10px] uppercase tracking-[0.14em] font-semibold text-india-green">
                     {r.category}
