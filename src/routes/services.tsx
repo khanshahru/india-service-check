@@ -6,6 +6,7 @@ import { localized, useI18n } from "@/lib/i18n";
 import { ServiceCard } from "@/components/ServiceCard";
 import { useRecentSearches } from "@/lib/user-prefs";
 import { SiteHeader, SiteFooter, MobileTabBar } from "@/components/SiteHeader";
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 
 export const Route = createFileRoute("/services")({
   component: ServicesPage,
@@ -251,39 +252,55 @@ function ServicesPage() {
             </div>
 
             <div className="flex items-center gap-2 shrink-0">
-              <div className="relative">
-                <select
-                  id="state-filter"
-                  value={stateFilter}
-                  onChange={(e) => setStateFilter(e.target.value)}
-                  aria-label="Filter by state"
-                  className="appearance-none rounded-full border border-border bg-card pl-9 pr-8 py-2 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring/40 hover:border-primary/40 transition cursor-pointer"
-                >
-                  <option value="All">All India</option>
-                  <option value="Central">Central / Pan-India</option>
-                  {INDIAN_STATES.map((s) => (
-                    <option key={s} value={s}>{s}</option>
-                  ))}
-                </select>
-                <MapPin className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
-                <ChevronDown className="w-3.5 h-3.5 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
-              </div>
+              <TooltipProvider delayDuration={200}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="relative">
+                      <select
+                        id="state-filter"
+                        value={stateFilter}
+                        onChange={(e) => setStateFilter(e.target.value)}
+                        aria-label="Filter by state"
+                        className="appearance-none rounded-full border border-border bg-card pl-9 pr-8 py-2 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring/40 hover:border-primary/40 transition cursor-pointer"
+                      >
+                        <option value="All">All India</option>
+                        <option value="Central">Central / Pan-India</option>
+                        {INDIAN_STATES.map((s) => (
+                          <option key={s} value={s}>{s}</option>
+                        ))}
+                      </select>
+                      <MapPin className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
+                      <ChevronDown className="w-3.5 h-3.5 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom">
+                    <p>Filter services by Indian state or Central schemes</p>
+                  </TooltipContent>
+                </Tooltip>
 
-              <div className="relative">
-                <select
-                  id="sort"
-                  value={sort}
-                  onChange={(e) => setSort(e.target.value as typeof sort)}
-                  aria-label="Sort services"
-                  className="appearance-none rounded-full border border-border bg-card pl-9 pr-8 py-2 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring/40 hover:border-primary/40 transition cursor-pointer"
-                >
-                  <option value="relevance">Relevance</option>
-                  <option value="name">Name (A→Z)</option>
-                  <option value="fastest">Fastest processing</option>
-                </select>
-                <SlidersHorizontal className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
-                <ChevronDown className="w-3.5 h-3.5 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
-              </div>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="relative">
+                      <select
+                        id="sort"
+                        value={sort}
+                        onChange={(e) => setSort(e.target.value as typeof sort)}
+                        aria-label="Sort services"
+                        className="appearance-none rounded-full border border-border bg-card pl-9 pr-8 py-2 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring/40 hover:border-primary/40 transition cursor-pointer"
+                      >
+                        <option value="relevance">Relevance</option>
+                        <option value="name">Name (A→Z)</option>
+                        <option value="fastest">Fastest processing</option>
+                      </select>
+                      <SlidersHorizontal className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
+                      <ChevronDown className="w-3.5 h-3.5 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom">
+                    <p>Change how service results are ordered</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
 
               {hasFilters && (
                 <button
