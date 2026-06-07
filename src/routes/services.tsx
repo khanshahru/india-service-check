@@ -6,6 +6,7 @@ import { localized, useI18n } from "@/lib/i18n";
 import { ServiceCard } from "@/components/ServiceCard";
 import { useRecentSearches } from "@/lib/user-prefs";
 import { SiteHeader, SiteFooter, MobileTabBar } from "@/components/SiteHeader";
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 
 export const Route = createFileRoute("/services")({
   component: ServicesPage,
