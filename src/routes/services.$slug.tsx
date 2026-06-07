@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, BadgeCheck, Building2, Clock, Download, ExternalLink, IndianRupee, ListChecks, Printer, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, BadgeCheck, Building2, Clock, Download, IndianRupee, ListChecks, Printer, Sparkles } from "lucide-react";
+import { ApplyLink } from "@/components/ApplyLink";
 import { useEffect } from "react";
 import { services, type GovService } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
@@ -130,14 +131,15 @@ function ServiceDetail() {
 
           <div className="mt-5 sm:mt-7 hidden sm:flex flex-wrap gap-3 print:hidden">
             {service.applyUrl && (
-              <a
+              <ApplyLink
                 href={service.applyUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl bg-saffron-gradient text-saffron-foreground font-semibold px-5 py-3 shadow-elevated hover:opacity-95 transition"
+                serviceName={localized(service.name, "en")}
+                authority={service.authority}
+                iconClassName="w-4 h-4"
+                className="inline-flex items-center gap-2 rounded-xl bg-saffron-gradient text-saffron-foreground font-semibold px-5 py-3 shadow-elevated hover:opacity-95 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
               >
-                {t("applyOfficial")} <ExternalLink className="w-4 h-4" />
-              </a>
+                {t("applyOfficial")}
+              </ApplyLink>
             )}
             <button
               onClick={downloadChecklist}
@@ -282,14 +284,15 @@ function ServiceDetail() {
         style={{ paddingBottom: "calc(0.625rem + env(safe-area-inset-bottom))" }}
       >
         {service.applyUrl && (
-          <a
+          <ApplyLink
             href={service.applyUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-saffron-gradient text-saffron-foreground font-semibold px-4 py-3 shadow-elevated text-sm"
+            serviceName={localized(service.name, "en")}
+            authority={service.authority}
+            iconClassName="w-4 h-4"
+            className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-saffron-gradient text-saffron-foreground font-semibold px-4 py-3 shadow-elevated text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
           >
-            {t("applyOfficial")} <ExternalLink className="w-4 h-4" />
-          </a>
+            {t("applyOfficial")}
+          </ApplyLink>
         )}
         <button
           onClick={downloadChecklist}
