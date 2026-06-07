@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight, FileText, Clock, ExternalLink } from "lucide-react";
+import { ArrowUpRight, FileText, Clock } from "lucide-react";
+import { ApplyLink } from "@/components/ApplyLink";
 import type { GovService } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
 
@@ -40,16 +41,16 @@ export function ServiceCard({ service }: { service: GovService }) {
           <span className="inline-flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" aria-hidden="true" />{service.processingTime}</span>
         </div>
         {service.applyUrl && (
-          <a
+          <ApplyLink
             href={service.applyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+            serviceName={name}
+            authority={service.authority}
             onClick={(e) => e.stopPropagation()}
-            aria-label={`Apply for ${name} on official ${service.authority} website (opens in new tab)`}
+            iconClassName="w-3 h-3"
             className="relative z-10 inline-flex items-center gap-1 font-semibold text-primary hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded px-1 -mx-1"
           >
-            Apply <ExternalLink className="w-3 h-3" aria-hidden="true" />
-          </a>
+            Apply
+          </ApplyLink>
         )}
       </div>
     </article>
