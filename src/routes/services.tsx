@@ -244,7 +244,7 @@ function ServicesPage() {
           </div>
 
           <div className="mt-3 sm:mt-5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-            <div className="-mx-4 px-4 sm:mx-0 sm:px-0 flex gap-2 overflow-x-auto scrollbar-none pb-1 sm:flex-1 sm:flex-wrap sm:pb-0">
+            <div className="-mx-4 px-4 sm:mx-0 sm:px-0 flex gap-2 overflow-x-auto scrollbar-none pb-1 sm:flex-1 sm:pb-0">
               <CatChip active={cat === "All"} onClick={() => setCat("All")}>{t("all")}</CatChip>
               {categories.map((c) => (
                 <CatChip key={c} active={cat === c} onClick={() => setCat(c)}>{c}</CatChip>
