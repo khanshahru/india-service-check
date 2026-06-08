@@ -7,6 +7,7 @@ import { ServiceCard } from "@/components/ServiceCard";
 import { useRecentSearches } from "@/lib/user-prefs";
 import { SiteHeader, SiteFooter, MobileTabBar } from "@/components/SiteHeader";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 
 export const Route = createFileRoute("/services")({
   component: ServicesPage,
@@ -251,7 +252,8 @@ function ServicesPage() {
               ))}
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
+            {/* Desktop: inline controls */}
+            <div className="hidden sm:flex items-center gap-2 shrink-0">
               <TooltipProvider delayDuration={200}>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -320,6 +322,76 @@ function ServicesPage() {
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
+            </div>
+
+            {/* Mobile: More filters popover */}
+            <div className="flex sm:hidden shrink-0">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    aria-label="More filters"
+                    className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-2 text-sm font-medium transition ${hasFilters ? "border-primary text-primary bg-primary/10" : "border-border bg-card text-foreground hover:border-primary/40"}`}
+                  >
+                    <SlidersHorizontal className="w-3.5 h-3.5" aria-hidden="true" />
+                    Filters
+                    {hasFilters && <span className="w-2 h-2 rounded-full bg-primary" aria-hidden="true" />}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent align="end" className="w-64 space-y-4" sideOffset={6}>
+                  <div className="space-y-1.5">
+                    <label htmlFor="state-filter-mobile" className="text-xs font-semibold text-muted-foreground">State</label>
+                    <div className="relative">
+                      <select
+                        id="state-filter-mobile"
+                        value={stateFilter}
+                        onChange={(e) => setStateFilter(e.target.value)}
+                        aria-label="Filter by state"
+                        className="w-full appearance-none rounded-lg border border-border bg-card pl-9 pr-8 py-2.5 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring/40"
+                      >
+                        <option value="All">All India</option>
+                        <option value="Central">Central / Pan-India</option>
+                        {INDIAN_STATES.map((s) => (
+                          <option key={s} value={s}>{s}</option>
+                        ))}
+                      </select>
+                      <MapPin className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
+                      <ChevronDown className="w-3.5 h-3.5 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
+                    </div>
+                    <p className="text-[11px] text-muted-foreground">Filter by Indian state or Central schemes</p>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label htmlFor="sort-mobile" className="text-xs font-semibold text-muted-foreground">Sort</label>
+                    <div className="relative">
+                      <select
+                        id="sort-mobile"
+                        value={sort}
+                        onChange={(e) => setSort(e.target.value as typeof sort)}
+                        aria-label="Sort services"
+                        className="w-full appearance-none rounded-lg border border-border bg-card pl-9 pr-8 py-2.5 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring/40"
+                      >
+                        <option value="relevance">Relevance</option>
+                        <option value="name">Name (A→Z)</option>
+                        <option value="fastest">Fastest processing</option>
+                      </select>
+                      <SlidersHorizontal className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
+                      <ChevronDown className="w-3.5 h-3.5 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
+                    </div>
+                    <p className="text-[11px] text-muted-foreground">Change how results are ordered</p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={clearAll}
+                    disabled={!hasFilters}
+                    aria-label="Reset all filters and sorting"
+                    className="w-full inline-flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-3 py-2.5 text-sm font-semibold text-muted-foreground hover:text-foreground hover:border-primary/40 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" /> Reset filters
+                  </button>
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
 
