@@ -125,278 +125,262 @@ function ServicesPage() {
     setSort("relevance");
   };
 
-  return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <SiteHeader />
+  const searchBar = (
+    <div className="relative w-full">
+      <div className="flex items-center gap-1 rounded-full border border-border bg-card shadow-card pl-3 pr-1 h-10 focus-within:ring-2 focus-within:ring-ring/40 transition">
+        <Search className="w-4 h-4 text-muted-foreground shrink-0" />
+        <input
+          ref={inputRef}
+          value={q}
+          onChange={(e) => {
+            setQ(e.target.value);
+            setHighlighted(0);
+            setOpen(true);
+          }}
+          onFocus={() => setOpen(true)}
+          onBlur={() => setTimeout(() => setOpen(false), 150)}
+          onKeyDown={onKeyDown}
+          placeholder={t("searchPlaceholder")}
+          className="flex-1 bg-transparent outline-none py-2 text-sm min-w-0"
+          inputMode="search"
+          autoComplete="off"
+          aria-label={t("searchPlaceholder")}
+          aria-autocomplete="list"
+          aria-controls={showSuggestions ? "search-suggestions" : undefined}
+          aria-activedescendant={showSuggestions ? `sug-${highlighted}` : undefined}
+        />
+        {q && (
+          <button
+            type="button"
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => {
+              setQ("");
+              inputRef.current?.focus();
+            }}
+            aria-label="Clear search"
+            className="inline-flex items-center justify-center w-7 h-7 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        )}
+      </div>
 
-      <section className="sticky top-14 sm:top-16 z-30 border-b border-border bg-secondary/80 backdrop-blur-xl">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 pt-5 pb-3 sm:py-8">
-          <div className="text-[11px] sm:text-xs uppercase tracking-[0.2em] font-semibold text-saffron">
-            <span className="text-india-green">/</span> {t("allServices")}
-          </div>
-          <h1 className="mt-1.5 font-display text-2xl sm:text-4xl md:text-5xl font-semibold">{t("allServices")}</h1>
-
-          {/* Search with autocomplete */}
-          <div className="mt-4 sm:mt-6 relative max-w-2xl">
-            <div className="flex items-center gap-1.5 rounded-2xl border border-border bg-card shadow-card p-1.5 sm:p-2 focus-within:ring-2 focus-within:ring-ring/40 transition">
-              <Search className="w-5 h-5 ml-2 sm:ml-3 text-muted-foreground shrink-0" />
-              <input
-                ref={inputRef}
-                value={q}
-                onChange={(e) => {
-                  setQ(e.target.value);
-                  setHighlighted(0);
-                  setOpen(true);
-                }}
-                onFocus={() => setOpen(true)}
-                onBlur={() => setTimeout(() => setOpen(false), 150)}
-                onKeyDown={onKeyDown}
-                placeholder={t("searchPlaceholder")}
-                className="flex-1 bg-transparent outline-none py-3 text-base min-w-0"
-                inputMode="search"
-                autoComplete="off"
-                aria-label={t("searchPlaceholder")}
-                aria-autocomplete="list"
-                aria-controls={showSuggestions ? "search-suggestions" : undefined}
-                aria-activedescendant={showSuggestions ? `sug-${highlighted}` : undefined}
-              />
-              {q && (
+      {showDropdown && (
+        <div
+          id="search-suggestions"
+          ref={listRef}
+          className="absolute top-full left-0 right-0 mt-2 rounded-xl border border-border bg-popover shadow-elevated overflow-hidden z-40"
+          role="listbox"
+        >
+          {showSuggestions &&
+            suggestions.map((s, i) => (
+              <Link
+                key={s.slug}
+                id={`sug-${i}`}
+                to="/services/$slug"
+                params={{ slug: s.slug }}
+                role="option"
+                aria-selected={i === highlighted}
+                onMouseEnter={() => setHighlighted(i)}
+                onClick={commitSearch}
+                className={`flex items-center justify-between px-4 py-2.5 transition-colors ${
+                  i === highlighted ? "bg-accent" : "hover:bg-accent/60"
+                }`}
+              >
+                <div className="min-w-0">
+                  <div className="font-medium truncate text-sm">{localized(s.name, lang)}</div>
+                  <div className="text-xs text-muted-foreground truncate">
+                    {s.authority}
+                    {s.state ? ` · ${s.state}` : ""}
+                  </div>
+                </div>
+                <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0 ml-2" />
+              </Link>
+            ))}
+          {showRecent && (
+            <div className="py-1">
+              <div className="px-4 py-2 flex items-center justify-between text-[10px] uppercase tracking-[0.16em] font-semibold text-muted-foreground">
+                <span className="inline-flex items-center gap-1.5">
+                  <History className="w-3 h-3" /> Recent searches
+                </span>
                 <button
                   type="button"
                   onMouseDown={(e) => e.preventDefault()}
+                  onClick={clearSearches}
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  Clear
+                </button>
+              </div>
+              {searches.map((term) => (
+                <button
+                  key={term}
+                  type="button"
+                  onMouseDown={(e) => e.preventDefault()}
                   onClick={() => {
-                    setQ("");
+                    setQ(term);
                     inputRef.current?.focus();
                   }}
-                  aria-label="Clear search"
-                  className="mr-1 inline-flex items-center justify-center w-9 h-9 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition"
+                  className="w-full flex items-center gap-3 px-4 py-2 text-left hover:bg-accent/60 transition-colors"
                 >
-                  <X className="w-4 h-4" />
+                  <History className="w-3.5 h-3.5 text-muted-foreground" />
+                  <span className="text-sm">{term}</span>
                 </button>
-              )}
-            </div>
-
-            {showDropdown && (
-              <div
-                id="search-suggestions"
-                ref={listRef}
-                className="absolute top-full left-0 right-0 mt-2 rounded-xl border border-border bg-popover shadow-elevated overflow-hidden z-40"
-                role="listbox"
-              >
-                {showSuggestions &&
-                  suggestions.map((s, i) => (
-                    <Link
-                      key={s.slug}
-                      id={`sug-${i}`}
-                      to="/services/$slug"
-                      params={{ slug: s.slug }}
-                      role="option"
-                      aria-selected={i === highlighted}
-                      onMouseEnter={() => setHighlighted(i)}
-                      onClick={commitSearch}
-                      className={`flex items-center justify-between px-4 py-3 transition-colors ${
-                        i === highlighted ? "bg-accent" : "hover:bg-accent/60"
-                      }`}
-                    >
-                      <div className="min-w-0">
-                        <div className="font-medium truncate">{localized(s.name, lang)}</div>
-                        <div className="text-xs text-muted-foreground truncate">
-                          {s.authority}
-                          {s.state ? ` · ${s.state}` : ""}
-                        </div>
-                      </div>
-                      <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0 ml-2" />
-                    </Link>
-                  ))}
-                {showRecent && (
-                  <div className="py-1">
-                    <div className="px-4 py-2 flex items-center justify-between text-[10px] uppercase tracking-[0.16em] font-semibold text-muted-foreground">
-                      <span className="inline-flex items-center gap-1.5">
-                        <History className="w-3 h-3" /> Recent searches
-                      </span>
-                      <button
-                        type="button"
-                        onMouseDown={(e) => e.preventDefault()}
-                        onClick={clearSearches}
-                        className="text-muted-foreground hover:text-foreground"
-                      >
-                        Clear
-                      </button>
-                    </div>
-                    {searches.map((term) => (
-                      <button
-                        key={term}
-                        type="button"
-                        onMouseDown={(e) => e.preventDefault()}
-                        onClick={() => {
-                          setQ(term);
-                          inputRef.current?.focus();
-                        }}
-                        className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-accent/60 transition-colors"
-                      >
-                        <History className="w-3.5 h-3.5 text-muted-foreground" />
-                        <span className="text-sm">{term}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-
-          <div className="mt-3 sm:mt-5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-            <div className="-mx-4 px-4 sm:mx-0 sm:px-0 flex gap-2 overflow-x-auto scrollbar-none pb-1 sm:flex-1 sm:pb-0">
-              <CatChip active={cat === "All"} onClick={() => setCat("All")}>{t("all")}</CatChip>
-              {categories.map((c) => (
-                <CatChip key={c} active={cat === c} onClick={() => setCat(c)}>{c}</CatChip>
               ))}
             </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
 
-            {/* Desktop: inline controls */}
-            <div className="hidden sm:flex items-center gap-2 shrink-0">
-              <TooltipProvider delayDuration={200}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="relative">
-                      <select
-                        id="state-filter"
-                        value={stateFilter}
-                        onChange={(e) => setStateFilter(e.target.value)}
-                        aria-label="Filter by state"
-                        className="appearance-none rounded-full border border-border bg-card pl-9 pr-8 py-2 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring/40 hover:border-primary/40 transition cursor-pointer"
-                      >
-                        <option value="All">All India</option>
-                        <option value="Central">Central / Pan-India</option>
-                        {INDIAN_STATES.map((s) => (
-                          <option key={s} value={s}>{s}</option>
-                        ))}
-                      </select>
-                      <MapPin className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
-                      <ChevronDown className="w-3.5 h-3.5 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom">
-                    <p>Filter services by Indian state or Central schemes</p>
-                  </TooltipContent>
-                </Tooltip>
+  return (
+    <div className="min-h-screen flex flex-col bg-background">
+      <SiteHeader search={searchBar} />
 
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="relative">
-                      <select
-                        id="sort"
-                        value={sort}
-                        onChange={(e) => setSort(e.target.value as typeof sort)}
-                        aria-label="Sort services"
-                        className="appearance-none rounded-full border border-border bg-card pl-9 pr-8 py-2 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring/40 hover:border-primary/40 transition cursor-pointer"
-                      >
-                        <option value="relevance">Relevance</option>
-                        <option value="name">Name (A→Z)</option>
-                        <option value="fastest">Fastest processing</option>
-                      </select>
-                      <SlidersHorizontal className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
-                      <ChevronDown className="w-3.5 h-3.5 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom">
-                    <p>Change how service results are ordered</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+      <section className="sticky top-14 sm:top-16 z-30 border-b border-border bg-background/90 backdrop-blur-xl">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-2 flex items-center gap-2">
+          <h1 className="font-display text-sm font-semibold tracking-tight whitespace-nowrap hidden sm:flex items-baseline gap-2 mr-1">
+            {t("allServices")}
+            <span className="text-xs font-normal text-muted-foreground">{filtered.length}</span>
+          </h1>
+          <div className="flex-1 flex gap-2 overflow-x-auto scrollbar-none min-w-0">
+            <CatChip active={cat === "All"} onClick={() => setCat("All")}>{t("all")}</CatChip>
+            {categories.map((c) => (
+              <CatChip key={c} active={cat === c} onClick={() => setCat(c)}>{c}</CatChip>
+            ))}
+          </div>
 
-              <TooltipProvider delayDuration={200}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <button
-                      type="button"
-                      onClick={clearAll}
-                      disabled={!hasFilters}
-                      aria-label="Reset all filters and sorting"
-                      className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-2 text-xs font-semibold text-muted-foreground hover:text-foreground hover:border-primary/40 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-border disabled:hover:text-muted-foreground transition"
+          {/* Desktop: inline controls */}
+          <div className="hidden md:flex items-center gap-2 shrink-0">
+            <TooltipProvider delayDuration={200}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="relative">
+                    <select
+                      id="state-filter"
+                      value={stateFilter}
+                      onChange={(e) => setStateFilter(e.target.value)}
+                      aria-label="Filter by state"
+                      className="appearance-none rounded-full border border-border bg-card pl-8 pr-7 h-8 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring/40 hover:border-primary/40 transition cursor-pointer"
                     >
-                      <RotateCcw className="w-3 h-3" aria-hidden="true" /> Reset filters
-                    </button>
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom">
-                    <p>Clear all active filters, search, and sorting choices</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-
-            {/* Mobile: More filters popover */}
-            <div className="flex sm:hidden shrink-0">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <button
-                    type="button"
-                    aria-label="More filters"
-                    className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-2 text-sm font-medium transition ${hasFilters ? "border-primary text-primary bg-primary/10" : "border-border bg-card text-foreground hover:border-primary/40"}`}
-                  >
-                    <SlidersHorizontal className="w-3.5 h-3.5" aria-hidden="true" />
-                    Filters
-                    {hasFilters && <span className="w-2 h-2 rounded-full bg-primary" aria-hidden="true" />}
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent align="end" className="w-64 space-y-4" sideOffset={6}>
-                  <div className="space-y-1.5">
-                    <label htmlFor="state-filter-mobile" className="text-xs font-semibold text-muted-foreground">State</label>
-                    <div className="relative">
-                      <select
-                        id="state-filter-mobile"
-                        value={stateFilter}
-                        onChange={(e) => setStateFilter(e.target.value)}
-                        aria-label="Filter by state"
-                        className="w-full appearance-none rounded-lg border border-border bg-card pl-9 pr-8 py-2.5 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring/40"
-                      >
-                        <option value="All">All India</option>
-                        <option value="Central">Central / Pan-India</option>
-                        {INDIAN_STATES.map((s) => (
-                          <option key={s} value={s}>{s}</option>
-                        ))}
-                      </select>
-                      <MapPin className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
-                      <ChevronDown className="w-3.5 h-3.5 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
-                    </div>
-                    <p className="text-[11px] text-muted-foreground">Filter by Indian state or Central schemes</p>
+                      <option value="All">All India</option>
+                      <option value="Central">Central</option>
+                      {INDIAN_STATES.map((s) => (
+                        <option key={s} value={s}>{s}</option>
+                      ))}
+                    </select>
+                    <MapPin className="w-3 h-3 absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
+                    <ChevronDown className="w-3 h-3 absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
                   </div>
+                </TooltipTrigger>
+                <TooltipContent side="bottom"><p>Filter by state</p></TooltipContent>
+              </Tooltip>
 
-                  <div className="space-y-1.5">
-                    <label htmlFor="sort-mobile" className="text-xs font-semibold text-muted-foreground">Sort</label>
-                    <div className="relative">
-                      <select
-                        id="sort-mobile"
-                        value={sort}
-                        onChange={(e) => setSort(e.target.value as typeof sort)}
-                        aria-label="Sort services"
-                        className="w-full appearance-none rounded-lg border border-border bg-card pl-9 pr-8 py-2.5 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring/40"
-                      >
-                        <option value="relevance">Relevance</option>
-                        <option value="name">Name (A→Z)</option>
-                        <option value="fastest">Fastest processing</option>
-                      </select>
-                      <SlidersHorizontal className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
-                      <ChevronDown className="w-3.5 h-3.5 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
-                    </div>
-                    <p className="text-[11px] text-muted-foreground">Change how results are ordered</p>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="relative">
+                    <select
+                      id="sort"
+                      value={sort}
+                      onChange={(e) => setSort(e.target.value as typeof sort)}
+                      aria-label="Sort services"
+                      className="appearance-none rounded-full border border-border bg-card pl-8 pr-7 h-8 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring/40 hover:border-primary/40 transition cursor-pointer"
+                    >
+                      <option value="relevance">Relevance</option>
+                      <option value="name">Name (A→Z)</option>
+                      <option value="fastest">Fastest</option>
+                    </select>
+                    <SlidersHorizontal className="w-3 h-3 absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
+                    <ChevronDown className="w-3 h-3 absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
                   </div>
+                </TooltipTrigger>
+                <TooltipContent side="bottom"><p>Sort results</p></TooltipContent>
+              </Tooltip>
 
+              <Tooltip>
+                <TooltipTrigger asChild>
                   <button
                     type="button"
                     onClick={clearAll}
                     disabled={!hasFilters}
-                    aria-label="Reset all filters and sorting"
-                    className="w-full inline-flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-3 py-2.5 text-sm font-semibold text-muted-foreground hover:text-foreground hover:border-primary/40 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                    aria-label="Reset filters"
+                    className="inline-flex items-center justify-center w-8 h-8 rounded-full border border-border bg-card text-muted-foreground hover:text-foreground hover:border-primary/40 disabled:opacity-40 disabled:cursor-not-allowed transition"
                   >
-                    <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" /> Reset filters
+                    <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
                   </button>
-                </PopoverContent>
-              </Popover>
-            </div>
+                </TooltipTrigger>
+                <TooltipContent side="bottom"><p>Reset filters</p></TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
 
+          {/* Mobile: filters popover */}
+          <div className="flex md:hidden shrink-0">
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  aria-label="More filters"
+                  className={`inline-flex items-center gap-1 rounded-full border px-2.5 h-8 text-xs font-medium transition ${hasFilters ? "border-primary text-primary bg-primary/10" : "border-border bg-card text-foreground hover:border-primary/40"}`}
+                >
+                  <SlidersHorizontal className="w-3.5 h-3.5" aria-hidden="true" />
+                  {hasFilters && <span className="w-1.5 h-1.5 rounded-full bg-primary" aria-hidden="true" />}
+                </button>
+              </PopoverTrigger>
+              <PopoverContent align="end" className="w-64 space-y-4" sideOffset={6}>
+                <div className="space-y-1.5">
+                  <label htmlFor="state-filter-mobile" className="text-xs font-semibold text-muted-foreground">State</label>
+                  <div className="relative">
+                    <select
+                      id="state-filter-mobile"
+                      value={stateFilter}
+                      onChange={(e) => setStateFilter(e.target.value)}
+                      className="w-full appearance-none rounded-lg border border-border bg-card pl-9 pr-8 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring/40"
+                    >
+                      <option value="All">All India</option>
+                      <option value="Central">Central / Pan-India</option>
+                      {INDIAN_STATES.map((s) => (
+                        <option key={s} value={s}>{s}</option>
+                      ))}
+                    </select>
+                    <MapPin className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
+                    <ChevronDown className="w-3.5 h-3.5 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label htmlFor="sort-mobile" className="text-xs font-semibold text-muted-foreground">Sort</label>
+                  <div className="relative">
+                    <select
+                      id="sort-mobile"
+                      value={sort}
+                      onChange={(e) => setSort(e.target.value as typeof sort)}
+                      className="w-full appearance-none rounded-lg border border-border bg-card pl-9 pr-8 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring/40"
+                    >
+                      <option value="relevance">Relevance</option>
+                      <option value="name">Name (A→Z)</option>
+                      <option value="fastest">Fastest processing</option>
+                    </select>
+                    <SlidersHorizontal className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
+                    <ChevronDown className="w-3.5 h-3.5 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" aria-hidden="true" />
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={clearAll}
+                  disabled={!hasFilters}
+                  className="w-full inline-flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-3 py-2.5 text-sm font-semibold text-muted-foreground hover:text-foreground hover:border-primary/40 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" /> Reset filters
+                </button>
+              </PopoverContent>
+            </Popover>
+          </div>
         </div>
       </section>
+
 
       <section className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-12 flex-1 w-full">
         {filtered.length === 0 ? (
