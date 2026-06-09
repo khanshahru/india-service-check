@@ -34,79 +34,79 @@
   --color-india-green: var(--india-green);
   --color-india-green-foreground: var(--india-green-foreground);
   --color-ashoka: var(--ashoka);
-  --font-display: "Fraunces", Georgia, serif;
-  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Urbanist", system-ui, sans-serif;
+  --font-sans: "Epilogue", system-ui, sans-serif;
 }
 
 :root {
-  --radius: 0.75rem;
+  --radius: 0.625rem;
 
-  /* India Tricolor Trust palette */
-  --background: oklch(0.99 0.005 85);
-  --foreground: oklch(0.18 0.04 265);
+  /* Saffron Heritage palette — warm cream, deep ink, vivid saffron-orange, India green */
+  --background: oklch(0.985 0.012 85);      /* #FFF8F0 */
+  --foreground: oklch(0.22 0 0);            /* #1A1A1A */
 
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.04 265);
+  --card-foreground: oklch(0.22 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.04 265);
+  --popover-foreground: oklch(0.22 0 0);
 
-  /* Primary = Navy (Ashoka blue / trust) */
-  --primary: oklch(0.28 0.12 265);
-  --primary-foreground: oklch(0.99 0.005 85);
+  /* Primary = vivid saffron-orange */
+  --primary: oklch(0.7 0.19 40);            /* #FF6B35 */
+  --primary-foreground: oklch(0.985 0.012 85);
 
-  --secondary: oklch(0.96 0.01 85);
-  --secondary-foreground: oklch(0.22 0.06 265);
+  --secondary: oklch(0.965 0.016 80);
+  --secondary-foreground: oklch(0.22 0 0);
 
-  --muted: oklch(0.96 0.01 85);
-  --muted-foreground: oklch(0.48 0.03 260);
+  --muted: oklch(0.95 0.012 80);
+  --muted-foreground: oklch(0.45 0.012 60);
 
-  --accent: oklch(0.95 0.04 60);
-  --accent-foreground: oklch(0.28 0.12 265);
+  --accent: oklch(0.94 0.05 55);
+  --accent-foreground: oklch(0.22 0 0);
 
   --destructive: oklch(0.55 0.22 27);
   --destructive-foreground: oklch(0.99 0 0);
 
-  --border: oklch(0.9 0.015 80);
-  --input: oklch(0.92 0.012 80);
-  --ring: oklch(0.28 0.12 265);
+  --border: oklch(0.9 0.018 75);
+  --input: oklch(0.92 0.015 75);
+  --ring: oklch(0.7 0.19 40);
 
-  /* Tricolor brand tokens */
-  --saffron: oklch(0.72 0.17 55);          /* #FF9933 */
-  --saffron-foreground: oklch(0.18 0.04 265);
-  --india-green: oklch(0.52 0.16 145);     /* #138808 */
+  /* Brand tokens */
+  --saffron: oklch(0.7 0.19 40);            /* #FF6B35 */
+  --saffron-foreground: oklch(0.985 0.012 85);
+  --india-green: oklch(0.55 0.18 142);      /* #138808 */
   --india-green-foreground: oklch(0.99 0 0);
-  --ashoka: oklch(0.28 0.12 265);          /* #000080 */
+  --ashoka: oklch(0.22 0 0);                /* ink */
 
   /* Gradients & shadows */
   --gradient-tricolor: linear-gradient(90deg, var(--saffron) 0%, var(--saffron) 33%, oklch(1 0 0) 33%, oklch(1 0 0) 66%, var(--india-green) 66%, var(--india-green) 100%);
-  --gradient-hero: radial-gradient(ellipse at top right, color-mix(in oklab, var(--saffron) 22%, transparent), transparent 55%),
-                   radial-gradient(ellipse at bottom left, color-mix(in oklab, var(--india-green) 18%, transparent), transparent 55%),
-                   linear-gradient(180deg, oklch(0.99 0.005 85), oklch(0.97 0.012 85));
-  --gradient-saffron: linear-gradient(135deg, oklch(0.78 0.15 65), var(--saffron));
-  --shadow-card: 0 1px 2px oklch(0.18 0.04 265 / 0.04), 0 8px 24px -12px oklch(0.18 0.04 265 / 0.12);
-  --shadow-elevated: 0 20px 60px -20px oklch(0.28 0.12 265 / 0.25);
+  --gradient-hero: radial-gradient(ellipse at top right, color-mix(in oklab, var(--saffron) 28%, transparent), transparent 55%),
+                   radial-gradient(ellipse at bottom left, color-mix(in oklab, var(--india-green) 20%, transparent), transparent 55%),
+                   linear-gradient(180deg, oklch(0.985 0.012 85), oklch(0.96 0.018 80));
+  --gradient-saffron: linear-gradient(135deg, oklch(0.78 0.17 50), var(--saffron));
+  --shadow-card: 0 1px 2px oklch(0.22 0 0 / 0.05), 0 6px 18px -10px oklch(0.22 0 0 / 0.12);
+  --shadow-elevated: 0 20px 60px -20px oklch(0.7 0.19 40 / 0.28);
 }
 
 .dark {
-  --background: oklch(0.14 0.03 265);
-  --foreground: oklch(0.97 0.005 85);
-  --card: oklch(0.18 0.04 265);
-  --card-foreground: oklch(0.97 0.005 85);
-  --popover: oklch(0.18 0.04 265);
-  --popover-foreground: oklch(0.97 0.005 85);
-  --primary: oklch(0.72 0.17 55);
-  --primary-foreground: oklch(0.14 0.03 265);
-  --secondary: oklch(0.22 0.04 265);
-  --secondary-foreground: oklch(0.97 0.005 85);
-  --muted: oklch(0.22 0.04 265);
-  --muted-foreground: oklch(0.7 0.02 80);
-  --accent: oklch(0.25 0.06 265);
-  --accent-foreground: oklch(0.97 0.005 85);
+  --background: oklch(0.16 0.012 60);
+  --foreground: oklch(0.97 0.012 85);
+  --card: oklch(0.2 0.014 60);
+  --card-foreground: oklch(0.97 0.012 85);
+  --popover: oklch(0.2 0.014 60);
+  --popover-foreground: oklch(0.97 0.012 85);
+  --primary: oklch(0.74 0.19 40);
+  --primary-foreground: oklch(0.16 0.012 60);
+  --secondary: oklch(0.24 0.014 60);
+  --secondary-foreground: oklch(0.97 0.012 85);
+  --muted: oklch(0.24 0.014 60);
+  --muted-foreground: oklch(0.72 0.014 75);
+  --accent: oklch(0.28 0.04 50);
+  --accent-foreground: oklch(0.97 0.012 85);
   --destructive: oklch(0.62 0.22 27);
   --destructive-foreground: oklch(0.97 0 0);
   --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.72 0.17 55);
+  --ring: oklch(0.74 0.19 40);
 }
 
 @layer base {
@@ -117,7 +117,7 @@
     color: var(--color-foreground);
     font-feature-settings: "ss01", "cv11";
   }
-  h1, h2, h3, .font-display { font-family: var(--font-display); letter-spacing: -0.02em; }
+  h1, h2, h3, h4, .font-display { font-family: var(--font-display); letter-spacing: -0.025em; font-weight: 700; }
 }
 
 @utility bg-tricolor { background: var(--gradient-tricolor); }
