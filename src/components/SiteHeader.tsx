@@ -20,7 +20,7 @@ export function SiteHeader({ search }: { search?: React.ReactNode } = {}) {
             <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-primary flex items-center justify-center shadow-card shrink-0">
               <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 border-saffron ashoka-chakra" />
             </div>
-            <div className="leading-tight min-w-0 hidden xs:block">
+            <div className="leading-tight min-w-0 hidden sm:block">
               <div className="font-display text-base sm:text-lg font-semibold tracking-tight truncate">{t("brandName")}</div>
             </div>
           </Link>
