@@ -9,40 +9,54 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 
-export function SiteHeader() {
+export function SiteHeader({ search }: { search?: React.ReactNode } = {}) {
   const { lang, setLang, t } = useI18n();
   return (
     <>
       <div className="h-1 bg-tricolor print:hidden" aria-hidden />
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/85 border-b border-border/60 print:hidden">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2">
-          <Link to="/" className="flex items-center gap-2 sm:gap-2.5 group min-w-0">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 h-14 sm:h-16 flex items-center gap-3 sm:gap-5">
+          <Link to="/" className="flex items-center gap-2 sm:gap-2.5 group min-w-0 shrink-0">
             <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-primary flex items-center justify-center shadow-card shrink-0">
               <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 border-saffron ashoka-chakra" />
             </div>
-            <div className="leading-tight min-w-0">
+            <div className="leading-tight min-w-0 hidden xs:block">
               <div className="font-display text-base sm:text-lg font-semibold tracking-tight truncate">{t("brandName")}</div>
-              <div className="hidden sm:block text-[10px] uppercase tracking-[0.18em] text-muted-foreground">India · Bhārat</div>
             </div>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-7 text-sm font-medium">
-            <Link to="/" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-              {t("brandName")}
-            </Link>
-            <Link to="/services" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-              {t("allServices")}
-            </Link>
-            <Link to="/compare" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-              {t("compare")}
-            </Link>
-          </nav>
+          {search ? (
+            <div className="flex-1 min-w-0 max-w-2xl">{search}</div>
+          ) : (
+            <nav className="hidden md:flex items-center gap-7 text-sm font-medium flex-1">
+              <Link to="/" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
+                {t("brandName")}
+              </Link>
+              <Link to="/services" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
+                {t("allServices")}
+              </Link>
+              <Link to="/compare" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
+                {t("compare")}
+              </Link>
+            </nav>
+          )}
+
+          {search && (
+            <nav className="hidden lg:flex items-center gap-5 text-sm font-medium shrink-0">
+              <Link to="/services" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
+                {t("allServices")}
+              </Link>
+              <Link to="/compare" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
+                {t("compare")}
+              </Link>
+            </nav>
+          )}
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="gap-1.5 rounded-full h-9 px-3 shrink-0">
                 <Globe className="w-4 h-4" />
-                <span className="text-sm">{langLabels[lang]}</span>
+                <span className="text-sm hidden sm:inline">{langLabels[lang]}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="max-h-[60vh] overflow-auto">
