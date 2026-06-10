@@ -1,5 +1,6 @@
-import { Link } from "@tanstack/react-router";
-import { Globe, Home, LayoutGrid, GitCompare } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Globe, Home, LayoutGrid, GitCompare, Search, X } from "lucide-react";
+import { useState } from "react";
 import { useI18n, langLabels, type Lang } from "@/lib/i18n";
 import {
   DropdownMenu,
@@ -25,32 +26,18 @@ export function SiteHeader({ search }: { search?: React.ReactNode } = {}) {
             </div>
           </Link>
 
-          {search ? (
-            <div className="flex-1 min-w-0 max-w-2xl">{search}</div>
-          ) : (
-            <nav className="hidden md:flex items-center gap-7 text-sm font-medium flex-1">
-              <Link to="/" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-                {t("brandName")}
-              </Link>
-              <Link to="/services" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-                {t("allServices")}
-              </Link>
-              <Link to="/compare" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-                {t("compare")}
-              </Link>
-            </nav>
-          )}
+          <div className="flex-1 min-w-0 max-w-2xl">
+            {search ?? <CompactSearch />}
+          </div>
 
-          {search && (
-            <nav className="hidden lg:flex items-center gap-5 text-sm font-medium shrink-0">
-              <Link to="/services" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-                {t("allServices")}
-              </Link>
-              <Link to="/compare" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-                {t("compare")}
-              </Link>
-            </nav>
-          )}
+          <nav className="hidden lg:flex items-center gap-5 text-sm font-medium shrink-0">
+            <Link to="/services" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
+              {t("allServices")}
+            </Link>
+            <Link to="/compare" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
+              {t("compare")}
+            </Link>
+          </nav>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -70,6 +57,45 @@ export function SiteHeader({ search }: { search?: React.ReactNode } = {}) {
         </div>
       </header>
     </>
+  );
+}
+
+function CompactSearch() {
+  const [q, setQ] = useState("");
+  const navigate = useNavigate();
+  const { t } = useI18n();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (q.trim()) {
+      navigate({ to: "/services", search: { q: q.trim() } });
+    } else {
+      navigate({ to: "/services" });
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="relative w-full">
+      <div className="flex items-center gap-1.5 rounded-full border border-border bg-card shadow-card pl-3 pr-1 h-9 focus-within:ring-2 focus-within:ring-ring/40 transition">
+        <Search className="w-4 h-4 text-muted-foreground shrink-0" />
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder={t("searchPlaceholder")}
+          className="flex-1 bg-transparent outline-none py-1.5 text-sm min-w-0"
+          inputMode="search"
+        />
+        {q && (
+          <button
+            type="button"
+            onClick={() => setQ("")}
+            className="inline-flex items-center justify-center w-6 h-6 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition"
+          >
+            <X className="w-3 h-3" />
+          </button>
+        )}
+      </div>
+    </form>
   );
 }
 

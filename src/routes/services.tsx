@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Search, ArrowRight, X, History, SlidersHorizontal, MapPin, ChevronDown, RotateCcw } from "lucide-react";
-import { useMemo, useRef, useState, useCallback } from "react";
+import { useMemo, useRef, useState, useCallback, useEffect } from "react";
 import { services, categories, INDIAN_STATES, type ServiceCategory } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
 import { ServiceCard } from "@/components/ServiceCard";
@@ -11,6 +11,9 @@ import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover
 
 export const Route = createFileRoute("/services")({
   component: ServicesPage,
+  validateSearch: (search: Record<string, unknown>) => ({
+    q: typeof search.q === "string" ? search.q : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "All Government Services — DocSetu" },
@@ -21,7 +24,8 @@ export const Route = createFileRoute("/services")({
 
 function ServicesPage() {
   const { t, lang } = useI18n();
-  const [q, setQ] = useState("");
+  const { q: urlQ } = Route.useSearch();
+  const [q, setQ] = useState(urlQ ?? "");
   const [cat, setCat] = useState<ServiceCategory | "All">("All");
   const [stateFilter, setStateFilter] = useState<string>("All");
   const [sort, setSort] = useState<"relevance" | "name" | "fastest">("relevance");
@@ -30,6 +34,10 @@ function ServicesPage() {
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { searches, push: pushSearch, clear: clearSearches } = useRecentSearches();
+
+  useEffect(() => {
+    setQ(urlQ ?? "");
+  }, [urlQ]);
 
   // Lightweight fuzzy-ish scorer: prioritise prefix and word-boundary matches.
   const score = (s: typeof services[number], needle: string) => {
