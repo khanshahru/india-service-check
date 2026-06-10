@@ -1,5 +1,6 @@
-import { Link } from "@tanstack/react-router";
-import { Globe, Home, LayoutGrid, GitCompare } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Globe, Home, LayoutGrid, GitCompare, Search, X } from "lucide-react";
+import { useState } from "react";
 import { useI18n, langLabels, type Lang } from "@/lib/i18n";
 import {
   DropdownMenu,
@@ -25,32 +26,18 @@ export function SiteHeader({ search }: { search?: React.ReactNode } = {}) {
             </div>
           </Link>
 
-          {search ? (
-            <div className="flex-1 min-w-0 max-w-2xl">{search}</div>
-          ) : (
-            <nav className="hidden md:flex items-center gap-7 text-sm font-medium flex-1">
-              <Link to="/" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-                {t("brandName")}
-              </Link>
-              <Link to="/services" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-                {t("allServices")}
-              </Link>
-              <Link to="/compare" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-                {t("compare")}
-              </Link>
-            </nav>
-          )}
+          <div className="flex-1 min-w-0 max-w-2xl">
+            {search ?? <CompactSearch />}
+          </div>
 
-          {search && (
-            <nav className="hidden lg:flex items-center gap-5 text-sm font-medium shrink-0">
-              <Link to="/services" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-                {t("allServices")}
-              </Link>
-              <Link to="/compare" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-                {t("compare")}
-              </Link>
-            </nav>
-          )}
+          <nav className="hidden lg:flex items-center gap-5 text-sm font-medium shrink-0">
+            <Link to="/services" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
+              {t("allServices")}
+            </Link>
+            <Link to="/compare" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
+              {t("compare")}
+            </Link>
+          </nav>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
