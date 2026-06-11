@@ -776,9 +776,16 @@ export const services: GovService[] = [
 ];
 
 import { stateServices, INDIAN_STATES } from "./state-services";
+import { catalogServices } from "./services-catalog";
 
-// Merge central + state-level services into a single list consumed across the app
-services.push(...stateServices);
+// Merge central + state-level + bulk catalog services into a single list.
+// Existing curated entries win on slug collisions.
+const _seen = new Set(services.map((s) => s.slug));
+for (const s of [...stateServices, ...catalogServices]) {
+  if (_seen.has(s.slug)) continue;
+  _seen.add(s.slug);
+  services.push(s);
+}
 
 export { INDIAN_STATES };
 
