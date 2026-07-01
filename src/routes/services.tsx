@@ -96,6 +96,12 @@ function ServicesPage() {
   const hasFilters = q.trim() !== "" || cat !== "All" || stateFilter !== "All";
   const filterCount = (q.trim() !== "" ? 1 : 0) + (cat !== "All" ? 1 : 0) + (stateFilter !== "All" ? 1 : 0);
 
+  const resultsRef = useRef<HTMLElement>(null);
+
+  const scrollToResults = useCallback(() => {
+    resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
+
   const commitSearch = useCallback(() => {
     if (q.trim()) pushSearch(q);
   }, [q, pushSearch]);
