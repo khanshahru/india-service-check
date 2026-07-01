@@ -401,7 +401,52 @@ function ServicesPage() {
       </section>
 
 
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-12 flex-1 w-full">
+      <section className="mx-auto max-w-6xl px-4 sm:px-6 py-6 sm:py-8 flex-1 w-full">
+        {hasFilters && (
+          <div className="flex flex-wrap items-center gap-2 mb-4">
+            {q.trim() !== "" && (
+              <button
+                type="button"
+                onClick={() => setQ("")}
+                className="inline-flex items-center gap-1 rounded-full bg-primary/10 text-primary border border-primary/20 px-3 py-1 text-xs font-semibold hover:bg-primary/20 transition"
+                aria-label={`Remove search filter: ${q}`}
+              >
+                Search: {q}
+                <X className="w-3 h-3" aria-hidden="true" />
+              </button>
+            )}
+            {cat !== "All" && (
+              <button
+                type="button"
+                onClick={() => setCat("All")}
+                className="inline-flex items-center gap-1 rounded-full bg-primary/10 text-primary border border-primary/20 px-3 py-1 text-xs font-semibold hover:bg-primary/20 transition"
+                aria-label={`Remove category filter: ${cat}`}
+              >
+                {cat}
+                <X className="w-3 h-3" aria-hidden="true" />
+              </button>
+            )}
+            {stateFilter !== "All" && (
+              <button
+                type="button"
+                onClick={() => setStateFilter("All")}
+                className="inline-flex items-center gap-1 rounded-full bg-primary/10 text-primary border border-primary/20 px-3 py-1 text-xs font-semibold hover:bg-primary/20 transition"
+                aria-label={`Remove state filter: ${stateFilter}`}
+              >
+                {stateFilter}
+                <X className="w-3 h-3" aria-hidden="true" />
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={clearAll}
+              className="text-xs font-medium text-muted-foreground hover:text-foreground underline-offset-2 hover:underline transition"
+            >
+              Clear all
+            </button>
+          </div>
+        )}
+
         {filtered.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-muted-foreground">{t("noResults")}</p>
