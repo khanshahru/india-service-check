@@ -413,7 +413,7 @@ function ServicesPage() {
             {q.trim() !== "" && (
               <button
                 type="button"
-                onClick={() => setQ("")}
+                onClick={() => { setQ(""); scrollToResults(); }}
                 className="inline-flex items-center gap-1 rounded-full bg-primary/10 text-primary border border-primary/20 px-3 py-1 text-xs font-semibold hover:bg-primary/20 transition"
                 aria-label={`Remove search filter: ${q}`}
               >
