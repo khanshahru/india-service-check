@@ -94,6 +94,7 @@ function ServicesPage() {
   const showRecent = open && !q.trim() && searches.length > 0;
   const showDropdown = showSuggestions || showRecent;
   const hasFilters = q.trim() !== "" || cat !== "All" || stateFilter !== "All";
+  const filterCount = (q.trim() !== "" ? 1 : 0) + (cat !== "All" ? 1 : 0) + (stateFilter !== "All" ? 1 : 0);
 
   const commitSearch = useCallback(() => {
     if (q.trim()) pushSearch(q);
@@ -320,6 +321,11 @@ function ServicesPage() {
                 </TooltipTrigger>
                 <TooltipContent side="bottom"><p>Reset filters</p></TooltipContent>
               </Tooltip>
+              {hasFilters && (
+                <span className="inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-bold -ml-1">
+                  {filterCount}
+                </span>
+              )}
             </TooltipProvider>
           </div>
 
@@ -382,6 +388,11 @@ function ServicesPage() {
                   className="w-full inline-flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-3 py-2.5 text-sm font-semibold text-muted-foreground hover:text-foreground hover:border-primary/40 disabled:opacity-40 disabled:cursor-not-allowed transition"
                 >
                   <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" /> Reset filters
+                  {hasFilters && (
+                    <span className="inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-bold">
+                      {filterCount}
+                    </span>
+                  )}
                 </button>
               </PopoverContent>
             </Popover>
