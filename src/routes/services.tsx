@@ -455,14 +455,54 @@ function ServicesPage() {
         )}
 
         {filtered.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">{t("noResults")}</p>
+          <div className="text-center py-14 sm:py-20">
+            <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
+              <SearchX className="h-7 w-7 text-primary" aria-hidden="true" />
+            </div>
+            <h2 className="font-display text-lg font-semibold text-foreground mb-1">{t("noResultsTitle")}</h2>
+            <p className="text-sm text-muted-foreground max-w-xs mx-auto mb-6">{t("noResults")}</p>
+
+            <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
+              {q.trim() !== "" && (
+                <button
+                  type="button"
+                  onClick={() => { setQ(""); scrollToResults(); }}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:border-primary/40 transition"
+                >
+                  <X className="w-3 h-3" aria-hidden="true" />
+                  {t("noResultsClearSearch")}: "{q.trim()}"
+                </button>
+              )}
+              {cat !== "All" && (
+                <button
+                  type="button"
+                  onClick={() => { setCat("All"); scrollToResults(); }}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:border-primary/40 transition"
+                >
+                  <X className="w-3 h-3" aria-hidden="true" />
+                  {t("noResultsClearCategory")}: {cat}
+                </button>
+              )}
+              {stateFilter !== "All" && (
+                <button
+                  type="button"
+                  onClick={() => { setStateFilter("All"); scrollToResults(); }}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:border-primary/40 transition"
+                >
+                  <X className="w-3 h-3" aria-hidden="true" />
+                  {t("noResultsClearState")}: {stateFilter}
+                </button>
+              )}
+            </div>
+
             {hasFilters && (
               <button
+                type="button"
                 onClick={() => { clearAll(); scrollToResults(); }}
-                className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold"
+                className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-sm font-semibold hover:bg-primary/90 transition"
               >
-                Reset filters
+                <RotateCcw className="w-4 h-4" aria-hidden="true" />
+                {t("noResultsClear")}
               </button>
             )}
           </div>
