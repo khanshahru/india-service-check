@@ -321,6 +321,11 @@ function ServicesPage() {
                 </TooltipTrigger>
                 <TooltipContent side="bottom"><p>Reset filters</p></TooltipContent>
               </Tooltip>
+              {hasFilters && (
+                <span className="inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-bold -ml-1">
+                  {filterCount}
+                </span>
+              )}
             </TooltipProvider>
           </div>
 
