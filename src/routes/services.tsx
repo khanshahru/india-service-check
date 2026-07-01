@@ -445,7 +445,7 @@ function ServicesPage() {
             )}
             <button
               type="button"
-              onClick={clearAll}
+              onClick={() => { clearAll(); scrollToResults(); }}
               className="text-xs font-medium text-muted-foreground hover:text-foreground underline-offset-2 hover:underline transition"
             >
               Clear all
