@@ -407,7 +407,7 @@ function ServicesPage() {
       </section>
 
 
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 py-6 sm:py-8 flex-1 w-full">
+      <section ref={resultsRef} className="mx-auto max-w-6xl px-4 sm:px-6 py-6 sm:py-8 flex-1 w-full scroll-mt-32">
         {hasFilters && (
           <div className="flex flex-wrap items-center gap-2 mb-4">
             {q.trim() !== "" && (
