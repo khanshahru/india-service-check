@@ -138,6 +138,7 @@ function ServicesPage() {
     setCat("All");
     setStateFilter("All");
     setSort("relevance");
+    scrollToResults();
   };
 
   const searchBar = (
