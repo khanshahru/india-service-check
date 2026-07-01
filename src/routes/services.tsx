@@ -458,7 +458,7 @@ function ServicesPage() {
             <p className="text-muted-foreground">{t("noResults")}</p>
             {hasFilters && (
               <button
-                onClick={clearAll}
+                onClick={() => { clearAll(); scrollToResults(); }}
                 className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold"
               >
                 Reset filters
