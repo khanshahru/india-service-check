@@ -94,6 +94,7 @@ function ServicesPage() {
   const showRecent = open && !q.trim() && searches.length > 0;
   const showDropdown = showSuggestions || showRecent;
   const hasFilters = q.trim() !== "" || cat !== "All" || stateFilter !== "All";
+  const filterCount = (q.trim() !== "" ? 1 : 0) + (cat !== "All" ? 1 : 0) + (stateFilter !== "All" ? 1 : 0);
 
   const commitSearch = useCallback(() => {
     if (q.trim()) pushSearch(q);
