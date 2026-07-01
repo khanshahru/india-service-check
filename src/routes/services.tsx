@@ -96,6 +96,12 @@ function ServicesPage() {
   const hasFilters = q.trim() !== "" || cat !== "All" || stateFilter !== "All";
   const filterCount = (q.trim() !== "" ? 1 : 0) + (cat !== "All" ? 1 : 0) + (stateFilter !== "All" ? 1 : 0);
 
+  const resultsRef = useRef<HTMLElement>(null);
+
+  const scrollToResults = useCallback(() => {
+    resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
+
   const commitSearch = useCallback(() => {
     if (q.trim()) pushSearch(q);
   }, [q, pushSearch]);
@@ -132,6 +138,7 @@ function ServicesPage() {
     setCat("All");
     setStateFilter("All");
     setSort("relevance");
+    scrollToResults();
   };
 
   const searchBar = (
@@ -401,13 +408,13 @@ function ServicesPage() {
       </section>
 
 
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 py-6 sm:py-8 flex-1 w-full">
+      <section ref={resultsRef} className="mx-auto max-w-6xl px-4 sm:px-6 py-6 sm:py-8 flex-1 w-full scroll-mt-32">
         {hasFilters && (
           <div className="flex flex-wrap items-center gap-2 mb-4">
             {q.trim() !== "" && (
               <button
                 type="button"
-                onClick={() => setQ("")}
+                onClick={() => { setQ(""); scrollToResults(); }}
                 className="inline-flex items-center gap-1 rounded-full bg-primary/10 text-primary border border-primary/20 px-3 py-1 text-xs font-semibold hover:bg-primary/20 transition"
                 aria-label={`Remove search filter: ${q}`}
               >
@@ -418,7 +425,7 @@ function ServicesPage() {
             {cat !== "All" && (
               <button
                 type="button"
-                onClick={() => setCat("All")}
+                onClick={() => { setCat("All"); scrollToResults(); }}
                 className="inline-flex items-center gap-1 rounded-full bg-primary/10 text-primary border border-primary/20 px-3 py-1 text-xs font-semibold hover:bg-primary/20 transition"
                 aria-label={`Remove category filter: ${cat}`}
               >
@@ -429,7 +436,7 @@ function ServicesPage() {
             {stateFilter !== "All" && (
               <button
                 type="button"
-                onClick={() => setStateFilter("All")}
+                onClick={() => { setStateFilter("All"); scrollToResults(); }}
                 className="inline-flex items-center gap-1 rounded-full bg-primary/10 text-primary border border-primary/20 px-3 py-1 text-xs font-semibold hover:bg-primary/20 transition"
                 aria-label={`Remove state filter: ${stateFilter}`}
               >
@@ -439,7 +446,7 @@ function ServicesPage() {
             )}
             <button
               type="button"
-              onClick={clearAll}
+              onClick={() => { clearAll(); scrollToResults(); }}
               className="text-xs font-medium text-muted-foreground hover:text-foreground underline-offset-2 hover:underline transition"
             >
               Clear all
@@ -452,7 +459,7 @@ function ServicesPage() {
             <p className="text-muted-foreground">{t("noResults")}</p>
             {hasFilters && (
               <button
-                onClick={clearAll}
+                onClick={() => { clearAll(); scrollToResults(); }}
                 className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold"
               >
                 Reset filters
