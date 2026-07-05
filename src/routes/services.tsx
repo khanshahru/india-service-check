@@ -262,7 +262,10 @@ function ServicesPage() {
             {t("allServices")}
             <span className="text-xs font-normal text-muted-foreground">{filtered.length}</span>
           </h1>
-          <div className="flex-1 flex gap-2 overflow-x-auto scrollbar-none min-w-0">
+          <div
+            className="flex-1 flex gap-2 overflow-x-auto scrollbar-none min-w-0 snap-x snap-mandatory overscroll-x-contain scroll-pl-2 scroll-pr-2 touch-pan-x"
+            style={{ WebkitOverflowScrolling: "touch" }}
+          >
             <CatChip active={cat === "All"} onClick={() => setCat("All")}>{t("all")}</CatChip>
             {categories.map((c) => (
               <CatChip key={c} active={cat === c} onClick={() => setCat(c)}>{c}</CatChip>
@@ -442,7 +445,10 @@ function ServicesPage() {
             id="mobile-filter-chips"
             className={`overflow-hidden transition-all duration-300 ease-in-out ${filtersExpanded ? "max-h-40 opacity-100 pb-2" : "max-h-0 opacity-0"}`}
           >
-            <div className="flex gap-2 overflow-x-auto scrollbar-none pb-1">
+            <div
+              className="flex gap-2 overflow-x-auto scrollbar-none pb-1 snap-x snap-mandatory overscroll-x-contain scroll-pl-2 scroll-pr-2 touch-pan-x"
+              style={{ WebkitOverflowScrolling: "touch" }}
+            >
               <CatChip active={cat === "All"} onClick={() => setCat("All")}>{t("all")}</CatChip>
               {categories.map((c) => (
                 <CatChip key={c} active={cat === c} onClick={() => setCat(c)}>{c}</CatChip>
@@ -583,7 +589,7 @@ function CatChip({
   return (
     <button
       onClick={onClick}
-      className={`shrink-0 whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium border transition-all min-h-9 ${
+      className={`shrink-0 snap-start whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium border transition-all min-h-9 ${
         active
           ? "bg-primary text-primary-foreground border-primary shadow-card"
           : "bg-card text-foreground/80 border-border hover:border-primary/40 hover:text-foreground"
