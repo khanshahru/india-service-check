@@ -256,8 +256,9 @@ function ServicesPage() {
       <SiteHeader search={searchBar} />
 
       <section className="sticky top-14 sm:top-16 z-30 border-b border-border bg-background/90 backdrop-blur-xl">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-2 flex items-center gap-2">
-          <h1 className="font-display text-sm font-semibold tracking-tight whitespace-nowrap hidden sm:flex items-baseline gap-2 mr-1">
+        {/* Desktop layout — unchanged */}
+        <div className="hidden md:flex mx-auto max-w-6xl px-4 sm:px-6 py-2 items-center gap-2">
+          <h1 className="font-display text-sm font-semibold tracking-tight whitespace-nowrap flex items-baseline gap-2 mr-1">
             {t("allServices")}
             <span className="text-xs font-normal text-muted-foreground">{filtered.length}</span>
           </h1>
@@ -268,8 +269,7 @@ function ServicesPage() {
             ))}
           </div>
 
-          {/* Desktop: inline controls */}
-          <div className="hidden md:flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
             <TooltipProvider delayDuration={200}>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -336,15 +336,33 @@ function ServicesPage() {
               )}
             </TooltipProvider>
           </div>
+        </div>
 
-          {/* Mobile: filters popover */}
-          <div className="flex md:hidden shrink-0">
+        {/* Mobile layout — compact single row, expand on tap */}
+        <div className="md:hidden mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="flex items-center gap-2 py-2">
+            <button
+              type="button"
+              onClick={() => setFiltersExpanded((v) => !v)}
+              aria-expanded={filtersExpanded}
+              aria-controls="mobile-filter-chips"
+              className={`flex-1 flex items-center justify-between gap-2 rounded-full border px-3 h-9 text-sm font-medium transition ${hasFilters ? "border-primary text-primary bg-primary/10" : "border-border bg-card text-foreground"}`}
+            >
+              <span className="flex items-center gap-2">
+                <SlidersHorizontal className="w-3.5 h-3.5" aria-hidden="true" />
+                <span className="truncate">
+                  {hasFilters ? `${filterCount} filter${filterCount === 1 ? "" : "s"} active` : "Filters"}
+                </span>
+              </span>
+              <ChevronDown className={`w-3.5 h-3.5 shrink-0 transition-transform ${filtersExpanded ? "rotate-180" : ""}`} aria-hidden="true" />
+            </button>
+
             <Popover>
               <PopoverTrigger asChild>
                 <button
                   type="button"
                   aria-label="More filters"
-                  className={`inline-flex items-center gap-1 rounded-full border px-2.5 h-8 text-xs font-medium transition ${hasFilters ? "border-primary text-primary bg-primary/10" : "border-border bg-card text-foreground hover:border-primary/40"}`}
+                  className={`inline-flex items-center gap-1 rounded-full border px-2.5 h-9 text-xs font-medium transition ${hasFilters ? "border-primary text-primary bg-primary/10" : "border-border bg-card text-foreground hover:border-primary/40"}`}
                 >
                   <SlidersHorizontal className="w-3.5 h-3.5" aria-hidden="true" />
                   {hasFilters && <span className="w-1.5 h-1.5 rounded-full bg-primary" aria-hidden="true" />}
@@ -404,6 +422,19 @@ function ServicesPage() {
                 </button>
               </PopoverContent>
             </Popover>
+          </div>
+
+          {/* Expandable chip row on mobile */}
+          <div
+            id="mobile-filter-chips"
+            className={`overflow-hidden transition-all duration-300 ease-in-out ${filtersExpanded ? "max-h-40 opacity-100 pb-2" : "max-h-0 opacity-0"}`}
+          >
+            <div className="flex gap-2 overflow-x-auto scrollbar-none pb-1">
+              <CatChip active={cat === "All"} onClick={() => setCat("All")}>{t("all")}</CatChip>
+              {categories.map((c) => (
+                <CatChip key={c} active={cat === c} onClick={() => setCat(c)}>{c}</CatChip>
+              ))}
+            </div>
           </div>
         </div>
       </section>
