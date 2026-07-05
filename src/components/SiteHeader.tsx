@@ -37,6 +37,10 @@ export function SiteHeader({ search }: { search?: React.ReactNode } = {}) {
             <Link to="/compare" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
               {t("compare")}
             </Link>
+            <Link to="/favorites" className="text-foreground/80 hover:text-foreground transition-colors inline-flex items-center gap-1.5" activeProps={{ className: "text-foreground" }}>
+              <Heart className="w-4 h-4" />
+              Saved
+            </Link>
           </nav>
 
           <DropdownMenu>
