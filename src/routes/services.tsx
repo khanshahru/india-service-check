@@ -31,6 +31,7 @@ function ServicesPage() {
   const [sort, setSort] = useState<"relevance" | "name" | "fastest">("relevance");
   const [open, setOpen] = useState(false);
   const [highlighted, setHighlighted] = useState(0);
+  const [filtersExpanded, setFiltersExpanded] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { searches, push: pushSearch, clear: clearSearches } = useRecentSearches();
