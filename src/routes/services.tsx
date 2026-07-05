@@ -341,6 +341,9 @@ function ServicesPage() {
         {/* Mobile layout — compact single row, expand on tap */}
         <div className="md:hidden mx-auto max-w-6xl px-4 sm:px-6">
           <div className="flex items-center gap-2 py-2">
+            <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">
+              {filtered.length} result{filtered.length !== 1 ? "s" : ""}
+            </span>
             <button
               type="button"
               onClick={() => setFiltersExpanded((v) => !v)}
