@@ -111,9 +111,10 @@ export function MobileTabBar() {
       className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-background/95 backdrop-blur-xl border-t border-border print:hidden"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
-      <div className="grid grid-cols-3">
+      <div className="grid grid-cols-4">
         <TabItem to="/" icon={<Home className="w-5 h-5" />} label={t("brandName")} />
         <TabItem to="/services" icon={<LayoutGrid className="w-5 h-5" />} label={t("allServices")} />
+        <TabItem to="/favorites" icon={<Heart className="w-5 h-5" />} label="Saved" />
         <TabItem to="/compare" icon={<GitCompare className="w-5 h-5" />} label={t("compare")} />
       </div>
     </nav>
