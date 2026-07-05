@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Globe, Home, LayoutGrid, GitCompare, Search, X } from "lucide-react";
+import { Globe, Home, LayoutGrid, GitCompare, Heart, Search, X } from "lucide-react";
 import { useState } from "react";
 import { useI18n, langLabels, type Lang } from "@/lib/i18n";
 import {
@@ -36,6 +36,10 @@ export function SiteHeader({ search }: { search?: React.ReactNode } = {}) {
             </Link>
             <Link to="/compare" className="text-foreground/80 hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
               {t("compare")}
+            </Link>
+            <Link to="/favorites" className="text-foreground/80 hover:text-foreground transition-colors inline-flex items-center gap-1.5" activeProps={{ className: "text-foreground" }}>
+              <Heart className="w-4 h-4" />
+              Saved
             </Link>
           </nav>
 
@@ -107,9 +111,10 @@ export function MobileTabBar() {
       className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-background/95 backdrop-blur-xl border-t border-border print:hidden"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
-      <div className="grid grid-cols-3">
+      <div className="grid grid-cols-4">
         <TabItem to="/" icon={<Home className="w-5 h-5" />} label={t("brandName")} />
         <TabItem to="/services" icon={<LayoutGrid className="w-5 h-5" />} label={t("allServices")} />
+        <TabItem to="/favorites" icon={<Heart className="w-5 h-5" />} label="Saved" />
         <TabItem to="/compare" icon={<GitCompare className="w-5 h-5" />} label={t("compare")} />
       </div>
     </nav>
