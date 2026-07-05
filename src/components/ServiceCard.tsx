@@ -40,7 +40,23 @@ export function ServiceCard({ service }: { service: GovService }) {
               </button>
             </h3>
           </div>
-          <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:rotate-0 -rotate-12 transition-all shrink-0" aria-hidden="true" />
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggle(service.slug);
+            }}
+            aria-pressed={saved}
+            aria-label={saved ? `Remove ${name} from favorites` : `Save ${name} to favorites`}
+            className={`relative z-10 shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full border transition ${
+              saved
+                ? "border-saffron/40 bg-saffron/10 text-saffron"
+                : "border-border bg-card text-muted-foreground hover:text-saffron hover:border-saffron/40"
+            }`}
+          >
+            <Heart className={`w-4 h-4 ${saved ? "fill-current" : ""}`} />
+          </button>
         </div>
         <p className="mt-3 text-sm text-muted-foreground line-clamp-2">{localized(service.description, lang)}</p>
         <div className="mt-4 pt-4 border-t border-border/70 flex items-center justify-between gap-3 text-xs text-muted-foreground">
