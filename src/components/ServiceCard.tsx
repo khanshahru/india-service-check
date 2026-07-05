@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight, FileText, Clock } from "lucide-react";
+import { FileText, Clock } from "lucide-react";
 import { useState } from "react";
 import { ApplyLink } from "@/components/ApplyLink";
 import { ServiceDetailsDrawer } from "@/components/ServiceDetailsDrawer";
