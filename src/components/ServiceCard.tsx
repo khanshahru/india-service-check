@@ -11,6 +11,8 @@ import { localized, useI18n } from "@/lib/i18n";
 export function ServiceCard({ service }: { service: GovService }) {
   const { lang } = useI18n();
   const [open, setOpen] = useState(false);
+  const { isFavorite, toggle } = useFavorites();
+  const saved = isFavorite(service.slug);
   const name = localized(service.name, lang);
   return (
     <>
