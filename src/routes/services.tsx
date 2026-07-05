@@ -357,6 +357,16 @@ function ServicesPage() {
               <ChevronDown className={`w-3.5 h-3.5 shrink-0 transition-transform ${filtersExpanded ? "rotate-180" : ""}`} aria-hidden="true" />
             </button>
 
+            <button
+              type="button"
+              onClick={clearAll}
+              disabled={!hasFilters}
+              aria-label="Reset filters"
+              className="inline-flex items-center justify-center rounded-full border border-border bg-card w-9 h-9 text-muted-foreground hover:text-foreground hover:border-primary/40 disabled:opacity-40 disabled:cursor-not-allowed transition"
+            >
+              <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
+            </button>
+
             <Popover>
               <PopoverTrigger asChild>
                 <button
