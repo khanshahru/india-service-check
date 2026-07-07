@@ -4,6 +4,7 @@ import { useState } from "react";
 export function ShareButton({
   title,
   text,
+  url,
   className = "",
   compact = false,
 }: {
