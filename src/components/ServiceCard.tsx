@@ -1,9 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { FileText, Clock } from "lucide-react";
+import { FileText, Clock, Heart } from "lucide-react";
 import { useState } from "react";
 import { ApplyLink } from "@/components/ApplyLink";
 import { ServiceDetailsDrawer } from "@/components/ServiceDetailsDrawer";
-import { Heart } from "lucide-react";
+import { ShareButton } from "@/components/ShareButton";
 import { useFavorites } from "@/lib/user-prefs";
 import type { GovService } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
