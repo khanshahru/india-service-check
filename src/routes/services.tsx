@@ -41,6 +41,11 @@ function ServicesPage() {
     setQ(urlQ ?? "");
   }, [urlQ]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 600);
+    return () => clearTimeout(timer);
+  }, []);
+
   // Lightweight fuzzy-ish scorer: prioritise prefix and word-boundary matches.
   const score = (s: typeof services[number], needle: string) => {
     const hay = `${s.name.en} ${s.name.hi} ${s.authority} ${s.state ?? ""} ${s.slug}`.toLowerCase();
