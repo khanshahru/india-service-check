@@ -17,7 +17,7 @@ export function ShareButton({
   const [copied, setCopied] = useState(false);
 
   const onShare = async () => {
-    const url = typeof window !== "undefined" ? window.location.href : "";
+    const shareUrl = url ?? (typeof window !== "undefined" ? window.location.href : "");
     if (typeof navigator !== "undefined" && (navigator as any).share) {
       try {
         await (navigator as any).share({ title, text, url });
