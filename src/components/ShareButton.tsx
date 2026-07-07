@@ -10,6 +10,7 @@ export function ShareButton({
 }: {
   title: string;
   text?: string;
+  url?: string;
   className?: string;
   compact?: boolean;
 }) {
