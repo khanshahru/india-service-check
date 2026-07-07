@@ -526,19 +526,29 @@ function ServicesPage() {
             )}
 
             {filtered.length === 0 ? (
-              <div className="text-center py-14 sm:py-20">
+              <div
+                className="text-center py-14 sm:py-20"
+                role="region"
+                aria-labelledby="no-results-title"
+                aria-live="polite"
+              >
                 <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
                   <SearchX className="h-7 w-7 text-primary" aria-hidden="true" />
                 </div>
-                <h2 className="font-display text-lg font-semibold text-foreground mb-1">{t("noResultsTitle")}</h2>
+                <h2 id="no-results-title" className="font-display text-lg font-semibold text-foreground mb-1">{t("noResultsTitle")}</h2>
                 <p className="text-sm text-muted-foreground max-w-xs mx-auto mb-6">{t("noResults")}</p>
 
-                <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
+                <div
+                  className="flex flex-wrap items-center justify-center gap-2 mb-6"
+                  role="group"
+                  aria-label="Remove individual filters"
+                >
                   {q.trim() !== "" && (
                     <button
                       type="button"
                       onClick={() => { setQ(""); scrollToResults(); }}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:border-primary/40 transition"
+                      aria-label={`Clear search filter “${q.trim()}”`}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:border-primary/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 transition"
                     >
                       <X className="w-3 h-3" aria-hidden="true" />
                       {t("noResultsClearSearch")}: "{q.trim()}"
@@ -548,7 +558,8 @@ function ServicesPage() {
                     <button
                       type="button"
                       onClick={() => { setCat("All"); scrollToResults(); }}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:border-primary/40 transition"
+                      aria-label={`Clear category filter “${cat}”`}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:border-primary/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 transition"
                     >
                       <X className="w-3 h-3" aria-hidden="true" />
                       {t("noResultsClearCategory")}: {cat}
@@ -558,7 +569,8 @@ function ServicesPage() {
                     <button
                       type="button"
                       onClick={() => { setStateFilter("All"); scrollToResults(); }}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:border-primary/40 transition"
+                      aria-label={`Clear state filter “${stateFilter}”`}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:border-primary/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 transition"
                     >
                       <X className="w-3 h-3" aria-hidden="true" />
                       {t("noResultsClearState")}: {stateFilter}
@@ -570,7 +582,8 @@ function ServicesPage() {
                   <button
                     type="button"
                     onClick={() => { clearAll(); scrollToResults(); }}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-sm font-semibold hover:bg-primary/90 transition"
+                    aria-label="Reset all filters and show every service"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-sm font-semibold hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background transition"
                   >
                     <RotateCcw className="w-4 h-4" aria-hidden="true" />
                     {t("noResultsClear")}
@@ -579,7 +592,7 @@ function ServicesPage() {
               </div>
             ) : (
               <>
-                <p className="text-xs text-muted-foreground mb-4">
+                <p className="text-xs text-muted-foreground mb-4" role="status" aria-live="polite">
                   {filtered.length} {filtered.length === 1 ? "service" : "services"}
                 </p>
                 <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
