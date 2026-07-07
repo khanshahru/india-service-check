@@ -464,11 +464,15 @@ function ServicesPage() {
       <section ref={resultsRef} className="mx-auto max-w-6xl px-4 sm:px-6 py-6 sm:py-8 flex-1 w-full scroll-mt-32">
         {isLoading ? (
           <>
-            <div className="flex items-center gap-2 mb-4">
+            <div
+              className="flex items-center gap-2 mb-4"
+              role="status"
+              aria-live="polite"
+            >
               <Loader2 className="w-4 h-4 animate-spin text-primary" aria-hidden="true" />
               <span className="text-xs font-medium text-muted-foreground">Loading services…</span>
             </div>
-            <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-hidden="true">
               {Array.from({ length: 6 }).map((_, i) => (
                 <ServiceCardSkeleton key={i} />
               ))}
