@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Search, ArrowRight, X, History, SlidersHorizontal, MapPin, ChevronDown, RotateCcw, SearchX } from "lucide-react";
+import { Search, ArrowRight, X, History, SlidersHorizontal, MapPin, ChevronDown, RotateCcw, SearchX, Loader2 } from "lucide-react";
 import { useMemo, useRef, useState, useCallback, useEffect } from "react";
 import { services, categories, INDIAN_STATES, type ServiceCategory } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
