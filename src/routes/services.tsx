@@ -268,15 +268,13 @@ function ServicesPage() {
             {t("allServices")}
             <span className="text-xs font-normal text-muted-foreground">{filtered.length}</span>
           </h1>
-          <div
+          <ChipGroup
+            label="Filter by category"
+            value={cat}
+            onChange={setCat}
+            options={[{ value: "All", label: t("all") }, ...categories.map((c) => ({ value: c, label: c }))]}
             className="flex-1 flex gap-2 overflow-x-auto scrollbar-none min-w-0 snap-x snap-mandatory overscroll-x-contain scroll-pl-2 scroll-pr-2 touch-pan-x"
-            style={{ WebkitOverflowScrolling: "touch" }}
-          >
-            <CatChip active={cat === "All"} onClick={() => setCat("All")}>{t("all")}</CatChip>
-            {categories.map((c) => (
-              <CatChip key={c} active={cat === c} onClick={() => setCat(c)}>{c}</CatChip>
-            ))}
-          </div>
+          />
 
           <div className="flex items-center gap-2 shrink-0">
             <TooltipProvider delayDuration={200}>
@@ -451,15 +449,13 @@ function ServicesPage() {
             id="mobile-filter-chips"
             className={`overflow-hidden transition-all duration-300 ease-in-out ${filtersExpanded ? "max-h-40 opacity-100 pb-2" : "max-h-0 opacity-0"}`}
           >
-            <div
+            <ChipGroup
+              label="Filter by category"
+              value={cat}
+              onChange={setCat}
+              options={[{ value: "All", label: t("all") }, ...categories.map((c) => ({ value: c, label: c }))]}
               className="flex gap-2 overflow-x-auto scrollbar-none pb-1 snap-x snap-mandatory overscroll-x-contain scroll-pl-2 scroll-pr-2 touch-pan-x"
-              style={{ WebkitOverflowScrolling: "touch" }}
-            >
-              <CatChip active={cat === "All"} onClick={() => setCat("All")}>{t("all")}</CatChip>
-              {categories.map((c) => (
-                <CatChip key={c} active={cat === c} onClick={() => setCat(c)}>{c}</CatChip>
-              ))}
-            </div>
+            />
           </div>
         </div>
       </section>
@@ -468,11 +464,15 @@ function ServicesPage() {
       <section ref={resultsRef} className="mx-auto max-w-6xl px-4 sm:px-6 py-6 sm:py-8 flex-1 w-full scroll-mt-32">
         {isLoading ? (
           <>
-            <div className="flex items-center gap-2 mb-4">
+            <div
+              className="flex items-center gap-2 mb-4"
+              role="status"
+              aria-live="polite"
+            >
               <Loader2 className="w-4 h-4 animate-spin text-primary" aria-hidden="true" />
               <span className="text-xs font-medium text-muted-foreground">Loading services…</span>
             </div>
-            <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-hidden="true">
               {Array.from({ length: 6 }).map((_, i) => (
                 <ServiceCardSkeleton key={i} />
               ))}
@@ -526,19 +526,29 @@ function ServicesPage() {
             )}
 
             {filtered.length === 0 ? (
-              <div className="text-center py-14 sm:py-20">
+              <div
+                className="text-center py-14 sm:py-20"
+                role="region"
+                aria-labelledby="no-results-title"
+                aria-live="polite"
+              >
                 <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
                   <SearchX className="h-7 w-7 text-primary" aria-hidden="true" />
                 </div>
-                <h2 className="font-display text-lg font-semibold text-foreground mb-1">{t("noResultsTitle")}</h2>
+                <h2 id="no-results-title" className="font-display text-lg font-semibold text-foreground mb-1">{t("noResultsTitle")}</h2>
                 <p className="text-sm text-muted-foreground max-w-xs mx-auto mb-6">{t("noResults")}</p>
 
-                <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
+                <div
+                  className="flex flex-wrap items-center justify-center gap-2 mb-6"
+                  role="group"
+                  aria-label="Remove individual filters"
+                >
                   {q.trim() !== "" && (
                     <button
                       type="button"
                       onClick={() => { setQ(""); scrollToResults(); }}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:border-primary/40 transition"
+                      aria-label={`Clear search filter “${q.trim()}”`}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:border-primary/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 transition"
                     >
                       <X className="w-3 h-3" aria-hidden="true" />
                       {t("noResultsClearSearch")}: "{q.trim()}"
@@ -548,7 +558,8 @@ function ServicesPage() {
                     <button
                       type="button"
                       onClick={() => { setCat("All"); scrollToResults(); }}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:border-primary/40 transition"
+                      aria-label={`Clear category filter “${cat}”`}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:border-primary/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 transition"
                     >
                       <X className="w-3 h-3" aria-hidden="true" />
                       {t("noResultsClearCategory")}: {cat}
@@ -558,7 +569,8 @@ function ServicesPage() {
                     <button
                       type="button"
                       onClick={() => { setStateFilter("All"); scrollToResults(); }}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:border-primary/40 transition"
+                      aria-label={`Clear state filter “${stateFilter}”`}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:border-primary/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 transition"
                     >
                       <X className="w-3 h-3" aria-hidden="true" />
                       {t("noResultsClearState")}: {stateFilter}
@@ -570,7 +582,8 @@ function ServicesPage() {
                   <button
                     type="button"
                     onClick={() => { clearAll(); scrollToResults(); }}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-sm font-semibold hover:bg-primary/90 transition"
+                    aria-label="Reset all filters and show every service"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-sm font-semibold hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background transition"
                   >
                     <RotateCcw className="w-4 h-4" aria-hidden="true" />
                     {t("noResultsClear")}
@@ -579,7 +592,7 @@ function ServicesPage() {
               </div>
             ) : (
               <>
-                <p className="text-xs text-muted-foreground mb-4">
+                <p className="text-xs text-muted-foreground mb-4" role="status" aria-live="polite">
                   {filtered.length} {filtered.length === 1 ? "service" : "services"}
                 </p>
                 <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -599,25 +612,74 @@ function ServicesPage() {
   );
 }
 
-function CatChip({
-  active,
-  onClick,
-  children,
+function ChipGroup<T extends string>({
+  label,
+  value,
+  onChange,
+  options,
+  className,
 }: {
-  active: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
+  label: string;
+  value: T;
+  onChange: (v: T) => void;
+  options: { value: T; label: string }[];
+  className?: string;
 }) {
+  const refs = useRef<Array<HTMLButtonElement | null>>([]);
+  const activeIndex = Math.max(0, options.findIndex((o) => o.value === value));
+
+  const focusAt = (i: number) => {
+    const el = refs.current[i];
+    if (el) {
+      el.focus();
+      el.scrollIntoView({ block: "nearest", inline: "nearest" });
+    }
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, i: number) => {
+    const last = options.length - 1;
+    let next = -1;
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") next = i === last ? 0 : i + 1;
+    else if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = i === 0 ? last : i - 1;
+    else if (e.key === "Home") next = 0;
+    else if (e.key === "End") next = last;
+    if (next !== -1) {
+      e.preventDefault();
+      onChange(options[next].value);
+      focusAt(next);
+    }
+  };
+
   return (
-    <button
-      onClick={onClick}
-      className={`shrink-0 snap-start whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium border transition-all min-h-9 ${
-        active
-          ? "bg-primary text-primary-foreground border-primary shadow-card"
-          : "bg-card text-foreground/80 border-border hover:border-primary/40 hover:text-foreground"
-      }`}
+    <div
+      role="radiogroup"
+      aria-label={label}
+      className={className}
+      style={{ WebkitOverflowScrolling: "touch" }}
     >
-      {children}
-    </button>
+      {options.map((o, i) => {
+        const active = o.value === value;
+        return (
+          <button
+            key={o.value}
+            ref={(el) => { refs.current[i] = el; }}
+            type="button"
+            role="radio"
+            aria-checked={active}
+            tabIndex={i === activeIndex ? 0 : -1}
+            onClick={() => onChange(o.value)}
+            onKeyDown={(e) => onKeyDown(e, i)}
+            className={`shrink-0 snap-start whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium border transition-all min-h-9 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-1 focus-visible:ring-offset-background ${
+              active
+                ? "bg-primary text-primary-foreground border-primary shadow-card"
+                : "bg-card text-foreground/80 border-border hover:border-primary/40 hover:text-foreground"
+            }`}
+          >
+            {o.label}
+          </button>
+        );
+      })}
+    </div>
   );
 }
+
