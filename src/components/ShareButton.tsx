@@ -20,7 +20,7 @@ export function ShareButton({
     const shareUrl = url ?? (typeof window !== "undefined" ? window.location.href : "");
     if (typeof navigator !== "undefined" && (navigator as any).share) {
       try {
-        await (navigator as any).share({ title, text, url });
+        await (navigator as any).share({ title, text, url: shareUrl });
         return;
       } catch {
         /* user dismissed */
