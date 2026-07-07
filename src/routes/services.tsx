@@ -449,15 +449,13 @@ function ServicesPage() {
             id="mobile-filter-chips"
             className={`overflow-hidden transition-all duration-300 ease-in-out ${filtersExpanded ? "max-h-40 opacity-100 pb-2" : "max-h-0 opacity-0"}`}
           >
-            <div
+            <ChipGroup
+              label="Filter by category"
+              value={cat}
+              onChange={setCat}
+              options={[{ value: "All", label: t("all") }, ...categories.map((c) => ({ value: c, label: c }))]}
               className="flex gap-2 overflow-x-auto scrollbar-none pb-1 snap-x snap-mandatory overscroll-x-contain scroll-pl-2 scroll-pr-2 touch-pan-x"
-              style={{ WebkitOverflowScrolling: "touch" }}
-            >
-              <CatChip active={cat === "All"} onClick={() => setCat("All")}>{t("all")}</CatChip>
-              {categories.map((c) => (
-                <CatChip key={c} active={cat === c} onClick={() => setCat(c)}>{c}</CatChip>
-              ))}
-            </div>
+            />
           </div>
         </div>
       </section>
