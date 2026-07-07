@@ -7,6 +7,7 @@ import { ShareButton } from "@/components/ShareButton";
 import { useFavorites } from "@/lib/user-prefs";
 import type { GovService } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function ServiceCard({ service }: { service: GovService }) {
   const { lang } = useI18n();
@@ -97,5 +98,36 @@ export function ServiceCardLinkFallback({ service }: { service: GovService }) {
     <Link to="/services/$slug" params={{ slug: service.slug }}>
       {localized(service.name, lang)}
     </Link>
+  );
+}
+
+export function ServiceCardSkeleton() {
+  return (
+    <div className="flex flex-col rounded-2xl border border-border bg-card p-4 sm:p-5 shadow-card">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0 flex-1 space-y-3">
+          <div className="flex items-center gap-1.5">
+            <Skeleton className="h-4 w-16 rounded-full" />
+            <Skeleton className="h-4 w-14 rounded-full" />
+          </div>
+          <Skeleton className="h-6 w-3/4 rounded-md" />
+        </div>
+        <div className="flex items-center gap-1.5 shrink-0">
+          <Skeleton className="w-9 h-9 rounded-full" />
+          <Skeleton className="w-9 h-9 rounded-full" />
+        </div>
+      </div>
+      <div className="mt-3 space-y-1.5">
+        <Skeleton className="h-4 w-full rounded-md" />
+        <Skeleton className="h-4 w-5/6 rounded-md" />
+      </div>
+      <div className="mt-4 pt-4 border-t border-border/70 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-4">
+          <Skeleton className="h-4 w-20 rounded-md" />
+          <Skeleton className="h-4 w-20 rounded-md" />
+        </div>
+        <Skeleton className="h-4 w-12 rounded-md" />
+      </div>
+    </div>
   );
 }
