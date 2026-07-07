@@ -3,7 +3,7 @@ import { Search, ArrowRight, X, History, SlidersHorizontal, MapPin, ChevronDown,
 import { useMemo, useRef, useState, useCallback, useEffect } from "react";
 import { services, categories, INDIAN_STATES, type ServiceCategory } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
-import { ServiceCard } from "@/components/ServiceCard";
+import { ServiceCard, ServiceCardSkeleton } from "@/components/ServiceCard";
 import { useRecentSearches } from "@/lib/user-prefs";
 import { SiteHeader, SiteFooter, MobileTabBar } from "@/components/SiteHeader";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
