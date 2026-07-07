@@ -268,15 +268,13 @@ function ServicesPage() {
             {t("allServices")}
             <span className="text-xs font-normal text-muted-foreground">{filtered.length}</span>
           </h1>
-          <div
+          <ChipGroup
+            label="Filter by category"
+            value={cat}
+            onChange={setCat}
+            options={[{ value: "All", label: t("all") }, ...categories.map((c) => ({ value: c, label: c }))]}
             className="flex-1 flex gap-2 overflow-x-auto scrollbar-none min-w-0 snap-x snap-mandatory overscroll-x-contain scroll-pl-2 scroll-pr-2 touch-pan-x"
-            style={{ WebkitOverflowScrolling: "touch" }}
-          >
-            <CatChip active={cat === "All"} onClick={() => setCat("All")}>{t("all")}</CatChip>
-            {categories.map((c) => (
-              <CatChip key={c} active={cat === c} onClick={() => setCat(c)}>{c}</CatChip>
-            ))}
-          </div>
+          />
 
           <div className="flex items-center gap-2 shrink-0">
             <TooltipProvider delayDuration={200}>
