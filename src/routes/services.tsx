@@ -595,25 +595,74 @@ function ServicesPage() {
   );
 }
 
-function CatChip({
-  active,
-  onClick,
-  children,
+function ChipGroup<T extends string>({
+  label,
+  value,
+  onChange,
+  options,
+  className,
 }: {
-  active: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
+  label: string;
+  value: T;
+  onChange: (v: T) => void;
+  options: { value: T; label: string }[];
+  className?: string;
 }) {
+  const refs = useRef<Array<HTMLButtonElement | null>>([]);
+  const activeIndex = Math.max(0, options.findIndex((o) => o.value === value));
+
+  const focusAt = (i: number) => {
+    const el = refs.current[i];
+    if (el) {
+      el.focus();
+      el.scrollIntoView({ block: "nearest", inline: "nearest" });
+    }
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, i: number) => {
+    const last = options.length - 1;
+    let next = -1;
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") next = i === last ? 0 : i + 1;
+    else if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = i === 0 ? last : i - 1;
+    else if (e.key === "Home") next = 0;
+    else if (e.key === "End") next = last;
+    if (next !== -1) {
+      e.preventDefault();
+      onChange(options[next].value);
+      focusAt(next);
+    }
+  };
+
   return (
-    <button
-      onClick={onClick}
-      className={`shrink-0 snap-start whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium border transition-all min-h-9 ${
-        active
-          ? "bg-primary text-primary-foreground border-primary shadow-card"
-          : "bg-card text-foreground/80 border-border hover:border-primary/40 hover:text-foreground"
-      }`}
+    <div
+      role="radiogroup"
+      aria-label={label}
+      className={className}
+      style={{ WebkitOverflowScrolling: "touch" }}
     >
-      {children}
-    </button>
+      {options.map((o, i) => {
+        const active = o.value === value;
+        return (
+          <button
+            key={o.value}
+            ref={(el) => { refs.current[i] = el; }}
+            type="button"
+            role="radio"
+            aria-checked={active}
+            tabIndex={i === activeIndex ? 0 : -1}
+            onClick={() => onChange(o.value)}
+            onKeyDown={(e) => onKeyDown(e, i)}
+            className={`shrink-0 snap-start whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium border transition-all min-h-9 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-1 focus-visible:ring-offset-background ${
+              active
+                ? "bg-primary text-primary-foreground border-primary shadow-card"
+                : "bg-card text-foreground/80 border-border hover:border-primary/40 hover:text-foreground"
+            }`}
+          >
+            {o.label}
+          </button>
+        );
+      })}
+    </div>
   );
 }
+
