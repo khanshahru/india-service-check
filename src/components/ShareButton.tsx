@@ -4,28 +4,30 @@ import { useState } from "react";
 export function ShareButton({
   title,
   text,
+  url,
   className = "",
   compact = false,
 }: {
   title: string;
   text?: string;
+  url?: string;
   className?: string;
   compact?: boolean;
 }) {
   const [copied, setCopied] = useState(false);
 
   const onShare = async () => {
-    const url = typeof window !== "undefined" ? window.location.href : "";
+    const shareUrl = url ?? (typeof window !== "undefined" ? window.location.href : "");
     if (typeof navigator !== "undefined" && (navigator as any).share) {
       try {
-        await (navigator as any).share({ title, text, url });
+        await (navigator as any).share({ title, text, url: shareUrl });
         return;
       } catch {
         /* user dismissed */
       }
     }
     try {
-      await navigator.clipboard.writeText(url);
+      await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     } catch {

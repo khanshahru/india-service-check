@@ -1,9 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { FileText, Clock } from "lucide-react";
+import { FileText, Clock, Heart } from "lucide-react";
 import { useState } from "react";
 import { ApplyLink } from "@/components/ApplyLink";
 import { ServiceDetailsDrawer } from "@/components/ServiceDetailsDrawer";
-import { Heart } from "lucide-react";
+import { ShareButton } from "@/components/ShareButton";
 import { useFavorites } from "@/lib/user-prefs";
 import type { GovService } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
@@ -40,23 +40,31 @@ export function ServiceCard({ service }: { service: GovService }) {
               </button>
             </h3>
           </div>
-          <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              toggle(service.slug);
-            }}
-            aria-pressed={saved}
-            aria-label={saved ? `Remove ${name} from favorites` : `Save ${name} to favorites`}
-            className={`relative z-10 shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-full border transition ${
-              saved
-                ? "border-saffron/40 bg-saffron/10 text-saffron"
-                : "border-border bg-card text-muted-foreground hover:text-saffron hover:border-saffron/40"
-            }`}
-          >
-            <Heart className={`w-4 h-4 ${saved ? "fill-current" : ""}`} />
-          </button>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <ShareButton
+              title={name}
+              url={typeof window !== "undefined" ? `${window.location.origin}/services/${service.slug}` : `/services/${service.slug}`}
+              compact
+              className="relative z-10 w-9 h-9 rounded-full border bg-card hover:border-primary/40"
+            />
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggle(service.slug);
+              }}
+              aria-pressed={saved}
+              aria-label={saved ? `Remove ${name} from favorites` : `Save ${name} to favorites`}
+              className={`relative z-10 inline-flex items-center justify-center w-9 h-9 rounded-full border transition ${
+                saved
+                  ? "border-saffron/40 bg-saffron/10 text-saffron"
+                  : "border-border bg-card text-muted-foreground hover:text-saffron hover:border-saffron/40"
+              }`}
+            >
+              <Heart className={`w-4 h-4 ${saved ? "fill-current" : ""}`} />
+            </button>
+          </div>
         </div>
         <p className="mt-3 text-sm text-muted-foreground line-clamp-2">{localized(service.description, lang)}</p>
         <div className="mt-4 pt-4 border-t border-border/70 flex items-center justify-between gap-3 text-xs text-muted-foreground">
