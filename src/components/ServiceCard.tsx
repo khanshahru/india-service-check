@@ -7,6 +7,7 @@ import { ShareButton } from "@/components/ShareButton";
 import { useFavorites } from "@/lib/user-prefs";
 import type { GovService } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function ServiceCard({ service }: { service: GovService }) {
   const { lang } = useI18n();
