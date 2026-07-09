@@ -198,6 +198,7 @@ function Home() {
 
       <SiteFooter />
       <MobileTabBar />
+      <ServiceDrawerHost />
     </div>
   );
 }
