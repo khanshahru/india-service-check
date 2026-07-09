@@ -3,6 +3,7 @@ import { Heart, ArrowRight } from "lucide-react";
 import { useMemo } from "react";
 import { services } from "@/lib/services-data";
 import { ServiceCard } from "@/components/ServiceCard";
+import { ServiceDrawerHost } from "@/components/ServiceDrawerHost";
 import { SiteHeader, SiteFooter, MobileTabBar } from "@/components/SiteHeader";
 import { useFavorites } from "@/lib/user-prefs";
 import { useI18n } from "@/lib/i18n";
