@@ -610,6 +610,7 @@ function ServicesPage() {
 
       <SiteFooter />
       <MobileTabBar />
+      <ServiceDrawerHost />
     </div>
   );
 }
