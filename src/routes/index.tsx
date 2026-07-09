@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { services, categories, type ServiceCategory } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
 import { ServiceCard } from "@/components/ServiceCard";
+import { ServiceDrawerHost } from "@/components/ServiceDrawerHost";
 import { SiteHeader, SiteFooter, MobileTabBar } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { useFavorites, useRecent } from "@/lib/user-prefs";
