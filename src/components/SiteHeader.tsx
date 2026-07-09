@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Globe, Home, LayoutGrid, GitCompare, Heart, Search, X } from "lucide-react";
+import { Globe, Home, LayoutGrid, GitCompare, Heart, Search, X, Mail, ExternalLink, ShieldCheck, Info } from "lucide-react";
 import { useState } from "react";
 import { useI18n, langLabels, type Lang } from "@/lib/i18n";
 import {
@@ -137,16 +137,123 @@ function TabItem({ to, icon, label }: { to: string; icon: React.ReactNode; label
 
 export function SiteFooter() {
   const { t } = useI18n();
+  const year = new Date().getFullYear();
   return (
-    <footer className="mt-16 sm:mt-24 border-t border-border/60 pb-20 md:pb-0 print:hidden">
+    <footer className="mt-16 sm:mt-24 border-t border-border/60 pb-20 md:pb-0 bg-secondary/30 print:hidden">
       <div className="h-1 bg-tricolor" aria-hidden />
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-10 grid gap-4 md:gap-6 md:grid-cols-2 items-start">
-        <div>
-          <div className="font-display text-xl font-semibold">{t("brandName")}</div>
-          <p className="mt-2 text-sm text-muted-foreground max-w-md">{t("footerNote")}</p>
+
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-10 sm:py-14 grid gap-8 sm:gap-10 md:grid-cols-4">
+        {/* Brand */}
+        <div className="md:col-span-1">
+          <Link to="/" className="inline-flex items-center gap-2.5">
+            <div className="relative w-9 h-9 rounded-full bg-primary flex items-center justify-center shadow-card">
+              <div className="w-5 h-5 rounded-full border-2 border-saffron ashoka-chakra" />
+            </div>
+            <span className="font-display text-lg font-semibold tracking-tight">{t("brandName")}</span>
+          </Link>
+          <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+            A citizen-friendly guide to Indian government services — documents,
+            eligibility, fees and processing times, in plain language.
+          </p>
+          <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-[11px] font-medium text-muted-foreground">
+            <ShieldCheck className="w-3.5 h-3.5 text-india-green" aria-hidden="true" />
+            Independent · Non-official
+          </div>
         </div>
-        <div className="md:text-right text-xs sm:text-sm text-muted-foreground">
-          © {new Date().getFullYear()} {t("brandName")} · Made with care in India
+
+        {/* Explore */}
+        <div>
+          <h3 className="text-xs uppercase tracking-[0.16em] font-semibold text-foreground/80">Explore</h3>
+          <ul className="mt-4 space-y-2.5 text-sm">
+            <li><Link to="/" className="text-muted-foreground hover:text-foreground transition-colors">Home</Link></li>
+            <li><Link to="/services" className="text-muted-foreground hover:text-foreground transition-colors">{t("allServices")}</Link></li>
+            <li><Link to="/favorites" className="text-muted-foreground hover:text-foreground transition-colors">Saved services</Link></li>
+            <li><Link to="/compare" className="text-muted-foreground hover:text-foreground transition-colors">{t("compare")}</Link></li>
+          </ul>
+        </div>
+
+        {/* Official portals */}
+        <div>
+          <h3 className="text-xs uppercase tracking-[0.16em] font-semibold text-foreground/80">Official portals</h3>
+          <ul className="mt-4 space-y-2.5 text-sm">
+            {[
+              { label: "India.gov.in", href: "https://www.india.gov.in" },
+              { label: "DigiLocker", href: "https://www.digilocker.gov.in" },
+              { label: "UMANG", href: "https://web.umang.gov.in" },
+              { label: "MyGov", href: "https://www.mygov.in" },
+              { label: "Aadhaar (UIDAI)", href: "https://uidai.gov.in" },
+            ].map((l) => (
+              <li key={l.href}>
+                <a
+                  href={l.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {l.label}
+                  <ExternalLink className="w-3 h-3 opacity-60" aria-hidden="true" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Contact & legal */}
+        <div>
+          <h3 className="text-xs uppercase tracking-[0.16em] font-semibold text-foreground/80">Support</h3>
+          <ul className="mt-4 space-y-2.5 text-sm">
+            <li>
+              <a
+                href="mailto:hello@docsetu.app"
+                className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <Mail className="w-3.5 h-3.5" aria-hidden="true" />
+                hello@docsetu.app
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://pgportal.gov.in"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Grievance portal
+                <ExternalLink className="w-3 h-3 opacity-60" aria-hidden="true" />
+              </a>
+            </li>
+            <li>
+              <a
+                href="tel:112"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Emergency helpline · 112
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Disclaimer */}
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="rounded-2xl border border-border bg-card/60 p-4 sm:p-5 flex gap-3 items-start">
+          <Info className="w-4 h-4 mt-0.5 text-saffron shrink-0" aria-hidden="true" />
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            {t("brandName")} is an independent information resource and is not affiliated with,
+            endorsed by, or a substitute for the Government of India or any of its
+            departments. Always verify document requirements, fees and procedures on the
+            respective official portal before applying.
+          </p>
+        </div>
+      </div>
+
+      {/* Bottom bar */}
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 mt-6 pt-6 pb-8 border-t border-border/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-muted-foreground">
+        <div>© {year} {t("brandName")} · Made with care in India 🇮🇳</div>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+          <span>Version 1.0</span>
+          <span aria-hidden="true">·</span>
+          <span>Last updated {new Date().toLocaleDateString("en-IN", { month: "short", year: "numeric" })}</span>
         </div>
       </div>
     </footer>
