@@ -4,6 +4,7 @@ import { useMemo, useRef, useState, useCallback, useEffect } from "react";
 import { services, categories, INDIAN_STATES, type ServiceCategory } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
 import { ServiceCard, ServiceCardSkeleton } from "@/components/ServiceCard";
+import { ServiceDrawerHost } from "@/components/ServiceDrawerHost";
 import { useRecentSearches } from "@/lib/user-prefs";
 import { SiteHeader, SiteFooter, MobileTabBar } from "@/components/SiteHeader";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
@@ -13,6 +14,7 @@ export const Route = createFileRoute("/services")({
   component: ServicesPage,
   validateSearch: (search: Record<string, unknown>) => ({
     q: typeof search.q === "string" ? search.q : undefined,
+    service: typeof search.service === "string" ? search.service : undefined,
   }),
   head: () => ({
     meta: [
@@ -608,6 +610,7 @@ function ServicesPage() {
 
       <SiteFooter />
       <MobileTabBar />
+      <ServiceDrawerHost />
     </div>
   );
 }
