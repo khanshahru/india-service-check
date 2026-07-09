@@ -74,6 +74,7 @@ function FavoritesPage() {
 
       <SiteFooter />
       <MobileTabBar />
+      <ServiceDrawerHost />
     </div>
   );
 }
