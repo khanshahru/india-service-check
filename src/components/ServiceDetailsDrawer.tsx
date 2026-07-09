@@ -1,9 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, BadgeCheck, Building2, Clock, Download, IndianRupee, ListChecks, Printer } from "lucide-react";
+import { ArrowRight, BadgeCheck, Bookmark, Building2, Clock, Download, IndianRupee, ListChecks, Printer } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { ApplyLink } from "@/components/ApplyLink";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { ShareButton } from "@/components/ShareButton";
+import { useFavorites } from "@/lib/user-prefs";
 import type { GovService } from "@/lib/services-data";
 import { localized, useI18n } from "@/lib/i18n";
 
@@ -17,6 +18,8 @@ export function ServiceDetailsDrawer({
   onOpenChange: (v: boolean) => void;
 }) {
   const { t, lang } = useI18n();
+  const { isFavorite, toggle } = useFavorites();
+  const saved = isFavorite(service.slug);
   const name = localized(service.name, lang);
   const elig = service.eligibility[lang === "hi" ? "hi" : "en"] ?? service.eligibility.en;
 
@@ -71,6 +74,20 @@ export function ServiceDetailsDrawer({
           <SheetDescription className="text-sm text-muted-foreground">
             {localized(service.description, lang)}
           </SheetDescription>
+          <button
+            type="button"
+            onClick={() => toggle(service.slug)}
+            aria-pressed={saved}
+            aria-label={saved ? `Remove ${name} from saved services` : `Save ${name} for quick access`}
+            className={`mt-2 inline-flex items-center gap-2 self-start rounded-xl border px-3.5 py-2 text-sm font-semibold transition ${
+              saved
+                ? "border-saffron/40 bg-saffron/10 text-saffron"
+                : "border-border bg-card text-foreground hover:border-primary/40"
+            }`}
+          >
+            <Bookmark className={`w-4 h-4 ${saved ? "fill-current" : ""}`} />
+            {saved ? "Saved" : "Save for later"}
+          </button>
         </SheetHeader>
 
         <div className="flex-1 overflow-y-auto px-5 sm:px-6 py-5 space-y-6">
