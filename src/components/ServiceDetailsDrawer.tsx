@@ -18,6 +18,8 @@ export function ServiceDetailsDrawer({
   onOpenChange: (v: boolean) => void;
 }) {
   const { t, lang } = useI18n();
+  const { isFavorite, toggle } = useFavorites();
+  const saved = isFavorite(service.slug);
   const name = localized(service.name, lang);
   const elig = service.eligibility[lang === "hi" ? "hi" : "en"] ?? service.eligibility.en;
 
