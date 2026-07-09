@@ -13,6 +13,7 @@ export const Route = createFileRoute("/services")({
   component: ServicesPage,
   validateSearch: (search: Record<string, unknown>) => ({
     q: typeof search.q === "string" ? search.q : undefined,
+    service: typeof search.service === "string" ? search.service : undefined,
   }),
   head: () => ({
     meta: [
