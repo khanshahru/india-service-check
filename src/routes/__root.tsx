@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { I18nProvider } from "@/lib/i18n";
+import { CookieConsent } from "@/components/CookieConsent";
 import {
   Outlet,
   Link,
