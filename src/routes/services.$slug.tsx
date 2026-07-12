@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, BadgeCheck, Building2, Clock, Download, IndianRupee, ListChecks, Printer, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, BadgeCheck, Building2, Clock, Download, IndianRupee, ListChecks, MapPin, Printer, Sparkles, FileText } from "lucide-react";
 import { ApplyLink } from "@/components/ApplyLink";
 import { useEffect } from "react";
 import { services, type GovService } from "@/lib/services-data";
@@ -312,6 +312,84 @@ function ServiceDetail() {
         <ShareButton title={service.name.en} text={service.description.en} compact />
       </div>
 
+
+
+      {/* Summary foot bar */}
+      <section aria-labelledby="service-summary-heading" className="border-t border-border bg-card/40 print:border-t-2">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 py-8 sm:py-10">
+          <h2 id="service-summary-heading" className="font-display text-lg sm:text-xl font-semibold">
+            Quick summary
+          </h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            At-a-glance details for {localized(service.name, lang)} before you begin.
+          </p>
+          <div className="mt-5 grid gap-3 sm:gap-4 sm:grid-cols-3">
+            <div className="rounded-2xl border border-border bg-card p-4 sm:p-5">
+              <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] font-semibold text-india-green">
+                <MapPin className="w-3.5 h-3.5" /> Availability
+              </div>
+              <div className="mt-2 font-medium text-sm">{service.authority}</div>
+              <ul className="mt-2 space-y-1 text-xs text-muted-foreground">
+                <li>Coverage: {service.state ? `${service.state} (state)` : "All India"}</li>
+                <li>Processing: {service.processingTime}</li>
+                <li>Fee: {service.fee}</li>
+                <li>Apply: {service.applyUrl ? "Online + in-person" : "In-person only"}</li>
+              </ul>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-card p-4 sm:p-5">
+              <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] font-semibold text-saffron">
+                <BadgeCheck className="w-3.5 h-3.5" /> Eligibility notes
+              </div>
+              <ul className="mt-2 space-y-1.5 text-xs text-foreground/85">
+                {elig.slice(0, 3).map((e, i) => (
+                  <li key={i} className="flex gap-2">
+                    <span className="mt-1 w-1 h-1 rounded-full bg-saffron shrink-0" />
+                    <span className="line-clamp-2">{e}</span>
+                  </li>
+                ))}
+                {elig.length > 3 && (
+                  <li className="text-muted-foreground">+ {elig.length - 3} more criteria above</li>
+                )}
+              </ul>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-card p-4 sm:p-5">
+              <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] font-semibold text-primary">
+                <FileText className="w-3.5 h-3.5" /> Data & documents needed
+              </div>
+              <div className="mt-2 text-xs text-muted-foreground">
+                <span className="font-semibold text-foreground">
+                  {service.documents.filter((d) => d.required).length} required
+                </span>
+                {service.documents.some((d) => !d.required) && (
+                  <> · {service.documents.filter((d) => !d.required).length} optional</>
+                )}
+              </div>
+              <ul className="mt-2 space-y-1 text-xs text-foreground/85">
+                {service.documents
+                  .filter((d) => d.required)
+                  .slice(0, 4)
+                  .map((d, i) => (
+                    <li key={i} className="flex gap-2">
+                      <span className="mt-1 w-1 h-1 rounded-full bg-india-green shrink-0" />
+                      <span className="line-clamp-1">{localized(d.title, lang)}</span>
+                    </li>
+                  ))}
+                {service.documents.filter((d) => d.required).length > 4 && (
+                  <li className="text-muted-foreground">
+                    + {service.documents.filter((d) => d.required).length - 4} more in checklist
+                  </li>
+                )}
+              </ul>
+            </div>
+          </div>
+
+          <p className="mt-5 text-[11px] text-muted-foreground leading-relaxed">
+            {t("footerNote")}
+          </p>
+        </div>
+      </section>
 
       <SiteFooter />
       <MobileTabBar />
