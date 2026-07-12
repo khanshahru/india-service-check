@@ -15,7 +15,7 @@ export const langLabels: Record<Lang, string> = {
 type Dict = Record<string, Partial<Record<Lang, string>>>;
 
 const dict: Dict = {
-  brandName: { en: "DocSetu", hi: "डॉकसेतु", ta: "DocSetu", bn: "DocSetu", te: "DocSetu", mr: "डॉकसेतु", gu: "ડૉકસેતુ" },
+  brandName: { en: "Sevanadu", hi: "सेवानादु", ta: "Sevanadu", bn: "Sevanadu", te: "Sevanadu", mr: "सेवानादु", gu: "સેવાનાદુ" },
   tagline: {
     en: "Every government document, demystified.",
     hi: "हर सरकारी दस्तावेज़, आसान भाषा में।",
