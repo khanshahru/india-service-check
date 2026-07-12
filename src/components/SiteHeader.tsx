@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Globe, Home, LayoutGrid, GitCompare, Heart, Search, X, Mail, ExternalLink, ShieldCheck, Info } from "lucide-react";
+import { openCookieSettings } from "@/components/CookieConsent";
 import { useState } from "react";
 import { useI18n, langLabels, type Lang } from "@/lib/i18n";
 import {
