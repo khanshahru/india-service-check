@@ -271,12 +271,27 @@ export function SiteFooter() {
       </div>
 
       {/* Bottom bar */}
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 mt-6 pt-6 pb-8 border-t border-border/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-muted-foreground">
-        <div>© {year} {t("brandName")} · Made with care in India 🇮🇳</div>
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-          <span>Version 1.0</span>
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 mt-6 pt-6 pb-8 border-t border-border/60 flex flex-col gap-3 text-xs text-muted-foreground">
+        <nav aria-label="Legal" className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
+          <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
           <span aria-hidden="true">·</span>
-          <span>Last updated {new Date().toLocaleDateString("en-IN", { month: "short", year: "numeric" })}</span>
+          <Link to="/terms" className="hover:text-foreground transition-colors">Terms</Link>
+          <span aria-hidden="true">·</span>
+          <Link to="/cookies" className="hover:text-foreground transition-colors">Cookies</Link>
+          <span aria-hidden="true">·</span>
+          <Link to="/disclaimer" className="hover:text-foreground transition-colors">Disclaimer</Link>
+          <span aria-hidden="true">·</span>
+          <Link to="/about" className="hover:text-foreground transition-colors">About</Link>
+          <span aria-hidden="true">·</span>
+          <Link to="/contact" className="hover:text-foreground transition-colors">Contact</Link>
+        </nav>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+          <div>© {year} {t("brandName")} · Made with care in India 🇮🇳</div>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <span>Version 1.0</span>
+            <span aria-hidden="true">·</span>
+            <span>Last updated {new Date().toLocaleDateString("en-IN", { month: "short", year: "numeric" })}</span>
+          </div>
         </div>
       </div>
     </footer>
