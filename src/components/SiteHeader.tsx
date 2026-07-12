@@ -232,6 +232,28 @@ export function SiteFooter() {
             </li>
           </ul>
         </div>
+
+        {/* Legal */}
+        <div>
+          <h3 className="text-xs uppercase tracking-[0.16em] font-semibold text-foreground/80">Legal</h3>
+          <ul className="mt-4 space-y-2.5 text-sm">
+            <li><Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">About</Link></li>
+            <li><Link to="/contact" className="text-muted-foreground hover:text-foreground transition-colors">Contact</Link></li>
+            <li><Link to="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">Privacy policy</Link></li>
+            <li><Link to="/terms" className="text-muted-foreground hover:text-foreground transition-colors">Terms of service</Link></li>
+            <li><Link to="/cookies" className="text-muted-foreground hover:text-foreground transition-colors">Cookie policy</Link></li>
+            <li><Link to="/disclaimer" className="text-muted-foreground hover:text-foreground transition-colors">Disclaimer</Link></li>
+            <li>
+              <button
+                type="button"
+                onClick={openCookieSettings}
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Cookie settings
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
 
       {/* Disclaimer */}
