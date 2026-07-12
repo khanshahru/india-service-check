@@ -123,6 +123,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
         <Outlet />
+        <CookieConsent />
       </I18nProvider>
     </QueryClientProvider>
   );
