@@ -73,14 +73,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "DocSetu — Government Document Checklists for India" },
+      { title: "Sevanadu — Government Document Checklists for India" },
       {
         name: "description",
         content:
           "Find the exact documents, fees and processing time for every Indian government service — Aadhaar, PAN, Passport, Driving Licence, Ration Card and more. In your language.",
       },
-      { name: "author", content: "DocSetu" },
-      { property: "og:title", content: "DocSetu — Government Document Checklists for India" },
+      { name: "author", content: "Sevanadu" },
+      { property: "og:title", content: "Sevanadu — Government Document Checklists for India" },
       { property: "og:description", content: "Every Indian government document, demystified. Free checklists in English, Hindi, Tamil, Bengali and Telugu." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

@@ -18,7 +18,7 @@ export const Route = createFileRoute("/services")({
   }),
   head: () => ({
     meta: [
-      { title: "All Government Services — DocSetu" },
+      { title: "All Government Services — Sevanadu" },
       { name: "description", content: "Browse 100+ Indian government services with the documents you need to apply." },
     ],
   }),

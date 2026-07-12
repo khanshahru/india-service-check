@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 
-const FAV_KEY = "docsetu:favorites";
-const RECENT_KEY = "docsetu:recent";
-const SEARCH_KEY = "docsetu:recent-searches";
+const FAV_KEY = "sevanadu:favorites";
+const RECENT_KEY = "sevanadu:recent";
+const SEARCH_KEY = "sevanadu:recent-searches";
 const MAX_RECENT = 6;
 const MAX_SEARCHES = 5;
 
@@ -19,7 +19,7 @@ function read(key: string): string[] {
 function write(key: string, value: string[]) {
   if (typeof window === "undefined") return;
   localStorage.setItem(key, JSON.stringify(value));
-  window.dispatchEvent(new CustomEvent("docsetu:prefs", { detail: { key } }));
+  window.dispatchEvent(new CustomEvent("sevanadu:prefs", { detail: { key } }));
 }
 
 function useStored(key: string) {
@@ -31,10 +31,10 @@ function useStored(key: string) {
       const d = (e as CustomEvent).detail;
       if (!d || d.key === key) setValue(read(key));
     };
-    window.addEventListener("docsetu:prefs", onChange);
+    window.addEventListener("sevanadu:prefs", onChange);
     window.addEventListener("storage", onChange);
     return () => {
-      window.removeEventListener("docsetu:prefs", onChange);
+      window.removeEventListener("sevanadu:prefs", onChange);
       window.removeEventListener("storage", onChange);
     };
   }, [key]);

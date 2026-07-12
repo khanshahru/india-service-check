@@ -9,7 +9,7 @@ export const Route = createFileRoute("/compare")({
   component: ComparePage,
   head: () => ({
     meta: [
-      { title: "Compare Government Services — DocSetu" },
+      { title: "Compare Government Services — Sevanadu" },
       { name: "description", content: "Compare documents, fees and timelines of Indian government services side-by-side." },
     ],
   }),
