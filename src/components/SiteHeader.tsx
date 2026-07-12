@@ -144,14 +144,14 @@ export function SiteFooter() {
 
       <div className="mx-auto max-w-6xl px-4 sm:px-6 py-10 sm:py-14 grid gap-8 sm:gap-10 md:grid-cols-5">
         {/* Brand */}
-        <div className="md:col-span-1">
+        <div className="md:col-span-2">
           <Link to="/" className="inline-flex items-center gap-2.5">
             <div className="relative w-9 h-9 rounded-full bg-primary flex items-center justify-center shadow-card">
               <div className="w-5 h-5 rounded-full border-2 border-saffron ashoka-chakra" />
             </div>
             <span className="font-display text-lg font-semibold tracking-tight">{t("brandName")}</span>
           </Link>
-          <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+          <p className="mt-3 text-sm text-muted-foreground leading-relaxed max-w-sm">
             A citizen-friendly guide to Indian government services — documents,
             eligibility, fees and processing times, in plain language.
           </p>
