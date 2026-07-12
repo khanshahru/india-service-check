@@ -14,6 +14,7 @@ import { Route as ServicesRouteImport } from './routes/services'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
+import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as AboutRouteImport } from './routes/about'
@@ -43,6 +44,11 @@ const FavoritesRoute = FavoritesRouteImport.update({
 const DisclaimerRoute = DisclaimerRouteImport.update({
   id: '/disclaimer',
   path: '/disclaimer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
   '/disclaimer': typeof DisclaimerRoute
   '/favorites': typeof FavoritesRoute
   '/privacy': typeof PrivacyRoute
@@ -88,6 +95,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
   '/disclaimer': typeof DisclaimerRoute
   '/favorites': typeof FavoritesRoute
   '/privacy': typeof PrivacyRoute
@@ -101,6 +109,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
   '/disclaimer': typeof DisclaimerRoute
   '/favorites': typeof FavoritesRoute
   '/privacy': typeof PrivacyRoute
@@ -115,6 +124,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/compare'
     | '/contact'
+    | '/cookies'
     | '/disclaimer'
     | '/favorites'
     | '/privacy'
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/compare'
     | '/contact'
+    | '/cookies'
     | '/disclaimer'
     | '/favorites'
     | '/privacy'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/compare'
     | '/contact'
+    | '/cookies'
     | '/disclaimer'
     | '/favorites'
     | '/privacy'
@@ -152,6 +164,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   CompareRoute: typeof CompareRoute
   ContactRoute: typeof ContactRoute
+  CookiesRoute: typeof CookiesRoute
   DisclaimerRoute: typeof DisclaimerRoute
   FavoritesRoute: typeof FavoritesRoute
   PrivacyRoute: typeof PrivacyRoute
@@ -194,6 +207,13 @@ declare module '@tanstack/react-router' {
       path: '/disclaimer'
       fullPath: '/disclaimer'
       preLoaderRoute: typeof DisclaimerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -251,6 +271,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   CompareRoute: CompareRoute,
   ContactRoute: ContactRoute,
+  CookiesRoute: CookiesRoute,
   DisclaimerRoute: DisclaimerRoute,
   FavoritesRoute: FavoritesRoute,
   PrivacyRoute: PrivacyRoute,
