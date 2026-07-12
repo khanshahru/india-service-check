@@ -65,13 +65,13 @@ const dict: Dict = {
   noResultsClearCategory: { en: "Clear category", hi: "श्रेणी हटाएं" },
   noResultsClearState: { en: "Clear state filter", hi: "राज्य फ़िल्टर हटाएं" },
   footerNote: {
-    en: "DocSetu is an information aggregator. We are not affiliated with the Government of India. Always verify on official portals.",
+    en: "Sevanadu is an information aggregator. We are not affiliated with the Government of India. Always verify on official portals.",
     hi: "डॉकसेतु एक सूचना मंच है। हम भारत सरकार से संबद्ध नहीं हैं। आधिकारिक पोर्टल पर सत्यापन करें।",
   },
   language: { en: "Language", hi: "भाषा" },
   whyTitle: { en: "Built for every Indian", hi: "हर भारतीय के लिए" },
   whyDesc: {
-    en: "From a first-time applicant in a village to a busy professional in a metro — DocSetu gives you a single, trustworthy answer for every government formality.",
+    en: "From a first-time applicant in a village to a busy professional in a metro — Sevanadu gives you a single, trustworthy answer for every government formality.",
     hi: "गाँव के पहले आवेदक से लेकर शहर के व्यस्त पेशेवर तक — डॉकसेतु हर सरकारी औपचारिकता का एक भरोसेमंद उत्तर देता है।",
   },
   stat1: { en: "Govt. services covered", hi: "सरकारी सेवाएं" },
