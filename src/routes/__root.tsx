@@ -85,6 +85,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: "Every Indian government document, demystified. Free checklists in English, Hindi, Tamil, Bengali and Telugu." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1" },
+      { property: "og:site_name", content: "Sevanadu" },
+      { property: "og:locale", content: "en_IN" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
