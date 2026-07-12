@@ -393,6 +393,7 @@ function ServiceDetail() {
 
       <SiteFooter />
       <MobileTabBar />
+    </div>
   );
 }
 
