@@ -142,7 +142,7 @@ export function SiteFooter() {
     <footer className="mt-16 sm:mt-24 border-t border-border/60 pb-20 md:pb-0 bg-secondary/30 print:hidden">
       <div className="h-1 bg-tricolor" aria-hidden />
 
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-10 sm:py-14 grid gap-8 sm:gap-10 md:grid-cols-4">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-10 sm:py-14 grid gap-8 sm:gap-10 md:grid-cols-5">
         {/* Brand */}
         <div className="md:col-span-1">
           <Link to="/" className="inline-flex items-center gap-2.5">
