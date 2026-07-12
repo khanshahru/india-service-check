@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Globe, Home, LayoutGrid, GitCompare, Heart, Search, X, Mail, ExternalLink, ShieldCheck, Info } from "lucide-react";
+import { openCookieSettings } from "@/components/CookieConsent";
 import { useState } from "react";
 import { useI18n, langLabels, type Lang } from "@/lib/i18n";
 import {
@@ -142,16 +143,16 @@ export function SiteFooter() {
     <footer className="mt-16 sm:mt-24 border-t border-border/60 pb-20 md:pb-0 bg-secondary/30 print:hidden">
       <div className="h-1 bg-tricolor" aria-hidden />
 
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-10 sm:py-14 grid gap-8 sm:gap-10 md:grid-cols-4">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-10 sm:py-14 grid gap-8 sm:gap-10 md:grid-cols-5">
         {/* Brand */}
-        <div className="md:col-span-1">
+        <div className="md:col-span-2">
           <Link to="/" className="inline-flex items-center gap-2.5">
             <div className="relative w-9 h-9 rounded-full bg-primary flex items-center justify-center shadow-card">
               <div className="w-5 h-5 rounded-full border-2 border-saffron ashoka-chakra" />
             </div>
             <span className="font-display text-lg font-semibold tracking-tight">{t("brandName")}</span>
           </Link>
-          <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+          <p className="mt-3 text-sm text-muted-foreground leading-relaxed max-w-sm">
             A citizen-friendly guide to Indian government services — documents,
             eligibility, fees and processing times, in plain language.
           </p>
@@ -232,6 +233,28 @@ export function SiteFooter() {
             </li>
           </ul>
         </div>
+
+        {/* Legal */}
+        <div>
+          <h3 className="text-xs uppercase tracking-[0.16em] font-semibold text-foreground/80">Legal</h3>
+          <ul className="mt-4 space-y-2.5 text-sm">
+            <li><Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">About</Link></li>
+            <li><Link to="/contact" className="text-muted-foreground hover:text-foreground transition-colors">Contact</Link></li>
+            <li><Link to="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">Privacy policy</Link></li>
+            <li><Link to="/terms" className="text-muted-foreground hover:text-foreground transition-colors">Terms of service</Link></li>
+            <li><Link to="/cookies" className="text-muted-foreground hover:text-foreground transition-colors">Cookie policy</Link></li>
+            <li><Link to="/disclaimer" className="text-muted-foreground hover:text-foreground transition-colors">Disclaimer</Link></li>
+            <li>
+              <button
+                type="button"
+                onClick={openCookieSettings}
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Cookie settings
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
 
       {/* Disclaimer */}
@@ -248,12 +271,27 @@ export function SiteFooter() {
       </div>
 
       {/* Bottom bar */}
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 mt-6 pt-6 pb-8 border-t border-border/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-muted-foreground">
-        <div>© {year} {t("brandName")} · Made with care in India 🇮🇳</div>
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-          <span>Version 1.0</span>
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 mt-6 pt-6 pb-8 border-t border-border/60 flex flex-col gap-3 text-xs text-muted-foreground">
+        <nav aria-label="Legal" className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
+          <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
           <span aria-hidden="true">·</span>
-          <span>Last updated {new Date().toLocaleDateString("en-IN", { month: "short", year: "numeric" })}</span>
+          <Link to="/terms" className="hover:text-foreground transition-colors">Terms</Link>
+          <span aria-hidden="true">·</span>
+          <Link to="/cookies" className="hover:text-foreground transition-colors">Cookies</Link>
+          <span aria-hidden="true">·</span>
+          <Link to="/disclaimer" className="hover:text-foreground transition-colors">Disclaimer</Link>
+          <span aria-hidden="true">·</span>
+          <Link to="/about" className="hover:text-foreground transition-colors">About</Link>
+          <span aria-hidden="true">·</span>
+          <Link to="/contact" className="hover:text-foreground transition-colors">Contact</Link>
+        </nav>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+          <div>© {year} {t("brandName")} · Made with care in India 🇮🇳</div>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <span>Version 1.0</span>
+            <span aria-hidden="true">·</span>
+            <span>Last updated {new Date().toLocaleDateString("en-IN", { month: "short", year: "numeric" })}</span>
+          </div>
         </div>
       </div>
     </footer>
