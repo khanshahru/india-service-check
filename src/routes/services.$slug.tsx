@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, BadgeCheck, Building2, Clock, Download, IndianRupee, ListChecks, Printer, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, BadgeCheck, Building2, Clock, Download, IndianRupee, ListChecks, MapPin, Printer, Sparkles, FileText } from "lucide-react";
 import { ApplyLink } from "@/components/ApplyLink";
 import { useEffect } from "react";
 import { services, type GovService } from "@/lib/services-data";
