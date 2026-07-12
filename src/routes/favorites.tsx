@@ -12,13 +12,13 @@ export const Route = createFileRoute("/favorites")({
   component: FavoritesPage,
   head: () => ({
     meta: [
-      { title: "Your Saved Services · DocSetu" },
+      { title: "Your Saved Services · Sevanadu" },
       {
         name: "description",
         content:
           "Quickly revisit the Indian government services you saved — Aadhaar, PAN, Passport, licences and more, all in one place.",
       },
-      { property: "og:title", content: "Your Saved Services · DocSetu" },
+      { property: "og:title", content: "Your Saved Services · Sevanadu" },
       {
         property: "og:description",
         content: "Your personal shortlist of Indian government services.",

@@ -204,11 +204,11 @@ export function SiteFooter() {
           <ul className="mt-4 space-y-2.5 text-sm">
             <li>
               <a
-                href="mailto:hello@docsetu.app"
+                href="mailto:hello@sevanadu.app"
                 className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
               >
                 <Mail className="w-3.5 h-3.5" aria-hidden="true" />
-                hello@docsetu.app
+                hello@sevanadu.app
               </a>
             </li>
             <li>
