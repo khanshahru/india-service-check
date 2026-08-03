@@ -255,7 +255,7 @@ const DOC_LIB = {
 
 // UT-only subset – skip a few state-only services for UTs
 const UT_SET = new Set(["an", "ch", "dd", "dl", "jk", "la", "ld", "py"]);
-const UT_SKIP = new Set(["building", "trade"]); // optional reduction
+const UT_SKIP = new Set([]); // full coverage: UTs get every template too
 
 const CENTRAL = [
   { slug: "voter-id-epic", cat: "Identity", en: "Voter ID Card (EPIC)", hi: "मतदाता पहचान पत्र", auth: "Election Commission of India", time: "30 days", fee: "Free",
@@ -459,7 +459,7 @@ out.push(`export const catalogServices: GovService[] = [`);
 
 // Central
 for (const c of CENTRAL) {
-  const docs = c.docs.map(d => `    { title: { en: ${txt(d)}, hi: "" }, required: true },`).join("\n");
+  const docs = c.docs.map(d => { const m = DOC_LIB[d] || {}; return `    { title: { en: ${txt(d)}, hi: ${txt(m.hi || "")} }, required: ${m.optional ? "false" : "true"} },`; }).join("\n");
   out.push(`  {
     slug: ${txt(c.slug)},
     name: { en: ${txt(c.en)}, hi: ${txt(c.hi)} },
