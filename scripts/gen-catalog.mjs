@@ -485,7 +485,13 @@ for (const [stateName, code, url] of STATES) {
     const en = t.en;
     const desc = t.desc.replace(/\{state\}/g, stateName);
     const elig = t.elig.map(e => e.replace(/\{state\}/g, stateName));
-    const docs = t.docs.map(d => `    { title: { en: ${txt(d)}, hi: "" }, required: true },`).join("\n");
+    const docs = t.docs.map(d => {
+      const meta = DOC_LIB[d] || {};
+      const req = meta.optional ? "false" : "true";
+      return `    { title: { en: ${txt(d)}, hi: ${txt(meta.hi || "")} }, required: ${req} },`;
+    }).join("\n");
+    const portals = PORTALS[code] || {};
+    const applyUrl = portals[TEMPLATE_PORTAL[t.key]] || portals.edistrict || url;
     out.push(`  {
     slug: ${txt(slug)},
     name: { en: ${txt(en)}, hi: ${txt(t.hi)} },
@@ -499,7 +505,7 @@ for (const [stateName, code, url] of STATES) {
 ${docs}
     ],
     eligibility: { en: ${j(elig)}, hi: ${j(elig)} },
-    applyUrl: ${txt(url)},
+    applyUrl: ${txt(applyUrl)},
   },`);
   }
 }
