@@ -9,234 +9,48 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TermsRouteImport } from './routes/terms'
-import { Route as ServicesRouteImport } from './routes/services'
-import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as FavoritesRouteImport } from './routes/favorites'
-import { Route as DisclaimerRouteImport } from './routes/disclaimer'
-import { Route as CookiesRouteImport } from './routes/cookies'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as CompareRouteImport } from './routes/compare'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as ApiPublicEsevaSplatRouteImport } from './routes/api/public/eseva/$'
 
-const TermsRoute = TermsRouteImport.update({
-  id: '/terms',
-  path: '/terms',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicesRoute = ServicesRouteImport.update({
-  id: '/services',
-  path: '/services',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyRoute = PrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FavoritesRoute = FavoritesRouteImport.update({
-  id: '/favorites',
-  path: '/favorites',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DisclaimerRoute = DisclaimerRouteImport.update({
-  id: '/disclaimer',
-  path: '/disclaimer',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CookiesRoute = CookiesRouteImport.update({
-  id: '/cookies',
-  path: '/cookies',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CompareRoute = CompareRouteImport.update({
-  id: '/compare',
-  path: '/compare',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ServicesSlugRoute = ServicesSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => ServicesRoute,
+const ApiPublicEsevaSplatRoute = ApiPublicEsevaSplatRouteImport.update({
+  id: '/api/public/eseva/$',
+  path: '/api/public/eseva/$',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/compare': typeof CompareRoute
-  '/contact': typeof ContactRoute
-  '/cookies': typeof CookiesRoute
-  '/disclaimer': typeof DisclaimerRoute
-  '/favorites': typeof FavoritesRoute
-  '/privacy': typeof PrivacyRoute
-  '/services': typeof ServicesRouteWithChildren
-  '/terms': typeof TermsRoute
-  '/services/$slug': typeof ServicesSlugRoute
+  '/api/public/eseva/$': typeof ApiPublicEsevaSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/compare': typeof CompareRoute
-  '/contact': typeof ContactRoute
-  '/cookies': typeof CookiesRoute
-  '/disclaimer': typeof DisclaimerRoute
-  '/favorites': typeof FavoritesRoute
-  '/privacy': typeof PrivacyRoute
-  '/services': typeof ServicesRouteWithChildren
-  '/terms': typeof TermsRoute
-  '/services/$slug': typeof ServicesSlugRoute
+  '/api/public/eseva/$': typeof ApiPublicEsevaSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
-  '/compare': typeof CompareRoute
-  '/contact': typeof ContactRoute
-  '/cookies': typeof CookiesRoute
-  '/disclaimer': typeof DisclaimerRoute
-  '/favorites': typeof FavoritesRoute
-  '/privacy': typeof PrivacyRoute
-  '/services': typeof ServicesRouteWithChildren
-  '/terms': typeof TermsRoute
-  '/services/$slug': typeof ServicesSlugRoute
+  '/api/public/eseva/$': typeof ApiPublicEsevaSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/about'
-    | '/compare'
-    | '/contact'
-    | '/cookies'
-    | '/disclaimer'
-    | '/favorites'
-    | '/privacy'
-    | '/services'
-    | '/terms'
-    | '/services/$slug'
+  fullPaths: '/' | '/api/public/eseva/$'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/about'
-    | '/compare'
-    | '/contact'
-    | '/cookies'
-    | '/disclaimer'
-    | '/favorites'
-    | '/privacy'
-    | '/services'
-    | '/terms'
-    | '/services/$slug'
-  id:
-    | '__root__'
-    | '/'
-    | '/about'
-    | '/compare'
-    | '/contact'
-    | '/cookies'
-    | '/disclaimer'
-    | '/favorites'
-    | '/privacy'
-    | '/services'
-    | '/terms'
-    | '/services/$slug'
+  to: '/' | '/api/public/eseva/$'
+  id: '__root__' | '/' | '/api/public/eseva/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
-  CompareRoute: typeof CompareRoute
-  ContactRoute: typeof ContactRoute
-  CookiesRoute: typeof CookiesRoute
-  DisclaimerRoute: typeof DisclaimerRoute
-  FavoritesRoute: typeof FavoritesRoute
-  PrivacyRoute: typeof PrivacyRoute
-  ServicesRoute: typeof ServicesRouteWithChildren
-  TermsRoute: typeof TermsRoute
+  ApiPublicEsevaSplatRoute: typeof ApiPublicEsevaSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/terms': {
-      id: '/terms'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof TermsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/services': {
-      id: '/services'
-      path: '/services'
-      fullPath: '/services'
-      preLoaderRoute: typeof ServicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy': {
-      id: '/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/favorites': {
-      id: '/favorites'
-      path: '/favorites'
-      fullPath: '/favorites'
-      preLoaderRoute: typeof FavoritesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/disclaimer': {
-      id: '/disclaimer'
-      path: '/disclaimer'
-      fullPath: '/disclaimer'
-      preLoaderRoute: typeof DisclaimerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cookies': {
-      id: '/cookies'
-      path: '/cookies'
-      fullPath: '/cookies'
-      preLoaderRoute: typeof CookiesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/compare': {
-      id: '/compare'
-      path: '/compare'
-      fullPath: '/compare'
-      preLoaderRoute: typeof CompareRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -244,39 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/services/$slug': {
-      id: '/services/$slug'
-      path: '/$slug'
-      fullPath: '/services/$slug'
-      preLoaderRoute: typeof ServicesSlugRouteImport
-      parentRoute: typeof ServicesRoute
+    '/api/public/eseva/$': {
+      id: '/api/public/eseva/$'
+      path: '/api/public/eseva/$'
+      fullPath: '/api/public/eseva/$'
+      preLoaderRoute: typeof ApiPublicEsevaSplatRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface ServicesRouteChildren {
-  ServicesSlugRoute: typeof ServicesSlugRoute
-}
-
-const ServicesRouteChildren: ServicesRouteChildren = {
-  ServicesSlugRoute: ServicesSlugRoute,
-}
-
-const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
-  ServicesRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
-  CompareRoute: CompareRoute,
-  ContactRoute: ContactRoute,
-  CookiesRoute: CookiesRoute,
-  DisclaimerRoute: DisclaimerRoute,
-  FavoritesRoute: FavoritesRoute,
-  PrivacyRoute: PrivacyRoute,
-  ServicesRoute: ServicesRouteWithChildren,
-  TermsRoute: TermsRoute,
+  ApiPublicEsevaSplatRoute: ApiPublicEsevaSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
