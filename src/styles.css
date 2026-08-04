@@ -42,12 +42,12 @@ html.dark .bg-white {
 
 html.dark .bg-stone-50,
 html.dark .bg-stone-100,
-html.dark .bg-[#FAF8F5],
-html.dark .bg-[#FAF8F5]\/10 {
+html.dark .bg-\[\#FAF8F5\],
+html.dark .bg-\[\#FAF8F5\]\/10 {
   background-color: #1E293B !important;
 }
 
-html.dark .bg-[#FCFBF7] {
+html.dark .bg-\[\#FCFBF7\] {
   background-color: #090E17 !important;
 }
 
@@ -83,7 +83,7 @@ html.dark .border-stone-250,
 html.dark .border-stone-150,
 html.dark .border-stone-100,
 html.dark .border-neutral-200,
-html.dark .border-[#E5E2D9] {
+html.dark .border-\[\#E5E2D9\] {
   border-color: #273549 !important;
 }
 
