@@ -1,6 +1,4 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { I18nProvider } from "@/lib/i18n";
-import { CookieConsent } from "@/components/CookieConsent";
 import {
   Outlet,
   Link,
@@ -74,19 +72,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Sevanadu — Government Document Checklists for India" },
+      { title: "SewaNadu — Indian Citizen e-Service Directory" },
       {
         name: "description",
         content:
-          "Find the exact documents, fees and processing time for every Indian government service — Aadhaar, PAN, Passport, Driving Licence, Ration Card and more. In your language.",
+          "An independent directory of Indian central and state citizen e-services with guidelines, eligibility help and state governance bulletins.",
       },
-      { name: "author", content: "Sevanadu" },
-      { property: "og:title", content: "Sevanadu — Government Document Checklists for India" },
-      { property: "og:description", content: "Every Indian government document, demystified. Free checklists in English, Hindi, Tamil, Bengali and Telugu." },
+      { name: "author", content: "SewaNadu" },
+      { property: "og:title", content: "SewaNadu — Indian Citizen e-Service Directory" },
+      { property: "og:description", content: "Explore Indian government services, eligibility, documents and grievance guidance in your language." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1" },
-      { property: "og:site_name", content: "Sevanadu" },
+      { property: "og:site_name", content: "SewaNadu" },
       { property: "og:locale", content: "en_IN" },
     ],
     links: [
@@ -95,7 +93,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800;900&family=Epilogue:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap",
       },
     ],
   }),
@@ -124,10 +122,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <I18nProvider>
-        <Outlet />
-        <CookieConsent />
-      </I18nProvider>
+      <Outlet />
     </QueryClientProvider>
   );
 }
