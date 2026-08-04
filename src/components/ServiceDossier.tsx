@@ -730,7 +730,7 @@ export default function ServiceDossier({
 
   const handleShareClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (typeof navigator !== "undefined" && navigator.share) {
+    if (typeof navigator !== "undefined" && typeof navigator.share === "function") {
       await handleNativeShare(e);
     } else {
       setShowShareMenu((prev) => !prev);
@@ -1947,7 +1947,7 @@ This dossier checklist is RTI-Compliant under e-Sewa Guidelines.
                         </button>
 
                         {/* Web Share (Device native) */}
-                        {typeof navigator !== "undefined" && navigator.share && (
+                        {typeof navigator !== "undefined" && typeof navigator.share === "function" && (
                           <button
                             type="button"
                             onClick={handleNativeShare}

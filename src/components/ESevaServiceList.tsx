@@ -1559,7 +1559,7 @@ export default function ESevaServiceList({
 
   // Localized Copy Dictionary
   const copy = useMemo(() => {
-    return contentTrans[language] || contentTrans.en;
+    return contentTrans[language as "en" | "hi"] || contentTrans.en;
   }, [language]);
 
   const renderCategoryFilterPills = (isCatalogView = false) => {
@@ -2096,7 +2096,7 @@ export default function ESevaServiceList({
                             {language === "hi" ? "त्वरित प्रक्रिया प्रो-टिप:" : "Expedite Process Pro-Tip:"}
                           </span>
                           <p className="text-[11px] font-semibold leading-relaxed">
-                            {getServiceProTip(service, language)}
+                            {getServiceProTip(service, language === "hi" ? "hi" : "en")}
                           </p>
                         </div>
                       </motion.div>
@@ -2807,7 +2807,7 @@ export default function ESevaServiceList({
                                     {language === "hi" ? "त्वरित प्रक्रिया प्रो-टिप:" : "Expedite Process Pro-Tip:"}
                                   </span>
                                   <p className="text-[11px] font-semibold leading-relaxed">
-                                    {getServiceProTip(service, language)}
+                                    {getServiceProTip(service, language === "hi" ? "hi" : "en")}
                                   </p>
                                 </div>
                               </motion.div>
