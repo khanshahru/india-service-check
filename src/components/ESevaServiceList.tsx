@@ -3056,7 +3056,7 @@ export default function ESevaServiceList({
                               <div className="font-mono text-xs">
                                 <span className="text-stone-450 text-[10.5px] block leading-none">{language === "hi" ? "आधिकारिक शुल्क" : "Official Govt Fee"}</span>
                                 <strong className="text-stone-850 text-xs font-sans font-black block mt-0.5">
-                                  {service.fees === 0 ? copy.free : `₹ ${service.fees}`}
+                                  {service.fees === 0 ? (language === "hi" ? "निःशुल्क" : "Free") : `₹ ${service.fees}`}
                                 </strong>
                               </div>
                             </div>
