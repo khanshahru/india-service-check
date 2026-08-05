@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicEsevaSplatRouteImport } from './routes/api/public/eseva/$'
@@ -23,6 +24,11 @@ const TermsRoute = TermsRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisclaimerRoute = DisclaimerRouteImport.update({
+  id: '/disclaimer',
+  path: '/disclaimer',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CookiesRoute = CookiesRouteImport.update({
@@ -44,6 +50,7 @@ const ApiPublicEsevaSplatRoute = ApiPublicEsevaSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cookies': typeof CookiesRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
   '/api/public/eseva/$': typeof ApiPublicEsevaSplatRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cookies': typeof CookiesRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
   '/api/public/eseva/$': typeof ApiPublicEsevaSplatRoute
@@ -59,19 +67,33 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cookies': typeof CookiesRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/privacy': typeof PrivacyRoute
   '/terms': typeof TermsRoute
   '/api/public/eseva/$': typeof ApiPublicEsevaSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cookies' | '/privacy' | '/terms' | '/api/public/eseva/$'
+  fullPaths:
+    | '/'
+    | '/cookies'
+    | '/disclaimer'
+    | '/privacy'
+    | '/terms'
+    | '/api/public/eseva/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cookies' | '/privacy' | '/terms' | '/api/public/eseva/$'
+  to:
+    | '/'
+    | '/cookies'
+    | '/disclaimer'
+    | '/privacy'
+    | '/terms'
+    | '/api/public/eseva/$'
   id:
     | '__root__'
     | '/'
     | '/cookies'
+    | '/disclaimer'
     | '/privacy'
     | '/terms'
     | '/api/public/eseva/$'
@@ -80,6 +102,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CookiesRoute: typeof CookiesRoute
+  DisclaimerRoute: typeof DisclaimerRoute
   PrivacyRoute: typeof PrivacyRoute
   TermsRoute: typeof TermsRoute
   ApiPublicEsevaSplatRoute: typeof ApiPublicEsevaSplatRoute
@@ -99,6 +122,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/disclaimer': {
+      id: '/disclaimer'
+      path: '/disclaimer'
+      fullPath: '/disclaimer'
+      preLoaderRoute: typeof DisclaimerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cookies': {
@@ -128,6 +158,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CookiesRoute: CookiesRoute,
+  DisclaimerRoute: DisclaimerRoute,
   PrivacyRoute: PrivacyRoute,
   TermsRoute: TermsRoute,
   ApiPublicEsevaSplatRoute: ApiPublicEsevaSplatRoute,
