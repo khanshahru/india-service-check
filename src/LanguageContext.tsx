@@ -234,6 +234,10 @@ const dictionary: Record<string, Record<string, string>> = {
     "app.national_portal": "राष्ट्रीय ई-सेवा पोर्टल",
     "app.gateway_title": "राष्ट्रीय ई-सेवा गेटवे",
     "app.digital_india": "| डिजिटल इंडिया",
+    "app.logo_subtext": "नागरिक सेवा मार्गदर्शिका",
+    "app.search_placeholder": "सेवाएं खोजें (जैसे आधार, पैन, पासपोर्ट)",
+    "menu.all_services": "सभी सेवाएं",
+    "menu.compare": "तुलना करें",
     "app.zone": "क्षेत्र",
     "app.ref": "यूआईडीएआई संदर्भ",
     
