@@ -21,6 +21,10 @@ const dictionary: Record<string, Record<string, string>> = {
     "app.national_portal": "National E-Services Portal",
     "app.gateway_title": "Rashtriya e-Sewa Gateway",
     "app.digital_india": "| Digital India",
+    "app.logo_subtext": "Citizen Service Guide",
+    "app.search_placeholder": "Search services (e.g. Aadhaar, PAN, Passport)",
+    "menu.all_services": "All Services",
+    "menu.compare": "Compare",
     "app.zone": "Zone",
     "app.ref": "UIDAI Ref",
     
