@@ -1660,15 +1660,18 @@ export default function App() {
             <span className="text-stone-300 dark:text-slate-700">|</span>
             <button onClick={() => setShowFeedbackModal(true)} className="text-emerald-600 dark:text-emerald-500 hover:text-emerald-400 dark:hover:text-emerald-300 font-bold underline cursor-pointer transition">⭐ Feedback</button>
             <span className="text-stone-300 dark:text-slate-700">|</span>
-            <button onClick={() => { setActiveTab("legal-hub"); setLegalHubDefaultSection("privacy"); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="hover:text-stone-900 dark:hover:text-white underline cursor-pointer transition">Privacy Policy</button>
+            <a href="/privacy" className="hover:text-stone-900 dark:hover:text-white underline cursor-pointer transition">Privacy Policy</a>
             <span className="text-stone-300 dark:text-slate-700">|</span>
-            <button onClick={() => { setActiveTab("legal-hub"); setLegalHubDefaultSection("terms"); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="hover:text-stone-900 dark:hover:text-white underline cursor-pointer transition">Terms & Conditions</button>
+            <a href="/terms" className="hover:text-stone-900 dark:hover:text-white underline cursor-pointer transition">Terms &amp; Conditions</a>
             <span className="text-stone-300 dark:text-slate-700">|</span>
-            <button onClick={() => { setActiveTab("legal-hub"); setLegalHubDefaultSection("cookies"); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="hover:text-stone-900 dark:hover:text-white underline cursor-pointer transition font-semibold">Cookie Policy</button>
+            <a href="/cookies" className="hover:text-stone-900 dark:hover:text-white underline cursor-pointer transition font-semibold">Cookie Policy</a>
             <span className="text-stone-300 dark:text-slate-700">|</span>
-            <button onClick={() => { setActiveTab("legal-hub"); setLegalHubDefaultSection("disclaimer"); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="hover:text-stone-900 dark:hover:text-white underline cursor-pointer transition font-semibold text-red-650 dark:text-red-400">Disclaimer</button>
+            <a href="/disclaimer" className="hover:text-stone-900 dark:hover:text-white underline cursor-pointer transition font-semibold text-red-650 dark:text-red-400">Disclaimer</a>
             <span className="text-stone-300 dark:text-slate-700">|</span>
-            <button onClick={() => { setActiveTab("legal-hub"); setLegalHubDefaultSection("about"); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="hover:text-stone-900 dark:hover:text-white underline cursor-pointer transition">About Us</button>
+            <a href="/about" className="hover:text-stone-900 dark:hover:text-white underline cursor-pointer transition">About Us</a>
+            <span className="text-stone-300 dark:text-slate-700">|</span>
+            <a href="/contact" className="hover:text-stone-900 dark:hover:text-white underline cursor-pointer transition">Contact</a>
+
           </div>
           
           <div className="flex flex-wrap gap-4 text-stone-550 dark:text-slate-500 font-mono text-[10px]">
