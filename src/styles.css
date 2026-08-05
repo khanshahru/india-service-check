@@ -1,6 +1,46 @@
 @import "tailwindcss" source(none);
 @source "../src";
 
+/* Structural guards: never allow decorative/overflowing elements to create
+   a horizontal scrollbar on any device width. */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  min-width: 0;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+/* Respect users who prefer reduced motion (accessibility / Google policy) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 2px solid #ff5a2b;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 
 :root {
   --color-brand-cream-bg: #FCFBF7;
