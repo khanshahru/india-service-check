@@ -785,7 +785,7 @@ export default function App() {
           </div>
 
           {/* Right Header Navigation Controls  */}
-          <div className="flex items-center gap-1.5 sm:gap-2.5 ml-auto sm:ml-0 flex-nowrap py-1 relative">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 ml-auto sm:ml-0 flex-nowrap py-1 relative min-w-0 max-w-full overflow-x-auto overscroll-x-contain scrollbar-none">
             
             {/* Extra Top Nav Buttons for Medium+ screens (beautifully customized icons) */}
             <div className="hidden md:flex items-center gap-1">
