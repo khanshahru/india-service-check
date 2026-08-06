@@ -38,6 +38,8 @@ import SitemapCatalog from "./components/SitemapCatalog";
 import ServiceDossier from "./components/ServiceDossier";
 import SavedServices from "./components/SavedServices";
 import ConsentDialog from "./components/ConsentDialog";
+import CookieConsentBanner from "./components/CookieConsentBanner";
+import { openCookieSettings } from "@/lib/cookie-consent";
 import StateGovernanceNewsWidget from "./components/StateGovernanceNewsWidget";
 import RtiFilingModal from "./components/RtiFilingModal";
 import StatusCheckModal from "./components/StatusCheckModal";
@@ -1666,6 +1668,8 @@ export default function App() {
             <span className="text-stone-300 dark:text-slate-700">|</span>
             <a href="/cookies" className="hover:text-stone-900 dark:hover:text-white underline cursor-pointer transition font-semibold">Cookie Policy</a>
             <span className="text-stone-300 dark:text-slate-700">|</span>
+            <button onClick={() => openCookieSettings()} className="hover:text-stone-900 dark:hover:text-white underline cursor-pointer transition font-semibold">🍪 Cookie Settings</button>
+            <span className="text-stone-300 dark:text-slate-700">|</span>
             <a href="/disclaimer" className="hover:text-stone-900 dark:hover:text-white underline cursor-pointer transition font-semibold text-red-650 dark:text-red-400">Disclaimer</a>
             <span className="text-stone-300 dark:text-slate-700">|</span>
             <a href="/about" className="hover:text-stone-900 dark:hover:text-white underline cursor-pointer transition">About Us</a>
@@ -2741,6 +2745,19 @@ export default function App() {
             window.scrollTo({ top: 0, behavior: "smooth" });
           }, 80);
         }}
+      />
+
+      {/* 16. Cookie consent banner (granular opt-in) */}
+      <CookieConsentBanner
+        language={language}
+        onSaved={(c) =>
+          triggerToast(
+            language === "hi"
+              ? `कुकी प्राथमिकताएँ सहेजी गईं (विश्लेषण: ${c.analytics ? "चालू" : "बंद"}, विज्ञापन: ${c.advertising ? "चालू" : "बंद"})।`
+              : `Cookie preferences saved (Analytics: ${c.analytics ? "on" : "off"}, Ads: ${c.advertising ? "on" : "off"}).`,
+            "success"
+          )
+        }
       />
 
     </div>
